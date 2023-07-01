@@ -61,7 +61,7 @@ if ($staName == "ว่าง") {
     <section style="margin:20px 20px 20px 20px;">
         <div class="row">
             <?php
-            $sql = "SELECT roomId,staName FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+            $sql = "SELECT roomid,staName FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':roomId', $roomId);
             $stmt->execute();
@@ -77,6 +77,38 @@ if ($staName == "ว่าง") {
                     </div>
                 </div>
             <?php };} ?>
+            <!-- <div class="card" style="width: 22rem;margin-right:20px;">
+                <img src="img/img1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn1 btn-primary">รายระเอียดค่าห้อง</a><a style="margin: 5px;" href="#" class="btn btn2 btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card" style="width: 22rem;margin-right:20px;">
+                <img src="img/img1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn1 btn-primary">รายระเอียดค่าห้อง</a><a style="margin: 5px;" href="#" class="btn btn2 btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card" style="width: 22rem;margin-right:20px;">
+                <img src="img/img1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn1 btn-primary">รายระเอียดค่าห้อง</a><a style="margin: 5px;" href="#" class="btn btn2 btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card" style="width: 22rem;margin-right:20px;">
+                <img src="img/img1.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn1 btn-primary">รายระเอียดค่าห้อง</a><a style="margin: 5px;" href="#" class="btn btn2 btn-primary">Go somewhere</a>
+                </div>
+            </div> -->
         </div>
     </section>
 </body>

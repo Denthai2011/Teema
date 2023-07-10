@@ -1,84 +1,86 @@
-<?php require_once 'mysql/connect.php' ?>
-<?php $stmt = $conn->query('SELECT * FROM room left join starm ON starm.staId = room.staId ORDER BY roomId asc');
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$staroomId = $row['roomId'];
-$staName = $row['staName'];
-if ($staName == "ว่าง") {
-    $string =  'btn btn2 btn-success';
-} else if ($staName == "จองเเล้ว") {
-    $string =  'btn btn2 btn-warning';
-} else {
-    $string = 'btn btn2 primary-emphasis';
-}
-?>
+<?php
+session_start();
+require_once 'mysql/connect.php';?>
 <!DOCTYPE html>
-<html>
-<meta charset="utf-8">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/401736f69f.js" crossorigin="anonymous"></script>
-
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
     <style>
-        .btn1 {
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            -webkit-transition-duration: 0.4s;
-            /* Safari */
-            transition-duration: 0.4s;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
         }
 
-        .btn1:hover {
-            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 3px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <ul class="nav nav-tabs bg-dark">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>
-        </ul>
-        </ul>
-    </header>
-    <section style="margin:20px 20px 20px 20px;">
-        <div class="row">
-            <?php
-            $sql = "SELECT roomId,staName FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':roomId', $roomId);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($result){  foreach ($result as $row) {  
-                ?>
-                <div class="card" style="width: 22rem;margin-right:20px;">
-                    <img src="img/img1.jpg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-success">ห้องที่<?php echo $row['roomId']; ?></h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn1 button btn-primary">รายระเอียดค่าห้อง</a><a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
-                    </div>
-                </div>
-            <?php };} ?>
-        </div>
-    </section>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form action="login_db.php" method="POST">
+        <?php if (isset($_SESSION['error'])) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <?php echo $_SESSION['error'];
+                          unset ($_SESSION['error']);
+                    ?>
+                </div> 
+            <?php } ?>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" >
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" >
+            </div>
+            <input type="submit" name="login" value="Login">
+        </form>
+    </div>
 </body>
-
 </html>

@@ -65,7 +65,7 @@ require_once 'mysql/connect.php';?>
         <h2>Login</h2>
         <form action="login_db.php" method="POST">
         <?php if (isset($_SESSION['error'])) { ?>
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger">
                     <?php echo $_SESSION['error'];
                           unset ($_SESSION['error']);
                     ?>

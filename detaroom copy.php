@@ -1,6 +1,7 @@
 <?php session_start();
 require_once 'mysql/connect.php';
 $roomId = $_GET['roomId'];
+$roomId = $row['roomId'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,29 +14,8 @@ $roomId = $_GET['roomId'];
 </head>
 
 <body>
-<header>
-        <ul class="nav nav-tabs bg-dark">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="login.php"><i class="fa-solid fa-bed-front"></i></a>
-            </li>
-        </ul>
-        </ul>
-    </header>
     <?php
     // ดึงข้อมูลจากฐานข้อมูล
-    
     $sql = "SELECT Name,Lname,Dps  FROM room WHERE roomId = :roomId";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':roomId', $roomId);
@@ -54,7 +34,6 @@ $roomId = $_GET['roomId'];
                 <div class="modal-body">
                     <form action="edit.php" method="post">
                         <div class="mb-3">
-                            <input type="hidden" name="roomId" value="<?php echo $roomId ?>">
                             <label for="roomId"class="col-form-label"><?php echo $roomId ?></label>
                         </div>
                         <div class="mb-3">
@@ -75,7 +54,7 @@ $roomId = $_GET['roomId'];
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="edit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit?roomId=<?php echo $row['roomId']; ?>" name="edit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -84,27 +63,26 @@ $roomId = $_GET['roomId'];
         </div>
     </div>
     </div>
-    <div class="col-md-6">
+    <div class="container mt-5">
+        <form>
+            <div class="col-md-6 d-flex justify-content-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usermodal">เเก้ไขข้อมูล</button>
             </div>
-    <div class="container mt-5 d-flex justify-content-center">
-        <form>
-            
             <dive>
                 <label for="roomId">ห้องที่:</label>
             <label type="text" name="roomId"> <?php echo $roomId; ?></label>
             </dive>
             <div>
                 <label for="Name">ชื่อ:</label>
-                <label type="text" id="Name" name="Name"> <?php echo $row['Name'];?> </label>
+                <input type="text" id="Name" name="Name" value="<?php echo $row['Name']; ?>" readonly>
             </div>
             <div>
                 <label for="Lname">นามสกุล:</label>
-                <label type="text" id="Lname" name="Lname"><?php echo $row['Lname']; ?></label>
+                <input type="text" id="Lname" name="Lname" value="<?php echo $row['Lname']; ?>" readonly>
             </div>
             <div>
                 <label for="Dps">ค่ามัดจำ:</label>
-                <label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label>
+                <input type="tedx" id="Dps" name="Dps" value="<?php echo $row['Dps']; ?>" readonly>
             </div>
     </div>
     </form>

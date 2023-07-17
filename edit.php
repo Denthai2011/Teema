@@ -2,12 +2,12 @@
 session_start();
 require_once 'mysql/connect.php';
 
+
 if (isset($_POST['edit'])) {
     $roomId = $_POST['roomId'];
     $Name = $_POST['Name'];
     $Lname = $_POST['Lname'];
     $staID = $_POST['staID'];
-
     $sql = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname, staID = :staID WHERE roomId = :roomId");
     $sql->bindParam(":roomId", $roomId);
     $sql->bindParam(":Name", $Name);
@@ -16,7 +16,8 @@ if (isset($_POST['edit'])) {
 
     // Execute the SQL statement
     if ($sql->execute()) {
-        echo "Data updated successfully";
+        $_SESSION['Success']="เเก้ไขสำเร็จ";
+        header("location: home.php");
     } else {
         echo "Error updating data";
     }

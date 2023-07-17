@@ -5,18 +5,11 @@ require_once 'mysql/connect.php';
 //     $_SESSION['error']= 'กรุณาเข้าสู่ระบบ';
 //     header('location: login.php');
 // } 
-?>
-<?php $stmt = $conn->query('SELECT * FROM room left join starm ON starm.staId = room.staId ORDER BY roomId asc');
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$roomId = $row['roomId'];
-$staName = $row['staName'];
-if ($staName == "ว่าง") {
-    $string =  'btn btn2 btn-success';
-} else if ($staName == "จองเเล้ว") {
-    $string =  'btn btn2 btn-warning';
-} else {
-    $string = 'btn btn2 primary-emphasis';
-}
+    $sql = "SELECT roomId,staName FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':roomId', $roomId);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,35 +62,10 @@ if ($staName == "ว่าง") {
         </ul>
     </header>
     <section style="margin:20px 20px 20px 20px;">
-        <div class="row">
-        <?php if (isset($_SESSION['Success'])) { ?>
-            <div class="alert alert-success">
-                <?php 
-                echo $_SESSION['Success'];
-                unset($_SESSION['Success']);
-                ?>
-            </div>
-        <?php } ?>
-            <?php
-            $sql = "SELECT roomId,staName FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':roomId', $roomId);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($result) {
-                foreach ($result as $row) {
-            ?>
-                    <div class="card" style="width: 22rem;margin-right:20px;" action="detaroom.php" method="post">
-                        <div class="card-body">
-                            <h5 class="card-title text-success">ห้องที่<?php echo $row['roomId']; ?></h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="detaroom.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดค่าห้อง</a>
-                            <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
-                        </div>
-                    </div>
-            <?php  };
-            } ?>
-        </div>
+    <form action="test2.php" method="post">
+    <input type="hidden" name="roomId" value="<?php echo $row['roomId']; ?>">
+    <button type="submit">Submit</button>
+    </form>
     </section>
 </body>
 

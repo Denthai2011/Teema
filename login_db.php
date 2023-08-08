@@ -26,6 +26,10 @@ if (isset($_POST['login'])){
                 $_SESSION['admin_login'] = $row['id'];
                 header("location: home.php");
             }
+            if ($row['urold'] == 'เจ้าหน้าที่') {
+                $_SESSION['admin_login'] = $row['id'];
+                header("location: home.php");
+            }
         }
         else{
             $_SESSION['error'] = 'รหัสผิดครับ';

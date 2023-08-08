@@ -27,6 +27,12 @@ require_once 'mysql/connect.php';?>
             text-align: center;
             margin-bottom: 20px;
         }
+        h1{
+             border: 3px solid blue;
+             border-radius: 20px;
+             width: 500px;
+             margin: auto;
+        }
 
         .form-group {
             margin-bottom: 15px;
@@ -61,6 +67,10 @@ require_once 'mysql/connect.php';?>
     </style>
 </head>
 <body>
+    <header>
+        <h1 style="text-align:center">หอพักนางตีมะ</h1>
+    </header>
+    <section>
     <div class="login-container">
         <h2>Login</h2>
         <form action="login_db.php" method="POST">
@@ -82,5 +92,6 @@ require_once 'mysql/connect.php';?>
             <input type="submit" name="login" value="Login">
         </form>
     </div>
+</section>
 </body>
 </html>

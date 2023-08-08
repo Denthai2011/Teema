@@ -10,6 +10,14 @@ $roomId = $_GET['roomId'];
 <script src="https://kit.fontawesome.com/401736f69f.js" crossorigin="anonymous"></script>
 
 <head>
+    <style>
+        label{
+            font-size: 20px;
+        }
+        td{
+             border: 50px;
+        }
+    </style>
 </head>
 
 <body>
@@ -88,24 +96,25 @@ $roomId = $_GET['roomId'];
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usermodal">เเก้ไขข้อมูล</button>
             </div>
     <div class="container mt-5 d-flex justify-content-center">
-        <form>
-            
-            <dive>
-                <label for="roomId">ห้องที่:</label>
-            <label type="text" name="roomId"> <?php echo $roomId; ?></label>
-            </dive>
-            <div>
-                <label for="Name">ชื่อ:</label>
-                <label type="text" id="Name" name="Name"> <?php echo $row['Name'];?> </label>
+        <form style="border: 3px solid black; padding:20px;">
+            <table>
+            <tr>
+            <dive><td>
+                <label for="roomId">ห้องที่:</label></td>
+            <td><label type="text" name="roomId"> <?php echo $roomId; ?></label></td>
+            </dive></tr>
+            <div><tr><td>
+                <label for="Name">ชื่อ: </label></td>
+                <td><label type="text" id="Name" name="Name"> <?php echo $row['Name'];?> </label></td>
             </div>
-            <div>
-                <label for="Lname">นามสกุล:</label>
-                <label type="text" id="Lname" name="Lname"><?php echo $row['Lname']; ?></label>
-            </div>
-            <div>
-                <label for="Dps">ค่ามัดจำ:</label>
-                <label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label>
-            </div>
+            <div><td>
+                <label for="Lname">นามสกุล: </label></td>
+                <td><label type="text" id="Lname" name="Lname"><?php echo $row['Lname']; ?></label></td>
+            </div></tr>
+            <tr><div><td>
+                <label for="Dps">ค่ามัดจำ:</label></td>
+                <td><label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label></td>
+            </div></tr></table>
     </div>
     </form>
 </body>

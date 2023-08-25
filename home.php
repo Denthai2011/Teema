@@ -40,16 +40,16 @@ require_once 'mysql/connect.php';
     <header>
         <ul class="nav nav-tabs bg-dark">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
+                <a class="nav-link active" aria-current="page" href="home.php"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">Link</a>
+                <a class="nav-link " href="usermang.php">ข้อมูลผู้ใช้</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="waterdata.php">ค่าน้ำ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+            <a class="nav-link" href="electdata.php">ค่าไฟ</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="login.php"><i class="fa-solid fa-bed-front"></i></a>

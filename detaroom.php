@@ -11,29 +11,83 @@ $roomId = $_GET['roomId'];
 
 <head>
     <style>
-        label{
+        label {
             font-size: 20px;
         }
-        td{
-             border: 50px;
+
+        .table2 {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 16px;
         }
+
+        /* สไตล์สำหรับแถวหัวของตาราง */
+        .table2 th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 8px;
+        }
+
+        /* สไตล์สำหรับแถวของตาราง */
+        .table2 td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* สไตล์สำหรับแถวเลขคี่ */
+
+        /* สไตล์สำหรับแถวเมื่อเลื่อนเมาส์เข้า */
+        .table2 tr:hover {
+            background-color: #f0e68c;
+        }
+
+
+
+        .table-container {
+            display: flex;
+            gap: 1px;
+            /* ระยะห่างระหว่างตาราง */
+        }
+        .form1 {
+    border: 3px solid black;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+}
+
+.table1 {
+    width: 100%;
+}
+
+.table1 td, .table1 th {
+    padding: 10px;
+}
+
+.input-value {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-weight: bold;
+}
     </style>
 </head>
 
 <body>
-<header>
+    <header>
         <ul class="nav nav-tabs bg-dark">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
+                <a class="nav-link active" aria-current="page" href="home.php"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="#">Link</a>
+                <a class="nav-link " href="usermang.php">ข้อมูลผู้ใช้</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="waterdata.php">ค่าน้ำ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                <a class="nav-link" href="electdata.php">ค่าไฟ</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="login.php"><i class="fa-solid fa-bed-front"></i></a>
@@ -43,8 +97,9 @@ $roomId = $_GET['roomId'];
     </header>
     <?php
     // ดึงข้อมูลจากฐานข้อมูล
-    
-    $sql = "SELECT Name,Lname,Dps  FROM room WHERE roomId = :roomId";
+
+    $sql = "SELECT Name,Lname,Dps,E_dsave ,E_bef ,E_af,W_dsave ,W_bef ,W_af  FROM room Left join elect on room.roomId = elect.roomId Left join water on room.roomId = water.roomId
+    WHERE room.roomId = :roomId";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':roomId', $roomId);
     $stmt->execute();
@@ -63,15 +118,14 @@ $roomId = $_GET['roomId'];
                     <form action="edit.php" method="post">
                         <div class="mb-3">
                             <input type="hidden" name="roomId" value="<?php echo $roomId ?>">
-                            <label for="roomId"class="col-form-label"><?php echo $roomId ?></label>
                         </div>
                         <div class="mb-3">
                             <label for="Name" class="col-form-label">ชื่อ:</label>
-                            <input type="text" name="Name" value="<?php echo $row['Name'];?>">
+                            <input type="text" name="Name" value="<?php echo $row['Name']; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="Lname" class="col-form-label">นามสกุล:</label>
-                            <input type="text" name="Lname" class="form-control" value="<?php echo $row['Lname'];?>">
+                            <input type="text" name="Lname" class="form-control" value="<?php echo $row['Lname']; ?>">
                         </div>
                         <div class="mb-3">
                             <label for="staID">สถานะห้อง:</label>
@@ -88,35 +142,96 @@ $roomId = $_GET['roomId'];
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
+    <div>
+        <a href="#usermodal1" class="btn btn-warning" data-bs-toggle="modal">edit </a>
+        <?php include("dataroomeditmodal.php"); ?>
     </div>
-    <div class="col-md-6">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#usermodal">เเก้ไขข้อมูล</button>
-            </div>
     <div class="container mt-5 d-flex justify-content-center">
-        <form style="border: 3px solid black; padding:20px;">
-            <table>
-            <tr>
-            <dive><td>
-                <label for="roomId">ห้องที่:</label></td>
-            <td><label type="text" name="roomId"> <?php echo $roomId; ?></label></td>
-            </dive></tr>
-            <div><tr><td>
-                <label for="Name">ชื่อ: </label></td>
-                <td><label type="text" id="Name" name="Name"> <?php echo $row['Name'];?> </label></td>
-            </div>
-            <div><td>
-                <label for="Lname">นามสกุล: </label></td>
-                <td><label type="text" id="Lname" name="Lname"><?php echo $row['Lname']; ?></label></td>
-            </div></tr>
-            <tr><div><td>
-                <label for="Dps">ค่ามัดจำ:</label></td>
-                <td><label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label></td>
-            </div></tr></table>
+        <form class="form1" style="border: 3px solid black; padding:20px;">
+            <table class="table1">
+                <tr>
+                    <dive>
+                        <td>
+                            <label for="roomId">ห้องที่:</label>
+                        </td>
+                        <td><label type="text" name="roomId"> <?php echo $roomId; ?></label></td>
+                    </dive>
+                </tr>
+                <div>
+                    <tr>
+                        <td>
+                            <label for="Name">ชื่อ: </label>
+                        </td>
+                        <td><label type="text" id="Name" name="Name"> <?php echo $row['Name']; ?> </label></td>
+                </div>
+                <div>
+                    <td><label type="text" id="Lname" name="Lname"><?php echo $row['Lname']; ?></label></td>
+                </div>
+                </tr>
+                <tr>
+                    <div>
+                        <td>
+                            <label for="Dps">ค่าห้อง:</label>
+                        </td>
+                        <td><label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label></td>
+                    </div>
+                </tr>
+            </table>
     </div>
     </form>
+    <br>
+    <div style="height: 200px;" class="table-container">
+        <table class="table2">
+            <thead>
+                <tr>
+                    <th>ค่ามิเตอร์ไฟเดือนก่อน</th>
+                    <td><?php echo $row["E_bef"] ?></td>
+
+                </tr>
+                <tr>
+                    <th>ค่ามิเตอร์ไฟเดือนนี้</th>
+                    <td><?php echo $row["E_af"] ?></td>
+                </tr>
+                <tr>
+                    <th>ค่าต่างมิเตอร์</th>
+                    <td><?php echo $Eitp = $row["E_af"] - $row["E_bef"]  ?></td>
+                </tr>
+                <tr>
+                    <th>ค่าไฟ</th>
+                    <td><?php echo $Eitp = $Eitp * 10  ?></td>
+                </tr>
+        </table>
+
+        <table class="table2">
+            <thead>
+                <tr>
+                    <th>ค่ามิเตอร์ไฟเดือนก่อน</th>
+                    <td><?php echo $row["W_bef"] ?></td>
+
+                </tr>
+                <tr>
+                    <th>ค่ามิเตอร์ไฟเดือนนี้</th>
+                    <td><?php echo $row["W_af"] ?></td>
+                </tr>
+                <tr>
+                    <th>ค่าต่างมิเตอร์</th>
+                    <td><?php echo $Witp = $row["W_af"] - $row["W_bef"]  ?></td>
+                    <th>ค่าห้อง</th>
+                    <th>รวม</th>
+                </tr>
+                <tr>
+                    <th>ค่าไฟ</th>
+                    <td><?php echo $Witp = $Witp * 10  ?></td>
+
+                    <td><?php echo $row['Dps'] ?></td>
+                    <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] ?></td>
+                </tr>
+        </table>
+    </div>
+
+
 </body>
 
 </html>

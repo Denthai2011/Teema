@@ -1,10 +1,10 @@
 <?php
 session_start();
 require_once 'mysql/connect.php';
-// if(!isset($_SESSION['admin_login'])){
-//     $_SESSION['error']= 'กรุณาเข้าสู่ระบบ';
-//     header('location: login.php');
-// }
+if(!isset($_SESSION['admin_login'])){
+    $_SESSION['error']='กรุณาเข้าสู่ระบบ';
+    header('location: index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -56,10 +56,7 @@ require_once 'mysql/connect.php';
             </li>
         </ul>
         </ul>
-    </header>
-    <section style="margin:20px 20px 20px 20px;">
-        <div class="row">
-            <?php if (isset($_SESSION['Success'])) { ?>
+    </header><?php if (isset($_SESSION['Success'])) { ?>
                 <div class="alert alert-success">
                     <?php
                     echo $_SESSION['Success'];
@@ -67,6 +64,9 @@ require_once 'mysql/connect.php';
                     ?>
                 </div>
             <?php } ?>
+    <section style="margin:20px 20px 20px 20px;">
+        <div class="row">
+            
             <?php
             $sql = "SELECT roomId,staName,Name FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
             $stmt = $conn->prepare($sql);

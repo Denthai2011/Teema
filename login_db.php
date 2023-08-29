@@ -5,7 +5,6 @@ if (isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    echo $username;
     if (empty($username)) {
         $_SESSION['error'] = 'กรุณากรอก username';
         header('location: index.php');
@@ -15,20 +14,37 @@ if (isset($_POST['login'])){
         header('location: index.php');
     }
     else {
-        $check_username = $conn->prepare("SELECT username,password,urold FROM user WHERE username = :username AND password = :password");
+        $check_username = $conn->prepare("SELECT id,username,password,urold FROM user WHERE username = :username AND password = :password");
         // $check_username->bindParam(":username", $username);
         $check_username->bindParam(':username', $username , PDO::PARAM_STR);
         $check_username->bindParam(':password', $password , PDO::PARAM_STR);
         $check_username->execute();
         $row = $check_username->fetch(PDO::FETCH_ASSOC);
         if (password_verify($password, $hashedPassword)) {
-            if ($row['urold'] == 'เจ้าของหอพัก') {
+            if ($row['urold'] == 'เจ้าของหอพัก'||$row['urold'] == 'เจ้าหน้าที่') {
                 $_SESSION['admin_login'] = $row['id'];
                 header("location: home.php");
             }
-            if ($row['urold'] == 'เจ้าหน้าที่') {
-                $_SESSION['admin_login'] = $row['id'];
-                header("location: home.php");
+            // if ($row !== false && $row['urold'] == 'ผู้เช่า') {
+            //     $check_userroom = $conn->prepare("SELECT roomId, Name, username FROM user Left Join room on user.Name = room.Name WHERE username = :username");
+            //     $check_userroom->bindParam(':username', $username, PDO::PARAM_STR);
+            //     $check_userroom->bindParam(':Name', $Name, PDO::PARAM_STR);
+            //     $check_userroom->execute();
+            //     $row_user = $check_userroom->fetch(PDO::FETCH_ASSOC);
+                
+            //     echo $row_user['roomId'];
+            if ($row !== false && $row['urold'] == 'ผู้เช่า') {
+                $check_userroom = $conn->prepare("SELECT room.roomId, user.Name, user.username FROM user LEFT JOIN room ON user.Name = room.Name WHERE user.username = :username");
+                $check_userroom->bindParam(':username', $username, PDO::PARAM_STR);
+                $check_userroom->execute();
+                $row_user = $check_userroom->fetch(PDO::FETCH_ASSOC);
+                
+                echo $row_user['roomId'];
+                $roomId=$row_user['roomId'];
+                $_SESSION['user_login'] = $row['id'];
+                header("Location: detaroom.php?roomId=$roomId");
+
+                exit;
             }
         }
         else{

@@ -1,5 +1,9 @@
 <?php session_start();
 require_once 'mysql/connect.php';
+if(!isset($_SESSION['admin_login'])){
+    $_SESSION['error']='กรุณาเข้าสู่ระบบ';
+    header('location: index.php');
+}
 ?>
 <!DOCTYPE html>
 <html>

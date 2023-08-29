@@ -48,29 +48,31 @@ $roomId = $_GET['roomId'];
             gap: 1px;
             /* ระยะห่างระหว่างตาราง */
         }
+
         .form1 {
-    border: 3px solid black;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-}
+            border: 3px solid black;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
 
-.table1 {
-    width: 100%;
-}
+        .table1 {
+            width: 100%;
+        }
 
-.table1 td, .table1 th {
-    padding: 10px;
-}
+        .table1 td,
+        .table1 th {
+            padding: 10px;
+        }
 
-.input-value {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-weight: bold;
-}
+        .input-value {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -107,46 +109,8 @@ $roomId = $_GET['roomId'];
 
     // แสดงข้อมูลในฟอร์ม
     ?>
-    <div class="modal fade" id="usermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="edit.php" method="post">
-                        <div class="mb-3">
-                            <input type="hidden" name="roomId" value="<?php echo $roomId ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Name" class="col-form-label">ชื่อ:</label>
-                            <input type="text" name="Name" value="<?php echo $row['Name']; ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">นามสกุล:</label>
-                            <input type="text" name="Lname" class="form-control" value="<?php echo $row['Lname']; ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="staID">สถานะห้อง:</label>
-                            <select name="staID">
-                                <option value="1">จองแล้ว</option>
-                                <option value="2">เช่า</option>
-                                <option value="3">ว่าง</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="edit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <div>
-        <a href="#usermodal1" class="btn btn-warning" data-bs-toggle="modal">edit </a>
-        <?php include("dataroomeditmodal.php"); ?>
+        <button type="button" data-bs-target="#usermodal" class="btn btn-warning" data-bs-toggle="modal">edit </a>
     </div>
     <div class="container mt-5 d-flex justify-content-center">
         <form class="form1" style="border: 3px solid black; padding:20px;">
@@ -230,7 +194,71 @@ $roomId = $_GET['roomId'];
                 </tr>
         </table>
     </div>
+    <div class="modal fade" id="usermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="edit.php" method="post">
+                        <div class="mb-3">
+                            <input type="hidden" name="roomId" value="<?php echo $roomId ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Name" class="col-form-label">ชื่อ:</label>
+                            <select name="Name" id="selectName">
+                                <?php
+                                if ($row !== false) {
+                                    $nameselect = $conn->prepare("SELECT Name, Lname FROM user");
+                                    $nameselect->bindParam(':Name', $Name);
+                                    $nameselect->execute();
+                                    $result = $nameselect->fetchAll(PDO::FETCH_ASSOC);
+                                    if ($result) {
+                                        foreach ($result as $row_name) {
+                                ?>
+                                            <option value="<?php echo $row_name['Name']; ?>"><?php echo $row_name['Name']; ?></option>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Lname" class="col-form-label">นามสกุล:</label>
+                            <input type="text" name="Lname" id="inputLname" class="form-control" value="">
+                        </div>
 
+
+                        <div class="mb-3">
+                            <label for="staID">สถานะห้อง:</label>
+                            <select name="staID">
+                                <option value="1">จองแล้ว</option>
+                                <option value="2">เช่า</option>
+                                <option value="3">ว่าง</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="edit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('selectName').addEventListener('change', function() {
+            var selectedName = this.value;
+            var result = <?php echo json_encode($result); ?>;
+            var selectedLname = result.find(function(item) {
+                return item.Name === selectedName;
+            }).Lname;
+            document.getElementById('inputLname').value = selectedLname;
+        });
+    </script>
 
 </body>
 

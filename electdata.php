@@ -1,5 +1,9 @@
 <?php session_start();
 require_once 'mysql/connect.php';
+if(!isset($_SESSION['admin_login'])){
+    $_SESSION['error']='กรุณาเข้าสู่ระบบ';
+    header('location: index.php');
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -15,7 +19,8 @@ require_once 'mysql/connect.php';
         }
 
         td {
-            border: 50px;
+            border: 2px black solid;
+
         }
     </style>
 </head>
@@ -50,9 +55,10 @@ require_once 'mysql/connect.php';
                         <td>วันที่จด</td>
                         <td>ค่าไฟเดือนก่อน</td>
                         <td>ค่าไฟเดือนนี้</td>
+                        <td>หมายเหตุ</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-danger">
                     <?php $sql = "SELECT * FROM elect";
                     $stmt = $conn->prepare($sql);
                     $stmt->execute();
@@ -61,7 +67,8 @@ require_once 'mysql/connect.php';
                         foreach ($result as $row) {
                             $E_id = $row['E_id'];   
                         
-                    ?><tbody>
+                    ?>
+                        
                             <tr>
                                 <td><?php echo $row["E_id"] ?></td>
                                 <td><?php echo $row["E_dsave"] ?></td>
@@ -71,11 +78,10 @@ require_once 'mysql/connect.php';
                                     <div class="col-md-6">
                                         <a href="#editelmodal_<?php echo $row['E_id'];?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
                                     </div>
-                                <td>
-                                <?php include("elect_editmodal.php"); ?>
-                            </tr>
+                                 </td>
+                                
+                            </tr><?php include("elect_editmodal.php"); ?>
                             
-                </tbody>
         <?php   }
                     } ?>
         </tbody>

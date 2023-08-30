@@ -1,6 +1,7 @@
 <?php session_start();
 require_once 'mysql/connect.php';
 $roomId = $_GET['roomId'];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,22 +80,30 @@ $roomId = $_GET['roomId'];
 <body>
     <header>
         <ul class="nav nav-tabs bg-dark">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="home.php"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
+        <?php if (!isset($_SESSION['admin_login'])) {
+            echo "
+            <li class='nav-item'>
+                <a class='nav-link active' aria-current='page' href='home.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link " href="usermang.php">ข้อมูลผู้ใช้</a>
+            ";}
+            else{
+                echo "
+            <li class='nav-item'>
+                <a class='nav-link active' aria-current='page' href='home.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="waterdata.php">ค่าน้ำ</a>
+            <li class='nav-item'>
+                <a class='nav-link'  href='usermang.php'>ข้อมูลผู้ใช้</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="electdata.php">ค่าไฟ</a>
+            <li class='nav-item'>
+                <a class='nav-link'  href='waterdata.php'>ค่าน้ำ</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link " href="login.php"><i class="fa-solid fa-bed-front"></i></a>
+            <li class='nav-item'>
+                <a class='nav-link'  href='electdata.php'>ค่าไฟ</a>
             </li>
-        </ul>
+            <li class='nav-item'>
+                <a class='nav-link' href='index.php'><i class='fa-solid fa-bed-front'></i></a>
+            </li>"
+            ;} ?>
         </ul>
     </header>
     <?php
@@ -108,10 +117,17 @@ $roomId = $_GET['roomId'];
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // แสดงข้อมูลในฟอร์ม
-    ?>
+    ?><?php if (!isset($_SESSION['admin_login'])) {
+            echo "
     <div>
-        <button type="button" data-bs-target="#usermodal" class="btn btn-warning" data-bs-toggle="modal">edit </a>
-    </div>
+        <button type='button' hidden data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>edit </a>
+    </div>";
+        } else {
+            echo "
+            <div>
+        <button type='button' data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>edit </a>
+    </div>";
+        } ?>
     <div class="container mt-5 d-flex justify-content-center">
         <form class="form1" style="border: 3px solid black; padding:20px;">
             <table class="table1">

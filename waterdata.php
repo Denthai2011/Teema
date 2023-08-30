@@ -1,7 +1,7 @@
 <?php session_start();
 require_once 'mysql/connect.php';
-if(!isset($_SESSION['admin_login'])){
-    $_SESSION['error']='กรุณาเข้าสู่ระบบ';
+if (!isset($_SESSION['admin_login'])) {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
     header('location: index.php');
 }
 ?>
@@ -19,7 +19,7 @@ if(!isset($_SESSION['admin_login'])){
         }
 
         td {
-            border: 50px;
+            border: 2px black solid;
         }
     </style>
 </head>
@@ -37,7 +37,7 @@ if(!isset($_SESSION['admin_login'])){
                 <a class="nav-link active" href="waterdata.php">ค่าน้ำ</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="electdata.php">ค่าไฟ</a>
+                <a class="nav-link" href="electdata.php">ค่าไฟ</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="login.php"><i class="fa-solid fa-bed-front"></i></a>
@@ -48,24 +48,25 @@ if(!isset($_SESSION['admin_login'])){
     <section>
         <div class="container">
             <table class="table table-striped table-bordered table-hover">
-                <thead>
+                <thead style="border:1px black solid;">
                     <tr>
                         <td>ห้อง</td>
                         <td>วันที่จด</td>
                         <td>ค่าน้ำเดือนก่อน</td>
                         <td>ค่าน้ำเดือนนี้</td>
+                        <td>หมายเหตุ</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-primary">
                     <?php $sql = "SELECT * FROM water";
                     $stmt = $conn->prepare($sql);
                     $stmt->execute();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if ($result) {
                         foreach ($result as $row) {
-                            $W_id = $row['W_id'];   
-                        
-                    ?><tbody>
+                            $W_id = $row['W_id'];
+
+                    ?>
                             <tr>
                                 <td><?php echo $row["W_id"] ?></td>
                                 <td><?php echo $row["W_dsave"] ?></td>
@@ -73,22 +74,18 @@ if(!isset($_SESSION['admin_login'])){
                                 <td><?php echo $row["W_af"] ?></td>
                                 <td>
                                     <div class="col-md-6">
-                                        <a href="#editwtmodal_<?php echo $row['W_id'];?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
+                                        <a href="#editwtmodal_<?php echo $row['W_id']; ?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
                                     </div>
-                                <td>
-                                </td>
                                 </td>
                                 <?php include("water_editmodal.php"); ?>
                             </tr>
-                            </tr>
-                            
-                </tbody>
-        <?php   }
+                    <?php   }
                     } ?>
-        </tbody>
+                </tbody>
             </table>
         </div>
     </section>
-    
+
 </body>
+
 </html>

@@ -25,20 +25,11 @@ if (isset($_POST['login'])){
                 $_SESSION['admin_login'] = $row['id'];
                 header("location: home.php");
             }
-            // if ($row !== false && $row['urold'] == 'ผู้เช่า') {
-            //     $check_userroom = $conn->prepare("SELECT roomId, Name, username FROM user Left Join room on user.Name = room.Name WHERE username = :username");
-            //     $check_userroom->bindParam(':username', $username, PDO::PARAM_STR);
-            //     $check_userroom->bindParam(':Name', $Name, PDO::PARAM_STR);
-            //     $check_userroom->execute();
-            //     $row_user = $check_userroom->fetch(PDO::FETCH_ASSOC);
-                
-            //     echo $row_user['roomId'];
             if ($row !== false && $row['urold'] == 'ผู้เช่า') {
                 $check_userroom = $conn->prepare("SELECT room.roomId, user.Name, user.username FROM user LEFT JOIN room ON user.Name = room.Name WHERE user.username = :username");
                 $check_userroom->bindParam(':username', $username, PDO::PARAM_STR);
                 $check_userroom->execute();
                 $row_user = $check_userroom->fetch(PDO::FETCH_ASSOC);
-                
                 echo $row_user['roomId'];
                 $roomId=$row_user['roomId'];
                 $_SESSION['user_login'] = $row['id'];

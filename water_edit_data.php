@@ -2,7 +2,6 @@
 session_start();
 require_once 'mysql/connect.php';
 
-
 if (isset($_POST['editwater'])) {
     $W_id = $_POST['W_id'];
     $W_dsave = $_POST['W_dsave'];

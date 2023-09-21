@@ -1,4 +1,5 @@
-<?php session_start();
+<?php
+session_start();
 require_once 'mysql/connect.php';
 if (!isset($_SESSION['admin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
@@ -17,19 +18,32 @@ if (!isset($_SESSION['admin_login'])) {
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Pattaya&display=swap" rel="stylesheet">
 
 <head>
-    <style>
-        label {
-            font-size: 20px;
-        }
-
-        td {
-            border: 2px black solid;
-        }
-    </style>
+<style>
+    body{        background-color: #FFFAF0;}
+    thead th{
+        padding: 5px;
+    }
+    tbody tr{
+        border-bottom: 1px solid black;
+    }
+    table{
+        text-align: center;
+    }
+    .container{
+        background-color: #FFFFFF;
+        width: 30%;
+        border-radius: 15px; 
+        margin-bottom: 20px;
+    }
+    p{
+        background-color: #CD5C5C;
+        color:#FFFF00;
+    }        
+</style>
 </head>
 
 <body>
-<header>
+    <header>
         <ul class="nav nav-tabs bg-dark">
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="home.php"><i class="fa-solid fa-house fa-fade fa-xl"></i></a>
@@ -44,7 +58,7 @@ if (!isset($_SESSION['admin_login'])) {
                 <a class="nav-link" href="electdata.php">ค่าไฟ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="report.php"><i class="fa-regular fa-flag fa-bounce"></i></a>
+                <a class="nav-link " href="report.php"><i class="fa-solid fa-bed-front"></i></a>
             </li>
         </ul>
     </header><?php if (isset($_SESSION['Success'])) { ?>
@@ -55,47 +69,48 @@ if (!isset($_SESSION['admin_login'])) {
             ?>
         </div>
     <?php } ?>
-    <section>
-        <div class="container">
-            <table class="table table-striped table-bordered table-hover">
-                <thead style="border:1px black solid;">
-                    <tr>
-                        <td>ห้อง</td>
-                        <td>วันที่จด</td>
-                        <td>ค่าน้ำเดือนก่อน</td>
-                        <td>ค่าน้ำเดือนนี้</td>
-                        <td>หมายเหตุ</td>
-                    </tr>
-                </thead>
-                <tbody class="table-primary">
-                    <?php $sql = "SELECT * FROM water";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    if ($result) {
-                        foreach ($result as $row) {
-                            $W_id = $row['W_id'];
-
+    <section> <div class="container">
+                    <p>เเจ้ง/ซ่อม<p>
+                <table>
+                    <thead>
+                        <tr>
+                        <th>ลำดับ</th>
+                        <th>ชื่อผู้เเจ้ง</th>
+                        <th>ห้องที่เเจ้ง</th>
+                        <th>ประเภทของปัญหา</th>
+                        <th>สถานะเเจ้ง/ซ๋อม</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php
+                $sql = "SELECT * FROM report";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                if ($result) {
+                    foreach ($result as $row){ $ReId = $row['ReId'];
                     ?>
-                            <tr>
-                                <td><?php echo $row["W_id"] ?></td>
-                                <td><?php echo $row["W_dsave"] ?></td>
-                                <td><?php echo $row["W_bef"] ?></td>
-                                <td><?php echo $row["W_af"] ?></td>
-                                <td>
+                        
+                        <tr>
+                        <td><?php echo $row['ReId'] ?></td>
+                        <td><?php echo $row['Name'] ?></td>
+                        <td><?php echo $row['roomId'] ?></td>
+                        <td><?php echo $row['Retype'] ?></td>
+                        <td><?php echo $row['Resta'] ?></td>
+                        <td>
                                     <div class="col-md-6">
-                                        <a href="#editwtmodal_<?php echo $row['W_id']; ?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
+                                        <a href="#reportdetailmodal_<?php echo $row['ReId']; ?>"  class="btn btn-warning" data-bs-toggle="modal">จัดการ</a>
                                     </div>
                                 </td>
-                                <?php include("water_editmodal.php"); ?>
+                                <?php include("report_detailmodal.php"); ?>
                             </tr>
-                    <?php   }
-                    } ?>
-                </tbody>
+                        </tr>
+                    </tbody>
+                <?php };}
+                ?>
             </table>
-        </div>
+            </div>
     </section>
-
 </body>
 
 </html>

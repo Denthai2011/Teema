@@ -3,7 +3,11 @@ session_start();
 require_once 'mysql/connect.php';
 if (!isset($_SESSION['admin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
-    header('location: index.php');
+    header('location: index.php');}
+if (isset($_POST['logout'])) {
+        session_destroy();
+        header('location: index.php');
+        exit();
 }
 ?>
 
@@ -20,6 +24,12 @@ if (!isset($_SESSION['admin_login'])) {
 
 <head>
     <style>
+        .col {
+            display: flex;
+            justify-content: start;
+
+        }
+
         .btn1 {
             border: none;
             color: white;
@@ -41,21 +51,33 @@ if (!isset($_SESSION['admin_login'])) {
 
         body {
             font-family: 'Pattaya', sans-serif;
-            background-color:white;
+            background-color: white;
         }
 
         .card1 {
             border-radius: 20px;
             margin: 10px;
-            border:2px white solid;
+            border: 2px white solid;
             background-color: #F0F1EB;
             box-shadow: 5px 5px 7px 7px #000080;
         }
-        .span1{ 
+
+        .span1 {
             box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
             background-color: white;
         }
-
+        .container1{
+            display: flex;
+            flex-direction: column;
+        }
+        .container2{
+            display:flex;
+            flex-direction: row;
+        }
+        .container3{
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 </head>
 
@@ -77,6 +99,11 @@ if (!isset($_SESSION['admin_login'])) {
             <li class="nav-item">
                 <a class="nav-link " href="report.php"><i class="fa-regular fa-flag fa-bounce"></i></a>
             </li>
+            <li>
+            <form method="post" action="">
+            <input type="submit" name="logout" value="ออกจากระบบ">
+            </form>
+            </li>
         </ul>
     </header><?php if (isset($_SESSION['Success'])) { ?>
         <div class="alert alert-success">
@@ -87,70 +114,81 @@ if (!isset($_SESSION['admin_login'])) {
         </div>
     <?php } ?>
     <section style="margin:20px 20px 20px 20px;">
-        <div class="container" style="height: 100px;">
-                <?php
-                $sql = "SELECT roomId,staName,Name FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':roomId', $roomId);
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $i = 1;
-                if ($result) {
-                    foreach ($result as $row) {
+        <div class="container">
+            <?php
+            $sql = "SELECT roomId,staName,Name FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':roomId', $roomId);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $i = 1;
+            if ($result) {
+                foreach ($result as $row) {
 
-                        if ($row['roomId'] == 1) {
-                            $i = 1;
-                            $conrow="<div class='row'>";
-                        } else {
-                            $i = 0;
-                        }
-                        if ($row['roomId'] == 6) {
-                            $i = 2;
-                            $conrow="<div class='row'>";
-                        }
-                        if ($row['roomId'] == 13) {
-                            $i = 3;
-                            $conrow="<div class='row'>";
-                        }
-                        if ($i > 0) {
-                            echo "$conrow<span class='span1' style='border:5px black solid;border-radius:15px;font-size:20px;color:#330099;padding: 5px;'>ชั้นที่ $i </span>";
-                        }
-                        echo "<div class='col'>";
-                ?><br>
-                        <div class="card1 card shadow p-3 mb-5" style="width: 22rem;margin-right:20px;" action="detaroom.php" method="post">
-                    <div class="card-body">
-                                <?php
-                                $roomId = $row['roomId'];
-                                $staName = $row['staName'];
-                                if ($staName == "ว่าง") {
-                                    $string =  'btn btn2 btn-success';
-                                } else if ($staName == "จองเเล้ว") {
-                                    $string =  'btn btn2 btn-warning';
-                                } else {
-                                    $string = 'btn btn2 btn-info';
-                                }
-                                if (empty($row['Name'])) {
-                                    $row['Name'] = "ว่าง";
-                                    $color = "black";
-                                } else {
-                                    $color = "#330000";
-                                }
-                                ?>
-                                <h5 class="card-title" style="color:#000080;font-size:25px;">ห้องที่: <?php echo $row['roomId']; ?></h5>
-                        <p class="card-text fw-bolder" style="color:#000080;font-size:20px;">ห้องของ: <span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?></span></p>
-                        <a href="detaroom.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดค่าห้อง</a>
-                        <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
+                    if ($row['roomId'] == 1) {
+                        $i = 1;
+                        $conrow = "<div class='row'>";
+                    } else {
+                        $i = 0;
+                    }
+                    if ($row['roomId'] == 6) {
+                        $i = 2;
+                        $conrow = "<div class='row'>";
+                    }
+                    if ($row['roomId'] == 13) {
+                        $i = 3;
+                        $conrow = "<div class='row'>";
+                    }
+                    if ($i > 0) {
+                        echo "$conrow<span class='span1' style='border:5px black solid;border-radius:15px;font-size:20px;color:#330099;padding: 5px;'>ชั้นที่ $i </span>";
+                    }
+                    echo "<div class='col'>";
+            ?><br>
+                    <div class="card1 card shadow p-3 mb-5" style="width: 22rem;margin-right:20px;" action="detaroom.php" method="post">
+                        <div class="card-body">
+                            <?php
+                            $roomId = $row['roomId'];
+                            $staName = $row['staName'];
+                            if ($staName == "ว่าง") {
+                                $string =  'btn btn2 btn-success';
+                            } else if ($staName == "จองเเล้ว") {
+                                $string =  'btn btn2 btn-warning';
+                            } else {
+                                $string = 'btn btn2 btn-info';
+                            }
+                            if (empty($row['Name'])) {
+                                $row['Name'] = "ว่าง";
+                                $color = "black";
+                            } else {
+                                $color = "#330000";
+                            }
+                            ?>
+                            <div class="container1">
+                                <div class="container2">
+                                    <div class="container3">
+                                        <div><h5 class="card-title" style="color:#000080;font-size:25px;">ห้องที่: <?php echo $row['roomId']; ?></h5>
+                                        </div><p class="card-text fw-bolder" style="color:#000080;font-size:20px;">ห้องของ: <span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?></span></p>
+                                    </div>
+                                    <div style="margin-bottom:20px;margin-left:20px;">
+                                        <img src="img/380793682_277571401895208_5723792637580905258_n.png" style="height: 90px;width:90px">
+                                    </div> 
+                                </div>   
+                                <div><a href="detaroom.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดค่าห้อง</a>
+                                     <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                        <?php echo "</div>";
-                        if ($row['roomId']==5 || $row['roomId']==12 || $row['roomId']==20) {
-                            echo "</div>";
-                        }
-                        ?>
-                <?php  };
-                } ?>
-            </div>
+                    <?php echo "</div>";
+                    if ($row['roomId'] == 5 || $row['roomId'] == 12 || $row['roomId'] == 20) {
+                        echo "</div>";
+                    }
+                    ?>
+            <?php  };
+            } ?>
+        </div>
         </div>
     </section>
 </body>
+
 </html>

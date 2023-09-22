@@ -58,7 +58,7 @@ if (!isset($_SESSION['admin_login'])) {
                 <a class="nav-link" href="electdata.php">ค่าไฟ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="report.php"><i class="fa-solid fa-bed-front"></i></a>
+                <a class="nav-link " href="report.php"><i class="fa-regular fa-flag fa-bounce"></i></a>
             </li>
         </ul>
     </header><?php if (isset($_SESSION['Success'])) { ?>

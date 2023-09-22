@@ -1,6 +1,11 @@
 <?php session_start();
 require_once 'mysql/connect.php';
 $roomId = $_GET['roomId'];
+if (isset($_POST['logout'])) {
+    session_destroy();
+    header('location: index.php');
+    exit();
+}
 
 ?>
 <!DOCTYPE html>
@@ -23,10 +28,19 @@ $roomId = $_GET['roomId'];
         tr {
             border-bottom: 2px solid #c4c2bc;
         }
-        th{color: black;
-            font-size: 18px;}
-        td{color:white;
-            font-size: 16px;}
+
+        th {
+            color: #8B4513;
+            font-size: 18px;
+            text-shadow: 1px 1px black;
+        }
+
+        td {
+            color: white;
+            font-size: 16px;
+            color: #993300
+        }
+
         .table2 {
             border-collapse: collapse;
             font-size: 16px;
@@ -51,6 +65,7 @@ $roomId = $_GET['roomId'];
         .table2 tr:hover {
             background-color: #f0e68c;
         }
+
         .table3 tr:hover {
             background-color: #f0e68c;
         }
@@ -59,7 +74,7 @@ $roomId = $_GET['roomId'];
 
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 2px 2px 2px 2px #6666cc;
+            box-shadow: 2px 2px 2px 2px #663333;
             justify-content: center;
             margin-top: 20px;
         }
@@ -68,12 +83,17 @@ $roomId = $_GET['roomId'];
             display: flex;
             flex-direction: column;
             border-radius: 10px 10px 0px 0px;
+            box-shadow: 2px 2px 2px 2px wheat;
+            background-color: #FFFAF0;
+            padding: 20px;
+
         }
 
         .container2 {
             display: flex;
             flex-direction: row;
             justify-content: space-around;
+
         }
 
         .table1 {
@@ -101,14 +121,18 @@ $roomId = $_GET['roomId'];
         }
 
         body {
-            background-image: linear-gradient(100deg, #3498db, #2ecc71);
-            font-family: 'Pattaya', sans-serif;
+            background-image: url('img/ก่อน.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
         }
-        .headdiv{
+
+        .headdiv {
             align-self: center;
             margin-left: 10%;
-            font-size: 20px;
-            color: gold;
+            font-size: 30px;
+            color: #FFD700;
+            text-shadow: 2px 2px black;
         }
     </style>
 </head>
@@ -122,6 +146,11 @@ $roomId = $_GET['roomId'];
                 <a class='nav-link active' aria-current='page' href='home.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>
             <h4> ห้องที่ $roomId </h4>
+            <li>
+            <form method='post' action=''>
+            <input type='submit' name='logout' value='ออกจากระบบ'>
+            </form>
+            </li>
             ";
             } else {
                 echo "
@@ -139,14 +168,15 @@ $roomId = $_GET['roomId'];
             </li>
             <li class='nav-item'>
                 <a class='nav-link' href='index.php'><i class='fa-solid fa-bed-front'></i></a>
-            </li>";
+            </li>
+            ";
             } ?>
         </ul>
     </header>
     <?php
     // ดึงข้อมูลจากฐานข้อมูล
 
-    $sql = "SELECT Name,Lname,Dps,E_dsave ,E_bef ,E_af,W_dsave ,W_bef ,W_af  FROM room Left join elect on room.roomId = elect.roomId Left join water on room.roomId = water.roomId
+    $sql = "SELECT Name,Lname,Dps,E_dsave ,E_bef ,E_af,W_dsave ,W_bef ,W_af  FROM room Left join elect on room.roomId = elect.roomId Left join water on room.roomId = water.roomId 
     WHERE room.roomId = :roomId";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':roomId', $roomId);
@@ -235,23 +265,23 @@ $roomId = $_GET['roomId'];
                         <td><?php echo $Witp = $row["W_af"] - $row["W_bef"]  ?></td>
                     </tr>
             </table>
-            </div>
-            <br>
-            <table class="table4">
-                <tr>
-                    <th>ค่าไฟ</th>
-                    <th>ค่าน้ำ</th>
-                    <th>ค่าห้อง</th>
-                    <th>รวม</th>
-                </tr>
-                <tr>
-                    <td><?php echo $Witp = $Witp * 10  ?></td>
-                    <td><?php echo $Eitp = $Eitp * 10  ?></td>
-                    <td><?php echo $row['Dps'] ?></td>
-                    <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] ?></td>
-                </tr>
-                </tr>
-            </table>
+        </div>
+        <br>
+        <table class="table4">
+            <tr>
+                <th>ค่าไฟ</th>
+                <th>ค่าน้ำ</th>
+                <th>ค่าห้อง</th>
+                <th>รวม</th>
+            </tr>
+            <tr>
+                <td><?php echo $Witp = $Witp * 10  ?></td>
+                <td><?php echo $Eitp = $Eitp * 10  ?></td>
+                <td><?php echo $row['Dps'] ?></td>
+                <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] ?></td>
+            </tr>
+            </tr>
+        </table>
     </div>
     <div class="modal fade" id="usermodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -289,8 +319,6 @@ $roomId = $_GET['roomId'];
                             <label for="Lname" class="col-form-label">นามสกุล:</label>
                             <input type="text" name="Lname" id="inputLname" class="form-control" value="">
                         </div>
-
-
                         <div class="mb-3">
                             <label for="staID">สถานะห้อง:</label>
                             <select name="staID">
@@ -304,11 +332,7 @@ $roomId = $_GET['roomId'];
                             <button type="submit" name="edit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
+                    <script>
         document.getElementById('selectName').addEventListener('change', function() {
             var selectedName = this.value;
             var result = <?php echo json_encode($result); ?>;
@@ -317,8 +341,63 @@ $roomId = $_GET['roomId'];
             }).Lname;
             document.getElementById('inputLname').value = selectedLname;
         });
-    </script>
+</script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 style="text-align: center;color:gold;text-shadow:2px 2px black;">เเจ้งซ่อม <i class="fa-regular fa-flag fa-bounce" style="color: #f6ee04;text-align:center;"></i></h2>
+    <div>
+        <?php $Name = $row['Name'];
+        echo "<a href='#reportusermodal_$roomId' class='btn btn-danger' style='margin:auto;display:block;width: 50px;'  class='btn btn-warning' data-bs-toggle='modal'><i class='fa-solid fa-plus'></i> </a>";
+        include("reportuser_modal.php"); ?>
+    </div>
+    <div class="container">
+        <?php
+        if ($row !== false) {
+            if ($row_name !== false) {
+                $userreport = $conn->prepare("SELECT * FROM report WHERE roomId = :roomId");
+                $userreport->bindParam(':roomId', $roomId);
+                $userreport->execute();
+                $result = $userreport->fetchAll(PDO::FETCH_ASSOC);
 
+                if ($result) {
+                    echo "<table>";
+                    echo "<thead>";
+                    echo "<tr>";
+                    echo "<th>ชื่อ</th>";
+                    echo "<th>เลขห้อง</th>";
+                    echo "<th>ประเภทปัญหา</th>";
+                    echo "<th>ข้อมูลปัญหา</th>";
+                    echo "<th>สถานะปัญหา</th>";
+                    echo "</tr>";
+                    echo "</thead>";
+                    echo "<tbody>";
+
+                    foreach ($result as $row_report) {
+                        if ($row_report['Resta'] == "เเจ้งปัญหา") {
+                            $string =  'btn btn-danger';
+                        } else if ($row_report['Resta'] == "กำลังดำเนิน") {
+                            $string =  'btn btn-info';
+                        } else {
+                            $string = 'btn btn-success';
+                        }
+                        echo "<tr>";
+                        echo "<td>" . $row_report['Name'] . "</td>";
+                        echo "<td>" . $row_report['roomId'] . "</td>";
+                        echo "<td>" . $row_report['Retype'] . "</td>";
+                        echo "<td style='max-width: 10ch; overflow: hidden; text-overflow: ellipsis;'>" . $row_report['Redata'] . "</td>";
+                        echo "<td class='$string'>" . $row_report['Resta'] . "</td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</tbody>";
+                    echo "</table>";
+                };
+            };
+        }
+        ?>
+    </div>
 </body>
 
 </html>

@@ -11,7 +11,7 @@ if (isset($_POST['deleteuser'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="ลบสำเร็จ";
-        header("location: home.php");
+        header("location: test1.php");
     } else {
         echo "Error Delete data";
     }

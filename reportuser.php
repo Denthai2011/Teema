@@ -16,7 +16,7 @@ if (isset($_POST['reportuser'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขสำเร็จ";
-        header("location: home.php");
+        header("Location: detaroom.php?roomId=$roomId");
     } else {
         echo "Error updating data";
     }

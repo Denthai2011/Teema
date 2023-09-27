@@ -16,7 +16,7 @@ if (isset($_POST['editwater'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขค่าน้ำสำเร็จ";
-        header("location: waterdata.php");
+        header("location: test2.php");
     } else {
         echo "Error water updating data";
     }

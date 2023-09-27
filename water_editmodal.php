@@ -7,8 +7,8 @@
                     </div>
                     <div class="modal-body">
                         <form action="water_edit_data.php" method="post">
-                            <div class="mb-3">
-                                <?php echo $W_id ?>
+                        <div class="mb-3">
+                                <input type="hidden" name="W_id" value="<?php echo $W_id ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="Name" class="col-form-label">วันที่จด:</label>

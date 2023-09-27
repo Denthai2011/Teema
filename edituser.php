@@ -32,7 +32,7 @@ if (isset($_POST['edituser'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขสำเร็จ";
-        header("location: home.php");
+        header("location: test1.php");
     } else {
         echo "Error updating data";
     }

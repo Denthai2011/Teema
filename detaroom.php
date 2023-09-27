@@ -143,7 +143,7 @@ if (isset($_POST['logout'])) {
             <?php if (!isset($_SESSION['admin_login'])) {
                 echo "
             <li class='nav-item'>
-                <a class='nav-link active' aria-current='page' href='home.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+                <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>
             <h4> ห้องที่ $roomId </h4>
             <li>
@@ -155,24 +155,32 @@ if (isset($_POST['logout'])) {
             } else {
                 echo "
             <li class='nav-item'>
-                <a class='nav-link active' aria-current='page' href='home.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+                <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link'  href='usermang.php'>ข้อมูลผู้ใช้</a>
+                <a class='nav-link'  href='test1.php'>ข้อมูลผู้ใช้</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link'  href='waterdata.php'>ค่าน้ำ</a>
+                <a class='nav-link'  href='test2.php'>ค่าน้ำ</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link'  href='electdata.php'>ค่าไฟ</a>
+                <a class='nav-link'  href='test3.php'>ค่าไฟ</a>
             </li>
             <li class='nav-item'>
-                <a class='nav-link' href='index.php'><i class='fa-solid fa-bed-front'></i></a>
+                <a class='nav-link' href='test4.php'><i class='fa-solid fa-bed-front'></i></a>
             </li>
             ";
             } ?>
         </ul>
     </header>
+    <?php if (isset($_SESSION['Success'])) { ?>
+        <div class="alert alert-success">
+            <?php
+                    echo $_SESSION['Success'];
+                    unset($_SESSION['Success']);
+            ?>
+        </div>
+    <?php } ?>
     <?php
     // ดึงข้อมูลจากฐานข้อมูล
 

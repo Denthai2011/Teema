@@ -17,7 +17,7 @@ if (isset($_POST['editelect'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขค่าไฟสำเร็จ";
-        header("location: electdata.php");
+        header("location: test3.php");
     } else {
         echo "Error elect updating data";
     }

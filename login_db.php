@@ -23,7 +23,7 @@ if (isset($_POST['login'])){
         if (password_verify($password, $hashedPassword)) {
             if ($row['urold'] == 'เจ้าของหอพัก'||$row['urold'] == 'เจ้าหน้าที่') {
                 $_SESSION['admin_login'] = $row['id'];
-                header("location: home.php");
+                header("location: hometes.php");
             }
             if ($row !== false && $row['urold'] == 'ผู้เช่า') {
                 $check_userroom = $conn->prepare("SELECT room.roomId, user.Name, user.username FROM user LEFT JOIN room ON user.Name = room.Name WHERE user.username = :username");
@@ -33,7 +33,7 @@ if (isset($_POST['login'])){
                 echo $row_user['roomId'];
                 $roomId=$row_user['roomId'];
                 $_SESSION['user_login'] = $row['id'];
-                header("Location: detaroom.php?roomId=$roomId");
+                header("Location: detaroom copy.php?roomId=$roomId");
 
                 exit;
             }

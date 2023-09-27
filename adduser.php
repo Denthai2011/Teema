@@ -30,7 +30,7 @@ if (isset($_POST['add'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เพิ่มข้อมูลสำเร็จ";
-        header("location: home.php");
+        header("location: test1.php");
     } else {
         echo "Error Add data";
     }

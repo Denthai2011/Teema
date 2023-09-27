@@ -10,7 +10,7 @@ if (isset($_POST['editreport'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขสำเร็จ";
-        header("location: report.php");
+        header("location: test4.php");
     } else {
         echo "Error updating data";
     }

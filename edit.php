@@ -17,7 +17,7 @@ if (isset($_POST['edit'])) {
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เเก้ไขสำเร็จ";
-        header("location: home.php");
+        header("location: hometes.php");
     } else {
         echo "Error updating data";
     }

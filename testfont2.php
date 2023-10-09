@@ -13,7 +13,7 @@ $pdf -> SetY(50);
 $pdf -> SetFont('sarabun','B','20');
 $pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานมิเตอร์น้ำ'),0,1,'C');
 $pdf -> SetFont('sarabun','B','12');
-$pdf -> SetX(30);
+$pdf -> SetX(40);
 $pdf -> Cell(40,10,iconv('utf-8','cp874','ห้อง'),1,0,'C');
 $pdf -> Cell(40,10,iconv('utf-8','cp874','วันที่จด'),1,0,'C');
 $pdf -> Cell(40,10,iconv('utf-8','cp874','ค่าน้ำเดือนก่อน'),1,0,'C');
@@ -25,7 +25,7 @@ $sql = "SELECT * FROM water";
                     if ($result) {
                         foreach ($result as $row) {
                             $W_id = $row['W_id'];
-$pdf -> SetX(30);
+$pdf -> SetX(40);
 $pdf -> Cell(40,10,iconv('utf-8','cp874',$row["W_id"]),1,0,'C');
 $pdf -> Cell(40,10,iconv('utf-8','cp874',$row["W_dsave"]),1,0,'C');
 $pdf -> Cell(40,10,iconv('utf-8','cp874',$row["W_bef"]),1,0,'C');

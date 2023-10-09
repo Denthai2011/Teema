@@ -154,19 +154,19 @@ if (isset($_POST['logout'])) {
             <form>
                 <ul class="nav">
                     <li class="li1 nav-item">
-                        <a class="nav-link active" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"></i></a>
+                        <a class="nav-link active" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a href="test1.php" class="nav-link "><i class="fa-solid fa-user fa-fade"></i></a>
+                        <a href="test1.php" class="nav-link "><i class="fa-solid fa-user fa-fade"> ข้อมูลผู้ใช้</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"></i></a>
+                        <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"></i></a>
+                        <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"> ค่าไฟ</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"></i></a>
+                        <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
                     </li>
             </form>
             <li class="li2">
@@ -180,8 +180,16 @@ if (isset($_POST['logout'])) {
 
             <div class="contianer">
                 <table class="table table-striped table-bordered table-hover">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <td>เลขห้อง</td>
+                            <td>ชื่อ-สกุล</td>
+                            <td>เข้าชม</td>
+                            <td>สถานะ</td>
+                        </tr>
+                    </thead>
                     <?php
-                    $sql = "SELECT roomId,staName,Name FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+                    $sql = "SELECT roomId,staName,Name,Lname FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':roomId', $roomId);
                     $stmt->execute();
@@ -205,12 +213,13 @@ if (isset($_POST['logout'])) {
                                 $color = "#330000";
                             }
                             ?>
+                            <tbody style="text-align:center">
                             <tr>
                                 <td>
-                                    <h5 class="card-title" style="color:#000080;font-size:25px;">ห้องที่: <?php echo $row['roomId']; ?></h5>
+                                    <h5 class="card-title" style="color:#000080;font-size:25px;"><?php echo $row['roomId']; ?></h5>
                                 </td>
                                 <td>
-                                    <p class="card-text fw-bolder" style="color:#000080;font-size:20px;">ห้องของ: <span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?></span></p>
+                                    <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?></span></p>
                                 </td>
                                 <td>
                                     <a href="detaroom copy.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดห้อง</a>
@@ -222,6 +231,7 @@ if (isset($_POST['logout'])) {
                             <?php
                              }
                         } ?>
+                            </tbody>
                 </table>
             </div>
         </article>

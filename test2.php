@@ -141,21 +141,21 @@ footer {
 <nav class="nav1">
     <form>
     <ul class="nav">
-        <li class="li1 nav-item">
-            <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"></i></a>
-        </li>
-        <li class="li1 nav-item">
-        <a href="test1.php" class="nav-link "><i class="fa-solid fa-user fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link active" href="test2.php"><i class="fa-solid fa-water fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"></i></a>
-        </li>
+    <li class="li1 nav-item">
+                        <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a href="test1.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link active" href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"> ค่าไฟ</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
+                    </li>
     </form>
         <li class="li2">
             <form method="post" action="">

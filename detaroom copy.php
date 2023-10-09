@@ -169,6 +169,7 @@ if (isset($_POST['logout'])) {
         body {
             font-family: Verdana, sans-serif;
             margin: 0
+            
         }
 
         .mySlides {
@@ -195,7 +196,7 @@ if (isset($_POST['logout'])) {
             width: auto;
             padding: 16px;
             margin-top: -22px;
-            color: white;
+            color: black;
             font-weight: bold;
             font-size: 18px;
             transition: 0.6s ease;
@@ -295,6 +296,9 @@ if (isset($_POST['logout'])) {
   background-color: #3d3c38;
   border-radius: 5px;
 }
+.modal-backdrop{
+    position: unset;
+}
     </style>
 </head>
 
@@ -335,7 +339,7 @@ if (isset($_POST['logout'])) {
         </ul>
         </nav>
         </header>
-        <div style="background-color:rgba(0,250,154, 0.3)">
+        <div style="background-color:white">
         <div class="slideshow-container">
 
             <div class="mySlides">
@@ -583,6 +587,16 @@ if (isset($_POST['logout'])) {
                     </div>
                 </div>
             </div>
+            <script>
+    document.getElementById('selectName').addEventListener('change', function () {
+        var selectedName = this.value;
+        var result = <?php echo json_encode($result); ?>;
+        var selectedLname = result.find(function (item) {
+            return item.Name === selectedName;
+        }).Lname;
+        document.getElementById('inputLname').value = selectedLname;
+    });
+</script>
         </div>
     </section>
     <footer>

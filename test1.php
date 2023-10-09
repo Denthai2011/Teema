@@ -2,12 +2,13 @@
 require_once 'mysql/connect.php';
 if (!isset($_SESSION['admin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
-    header('location: index.php');}
+    header('location: index.php');
+}
 if (isset($_POST['logout'])) {
-        session_destroy();
-        header('location: index.php');
-        exit();
-}?>
+    session_destroy();
+    header('location: index.php');
+    exit();
+} ?>
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
@@ -21,206 +22,219 @@ if (isset($_POST['logout'])) {
 
 <head>
     <style>
-* {
-  box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
-/* Style the header */
-header {
-  background-color: #666;
-  padding: 30px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
-}
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
 
-/* Container for flexboxes */
-section {
-  display: -webkit-flex;
-  display: flex;
-}
+        /* Container for flexboxes */
+        section {
+            display: -webkit-flex;
+            display: flex;
+        }
 
-/* Style the navigation menu */
-nav {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  background: #ccc;
-  padding: 20px;
-  width: 50px;
-  font-family: 'Pattaya', sans-serif;
-}
+        /* Style the navigation menu */
+        nav {
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            background: #ccc;
+            padding: 20px;
+            width: 50px;
+            font-family: 'Pattaya', sans-serif;
+        }
 
-/* Style the list inside the menu */
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-/* Style the content */
-article {
-  -webkit-flex: 3;
-  -ms-flex: 3;
-  flex: 3;
-  background-color: #f1f1f1;
-  padding: 10px;
-}
+        /* Style the content */
+        article {
+            -webkit-flex: 3;
+            -ms-flex: 3;
+            flex: 3;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+        tbody td{text-align: center;}
+        /* Style the footer */
+        footer {
+            background-color: #777;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
 
-/* Style the footer */
-footer {
-  background-color: #777;
-  padding: 10px;
-  text-align: center;
-  color: white;
-}
-.nav{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin: auto;
-    width: 80%;
-}
-.li1{
+        .nav {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin: auto;
+            width: 80%;
+        }
 
-    margin-top: 10px;
-    font-size: 30px;
+        .li1 {
 
-}
-.li1:active{background-color: #696969;
-    box-shadow: 3px 3px 5px 5px black;
-    font-size: 30px;}
-.li2{
+            margin-top: 10px;
+            font-size: 30px;
 
-    margin-top: 15px;
-    
-}
-.nav-link.active{background-color: #696969;
-    box-shadow: 3px 3px 5px 5px black;
-    font-size: 30px;
-    color: #ffffff;
-     }
-     .nav-link.active i {
-    color: #ffffff;
-}
-.li1:hover{
-    background-color: orange;
-    box-shadow: 2px 2px 2px 2px black;
-}
+        }
+        .li1:active {
+            background-color: #696969;
+            box-shadow: 3px 3px 5px 5px black;
+            font-size: 30px;
+        }
 
-.li2 input:hover{
-    background-color: orange;
-    box-shadow: 2px 2px 2px 2px black;
-    color: white;
-    background-color: black;
-}
-/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-@media (max-width: 600px) {
-  section {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
-</style>
+        .li2 {
+
+            margin-top: 15px;
+
+        }
+
+        .nav-link.active {
+            background-color: #696969;
+            box-shadow: 3px 3px 5px 5px black;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        .nav-link.active i {
+            color: #ffffff;
+        }
+
+        .li1:hover {
+            background-color: orange;
+            box-shadow: 2px 2px 2px 2px black;
+        }
+
+        .li2 input:hover {
+            background-color: orange;
+            box-shadow: 2px 2px 2px 2px black;
+            color: white;
+            background-color: black;
+        }
+
+        /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+        @media (max-width: 600px) {
+            section {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-  <h2>ผู้เช่า</h2>
-</header>
+    <header>
+        <h2>ผู้เช่า</h2>
+    </header>
 
-<section>
-<nav class="nav1">
-    <form>
-    <ul class="nav">
-        <li class="li1 nav-item">
-            <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"></i></a>
-        </li>
-        <li class="li1 nav-item">
-        <a href="test1.php" class="nav-link active"><i class="fa-solid fa-user fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"></i></a>
-        </li>
-        <li class="li1 nav-item">
-            <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"></i></a>
-        </li>
-    </form>
-        <li class="li2">
-            <form method="post" action="">
-                <input type="submit" name="logout" value="ออกจากระบบ">
+    <section>
+        <nav class="nav1">
+            <form>
+                <ul class="nav">
+                    <li class="li1 nav-item">
+                        <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a href="test1.php" class="nav-link active"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"> ค่าไฟ</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
+                    </li>
             </form>
-        </li>
-    </ul>
-</nav>
-<article>
-<button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#Add">Add</button>
-        <div class="container">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <td>id</td>
-                        <td>ชื่อผู้ใช้</td>
-                        <td>รหัสผู้ใช้</td>
-                        <td>ชื่อ</td>
-                        <td>นามสกุล</td>
-                        <td>เบอร์โทร</td>
-                        <td>ที่อยู่บ้าน</td>
-                        <td>ที่อยุ่ทำงาน</td>
-                        <td>ตำเเหน่ง</td>
-                        <td>วันเข้า</td>
-                        <td>วันออก</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $sql = "SELECT * FROM user";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->execute();
-                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    if ($result) {
-                        foreach ($result as $row) {
-                            $id = $row['id'];
+            <li class="li2">
+                <form method="post" action="">
+                    <input type="submit" name="logout" value="ออกจากระบบ">
+                </form>
+            </li>
+            </ul>
+        </nav>
+        <article>
+            <button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#Add">Add</button>
+            <div class="container">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <td>ชื่อผู้ใช้</td>
+                            <td>รหัสผู้ใช้</td>
+                            <td>เลขห้อง</td>
+                            <td>ชื่อ</td>
+                            <td>นามสกุล</td>
+                            <td>เบอร์โทร</td>
+                            <td>ที่อยู่บ้าน</td>
+                            <td>ที่อยุ่ทำงาน</td>
+                            <td>ตำเเหน่ง</td>
+                            <td>วันเข้า</td>
+                            <td>วันออก</td>
+                            <td colspan="2">จัดการ</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $sql = "SELECT * FROM user ";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if ($result) {
+                            foreach ($result as $row) {
+                                $id = $row['id'];
+                        ?>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $row["username"] ?></td>
+                            <td><?php echo $row["password"] ?></td>
+                            <td><a href="detaroom copy.php?roomId=<?php echo $row['roomId']; ?>"><?php echo $row["roomId"] ?></a></td>
+                            <td style="white-space: nowrap;"><?php echo $row["Name"] ?></td>
+                            <td><?php echo $row["Lname"] ?></td>
+                            <td><?php echo $row["Tel"] ?></td>
+                            <td><?php echo $row["Address"] ?></td>
+                            <td><?php echo $row["Weddress"] ?></td>
+                            <td><?php echo $row["urold"] ?></td>
+                            <td style="white-space: nowrap;"><?php echo $row["Datein"] ?></td>
+                            <td style="white-space: nowrap;"><?php echo $row["Dateout"] ?></td>
+                            <td rowspan="2">
+                                <div class="col-md-6">
+                                    <a href="#editmodal_<?php echo $row['id']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit </a>
+                                </div>
+                            <td>
+                                <div class="col-md-6">
+                                    <a href="#deletemodal_<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="modal">delete</a>
+                                </div>
 
-                    ?>
-                <tbody>
-                    <tr>
-                        <td><?php echo $row["id"] ?></td>
-                        <td><?php echo $row["username"] ?></td>
-                        <td><?php echo $row["password"] ?></td>
-                        <td><?php echo $row["Name"] ?></td>
-                        <td><?php echo $row["Lname"] ?></td>
-                        <td><?php echo $row["Tel"] ?></td>
-                        <td><?php echo $row["Address"] ?></td>
-                        <td><?php echo $row["Weddress"] ?></td>
-                        <td><?php echo $row["urold"] ?></td>
-                        <td><?php echo $row["Datein"] ?></td>
-                        <td><?php echo $row["Dateout"] ?></td>
-                        <td>
-                            <div class="col-md-6">
-                                <a href="#editmodal_<?php echo $row['id']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit </a>
-                            </div>
-                        <td>
-                            <div class="col-md-6">
-                                <a href="#deletemodal_<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="modal">delete</a>
-                            </div>
+                            </td>
+                            <?php include("edit-delete_usermodal.php"); ?>
+                        </tr>
+                <?php   }
+                        } ?>
+                    </tbody>
+                </table>
+                
+            </div>
 
-                        </td>
-                        <?php include("edit-delete_usermodal.php"); ?>
-                    </tr>
-                    <?php   }
-                    } ?>
-                </tbody>
-            </table>
-        </div>
-        <a href="testfont1.php" style="text-align: center;"><i class="fa-solid fa-print fa-flip fa-2xl"></i></i></a>
-</article>
-</section>
-<div class="modal fade" id="Add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <a href="testfont1.php" style="text-align: center;"><i class="fa-solid fa-print fa-flip fa-2xl"></i></i></a>
+        </article>
+    </section>
+    <div class="modal fade" id="Add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-success">
@@ -259,7 +273,11 @@ footer {
                         </div>
                         <div class="mb-3">
                             <label for="Lname" class="col-form-label">ตำเเหน่ง:</label>
-                            <input type="text" name="urold" class="form-control" value="">
+                            <select name="urold">
+                                <option value="ผู้เช่า">ผู้เช่า</option>
+                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
+                                <option value="เจ้าของหอพัก">เจ้าของหอพัก</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="Lname" class="col-form-label">วันเข้า:</label>
@@ -279,10 +297,11 @@ footer {
             </div>
         </div>
     </div>
-<footer>
-<pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
+    <footer>
+        <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
   โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den
   </pre>
-</footer>
+    </footer>
 </body>
+
 </html>

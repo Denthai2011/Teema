@@ -14,17 +14,13 @@ $pdf -> SetFont('sarabun','B','20');
 $pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานผู้ใช้ระบบ'),0,1,'C');
 $pdf -> SetFont('sarabun','B','12');
 $pdf -> SetX(5);
-$pdf -> Cell(20,20,iconv('utf-8','cp874','ชื่อผู้ใช้'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','รหัสผู้ใช้'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','ชื่อ'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','นามสกุล'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','เบอร์โทร'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','ที่อยู่บ้าน'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','ที่อยุ่ทำงาน'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','ตำเเหน่ง'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','วันเข้า'),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874','วันออก'),1,1,'C');
-$sql = "SELECT * FROM user";
+$pdf -> Cell(20,10,iconv('utf-8','cp874','ชื่อ'),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874','นามสกุล'),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874','เบอร์โทร'),1,0,'C');
+$pdf -> Cell(60,10,iconv('utf-8','cp874','ที่อยู่บ้าน'),1,0,'C');
+$pdf -> Cell(60,10,iconv('utf-8','cp874','ที่อยุ่ทำงาน'),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874','วันเข้า'),1,1,'C');
+$sql = "SELECT * FROM user WHERE urold = 'ผู้เช่า'";
                     $stmt = $conn->prepare($sql);
                     $stmt->execute();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,16 +28,12 @@ $sql = "SELECT * FROM user";
                         foreach ($result as $row) {
                             $id = $row['id'];
 $pdf -> SetX(5);
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["username"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["password"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Name"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Lname"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Tel"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Address"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Weddress"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["urold"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Datein"]),1,0,'C');
-$pdf -> Cell(20,20,iconv('utf-8','cp874',$row["Dateout"]),1,1,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Name"]),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Lname"]),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Tel"]),1,0,'C');
+$pdf -> Cell(60,10,iconv('utf-8','cp874',$row["Address"]),1,0,'L');
+$pdf -> Cell(60,10,iconv('utf-8','cp874',$row["Weddress"]),1,0,'L');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Datein"]),1,1,'C');
 
 
 };}

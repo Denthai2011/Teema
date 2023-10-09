@@ -242,7 +242,7 @@ if (isset($_POST['logout'])) {
             transition: background-color 0.6s ease;
         }
         header{
-            background-color: #bbb;
+            background-color: white;
         }
         .active,
         .dot:hover {

@@ -40,7 +40,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="Lname" class="col-form-label">ตำเเหน่ง:</label>
-                                <input type="text" name="urold" class="form-control" value="<?php echo $row['urold']; ?>">
+                                <select name="urold">
+                                <option value="ผู้เช่า">ผู้เช่า</option>
+                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
+                                <option value="เจ้าของหอพัก">เจ้าของหอพัก</option>
+                            </select>
                             </div>
                             <div class="mb-3">
                                 <label for="Lname" class="col-form-label">วันเข้า:</label>

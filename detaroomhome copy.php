@@ -139,7 +139,7 @@ if (isset($_POST['logout'])) {
 
 <body>
     <header>
-        <ul class="nav nav-tabs bg-dark">
+        <ul class="nav nav-tabs bg-dark" style="opacity: 70%;">
             <?php if (!isset($_SESSION['admin_login'])) {
                 echo "
             <li class='nav-item'>

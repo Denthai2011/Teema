@@ -160,6 +160,9 @@ if (isset($_POST['logout'])) {
                         <a href="test1.php" class="nav-link "><i class="fa-solid fa-user fa-fade"> ข้อมูลผู้ใช้</i></a>
                     </li>
                     <li class="li1 nav-item">
+                        <a href="test5.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
+                    </li>
+                    <li class="li1 nav-item">
                         <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
                     </li>
                     <li class="li1 nav-item">
@@ -184,12 +187,13 @@ if (isset($_POST['logout'])) {
                         <tr>
                             <td>เลขห้อง</td>
                             <td>ชื่อ-สกุล</td>
-                            <td>เข้าชม</td>
+                            <td>ขนาดห้อง</td>
                             <td>สถานะ</td>
+                            <td>เข้าชม</td>  
                         </tr>
                     </thead>
                     <?php
-                    $sql = "SELECT roomId,staName,Name,Lname FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+                    $sql = "SELECT roomId,staName,Name,Lname,roomtype FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':roomId', $roomId);
                     $stmt->execute();
@@ -199,6 +203,12 @@ if (isset($_POST['logout'])) {
                             <?php
                             $roomId = $row['roomId'];
                             $staName = $row['staName'];
+                            if (empty($row['Name'])) {
+                                $row['Name'] = "ว่าง";
+                                $color = "black";
+                            } else {
+                                $color = "";
+                            }
                             if ($staName == "ว่าง") {
                                 $string =  'btn btn2 btn-success';
                             } else if ($staName == "จองเเล้ว") {
@@ -206,11 +216,8 @@ if (isset($_POST['logout'])) {
                             } else {
                                 $string = 'btn btn2 btn-info';
                             }
-                            if (empty($row['Name'])) {
-                                $row['Name'] = "ว่าง";
-                                $color = "black";
-                            } else {
-                                $color = "#330000";
+                            if ($row['roomtype'] == "ห้องใหญ่") {
+                                $type =  'Red';
                             }
                             ?>
                             <tbody style="text-align:center">
@@ -222,10 +229,13 @@ if (isset($_POST['logout'])) {
                                     <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?></span></p>
                                 </td>
                                 <td>
-                                    <a href="detaroom copy.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดห้อง</a>
+                                    <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
                                 </td>
                                 <td>
-                                    <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
+                                    <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $type ?>;font-size:20px;"><?php echo $row['roomtype']; ?></span></p>
+                                </td>
+                                <td>
+                                    <a href="detaroomhome.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดห้อง</a>
                                 </td>
                             </tr>
                             <?php

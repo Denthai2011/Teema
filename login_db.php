@@ -33,7 +33,7 @@ if (isset($_POST['login'])){
                 echo $row_user['roomId'];
                 $roomId=$row_user['roomId'];
                 $_SESSION['user_login'] = $row['id'];
-                header("Location: detaroom copy.php?roomId=$roomId");
+                header("Location: detaroomhome.php?roomId=$roomId");
 
                 exit;
             }

@@ -12,10 +12,7 @@ if (isset($_POST['add'])) {
     $Address = $_POST['Address'];
     $Weddress = $_POST['Weddress'];
     $urold = $_POST['urold'];
-    $Datein = $_POST['Datein'];
-    $Dateout = $_POST['Dateout'];
-    echo $username;
-    $sql = $conn->prepare("INSERT INTO user SET username = :username, password = :password, Name = :Name, Lname = :Lname, Tel = :Tel, Address = :Address, Weddress = :Weddress, urold = :urold, Datein = :Datein, Dateout = :Dateout");
+    $sql = $conn->prepare("INSERT INTO user SET username = :username, password = :password, Name = :Name, Lname = :Lname, Tel = :Tel, Address = :Address, Weddress = :Weddress, urold = :urold");
     $sql->bindParam(":username", $username);
     $sql->bindParam(":password", $password);
     $sql->bindParam(":Name", $Name);
@@ -24,9 +21,6 @@ if (isset($_POST['add'])) {
     $sql->bindParam(":Address", $Address);
     $sql->bindParam(":Weddress", $Weddress);
     $sql->bindParam(":urold", $urold);
-    $sql->bindParam(":Datein", $Datein);
-    $sql->bindParam(":Dateout", $Dateout);
-
     // Execute the SQL statement
     if ($sql->execute()) {
         $_SESSION['Success']="เพิ่มข้อมูลสำเร็จ";

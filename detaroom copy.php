@@ -90,7 +90,7 @@ if (isset($_POST['logout'])) {
             margin-top: 20px;
         }
 
-        .container {
+        .container9 {
             display: flex;
             flex-direction: column;
             border-radius: 10px 10px 0px 0px;
@@ -131,8 +131,7 @@ if (isset($_POST['logout'])) {
         }
 
         .headdiv {
-            align-self: left;
-            margin-left: 10%;
+            align-self: center;
             font-size: 30px;
             color: #FFD700;
             text-shadow: 2px 2px black;
@@ -226,9 +225,6 @@ if (isset($_POST['logout'])) {
             width: 100%;
             text-align: center;
         }
-        header{
-            background-color: #bbb;
-        }
         /* Number text (1/3 etc) */
         .numbertext {
             color: #f2f2f2;
@@ -299,63 +295,104 @@ if (isset($_POST['logout'])) {
 .modal-backdrop{
     position: unset;
 }
+.containernav {
+            display: flex;
+            flex-direction: row;
+            min-width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        .containernav1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-content: flex-end;
+        }
+        .nav-link{
+            color:gold;
+        }
+        .nav-link.active{
+            color:green;
+        }
+        .containernav2 {
+            display: flex;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: row;
+        }
+        .nav-tabs {
+            --bs-nav-tabs-border-width: none;
+            --bs-nav-tabs-link-active-bg: none;
+            --bs-nav-tabs-link-active-color: #e9ecef;
+        }
+        header{font-family: Pattaya;}
     </style>
 </head>
 
 <body>
     <header>
-        <?php if (!isset($_SESSION['admin_login'])) {
-            echo "
-            <form method='post' action=''>
-            <input type='submit' name='logout' value='ออกจากระบบ'>
-            </form>
-            <div style='text-align: center;padding:10px'>
-                <img src='img/logo.png'; width='5%'>
-                <a href='detaroom copy.php?roomId=$roomId'; class='custom-link active'>ข้อมูลห้อง</a>
-                <a href='datareportuser.php?roomId=$roomId'; class='custom-link'>เเจ้งซ่อม</a>
-                <a href='profile.php?roomId=$roomId'; class='custom-link'>เเอดมิน/คำเเนะนำ</a>
-            </div>
-            ";
-        } else {
-            echo "<nav>
-                <ul class='nav nav-tabs bg-dark'>
-                <li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test1.php'>ข้อมูลผู้ใช้</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test2.php'>ค่าน้ำ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test3.php'>ค่าไฟ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='test4.php'><i class='fa-solid fa-bed-front'></i></a>
-                </li>
-                ";
-        } ?>
-        </ul>
+    <?php if (isset($_SESSION['Success'])) { ?>
+        <div class="alert alert-success">
+            <?php
+            echo $_SESSION['Success'];
+            unset($_SESSION['Success']);
+    }?>
+        </div><nav class="container containernav nav nav-tabs bg-dark">
+            <ul class="container containernav1 flex-start">
+                <?php if (!isset($_SESSION['admin_login'])) {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='detaroomhome.php?roomId=$roomId'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } else {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
+                
+                <a class='nav-link active' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
+                
+                
+                <a class='nav-link' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
+                
+                
+                <a class='nav-link' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
+                
+            </ul>
+            <ul class="container containernav2 flex-end">
+
+                    <?php $sql = "SELECT Name,Lname FROM room WHERE roomId = :roomId";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bindParam(':roomId', $roomId);
+                    $stmt->execute();
+                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                    ?>
+                    <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
+
+                    <form method='post' action=''>
+                        <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
+                    </form>
+
+            </ul>
         </nav>
         </header>
         <div style="background-color:white">
-        <div class="slideshow-container">
-
+        <div class="slideshow-container9">
+        <br>
             <div class="mySlides">
-                <div class="numbertext">1 / 3</div>
                 <img src="img/a1_50.jpg" style="width:50%">
                 <div class="text">Caption Text</div>
             </div>
 
             <div class="mySlides">
-                <div class="numbertext">2 / 3</div>
                 <img src="img/a2_50.jpg" style="width:50%">
                 <div class="text">Caption Two</div>
             </div>
 
             <div class="mySlides">
-                <div class="numbertext">3 / 3</div>
                 <img src="img/ก่อน.jpg" style="width:50%">
                 <div class="text">Caption Three</div>
             </div>
@@ -424,21 +461,16 @@ if (isset($_POST['logout'])) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // แสดงข้อมูลในฟอร์ม
-    ?><?php if (!isset($_SESSION['admin_login'])) {
-                echo "
-    <div>
-        <button type='button' hidden data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>edit </a>
-    </div>";
-            } else {
+    ?><?php if (($_SESSION['admin_login'])) {
                 echo "
             <div>
-        <button type='button' data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>edit </a>
+        <button type='button' data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>จัดการข้อมูลผู้เช่า</a>
     </div>";
             }
             ?>
     <section>
 
-        <div class="container" id="animeContainer">
+        <div class="container9" id="animeContainer">
             <div class="headdiv" style="text-align: left;">ข้อมูลห้อง</div>
             <div class="container3">
                 <form class="form1">
@@ -518,9 +550,8 @@ if (isset($_POST['logout'])) {
                         <th>ค่าห้อง</th>
                         <th>รวม</th>
                     </tr>
-                    <tr>
+                    <tr><td><?php echo $Eitp = $Eitp * 10  ?></td>
                         <td><?php echo $Witp = $Witp * 10  ?></td>
-                        <td><?php echo $Eitp = $Eitp * 10  ?></td>
                         <td><?php echo $row['Dps'] ?></td>
                         <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] ?></td>
                     </tr>
@@ -538,7 +569,7 @@ if (isset($_POST['logout'])) {
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">จัดการข้อมูลผู้เช่า</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">

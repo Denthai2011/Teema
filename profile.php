@@ -82,7 +82,7 @@ if (isset($_POST['logout'])) {
             background-color: #f0e68c;
         }
 
-        .container {
+        .container9 {
             display: flex;
             flex-direction: column;
             border-radius: 10px 10px 0px 0px;
@@ -167,7 +167,7 @@ if (isset($_POST['logout'])) {
             display: block;
             margin: auto;
             text-align: center;
-            
+
         }
 
         img {
@@ -190,7 +190,7 @@ if (isset($_POST['logout'])) {
             width: auto;
             padding: 16px;
             margin-top: -22px;
-            color: white;
+            color: black;
             font-weight: bold;
             font-size: 18px;
             transition: 0.6s ease;
@@ -241,9 +241,11 @@ if (isset($_POST['logout'])) {
             display: inline-block;
             transition: background-color 0.6s ease;
         }
-        header{
+
+        header {
             background-color: white;
         }
+
         .active,
         .dot:hover {
             background-color: #717171;
@@ -274,79 +276,111 @@ if (isset($_POST['logout'])) {
                 font-size: 11px
             }
         }
-        .custom-link {
-  text-decoration: none;
-  color: #007BFF;
-}
 
-.custom-link:hover {
-  text-decoration: underline;
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
-.custom-link.active{
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
+        .custom-link {
+            text-decoration: none;
+            color:#ffffff;
+        }
+
+        .custom-link:hover {
+            text-decoration: underline;
+            color: #ffffff;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+
+        .custom-link.active {
+            color: #007BFF;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+        .nav-link{
+            color:gold;
+        }
+        .nav-link.active{
+            color:green;
+        }
+        .containernav {
+            display: flex;
+            flex-direction: row;
+            min-width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        .containernav1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-content: flex-end;
+        }
+
+        .containernav2 {
+            display: flex;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: row;
+        }
+
+        .nav-tabs {
+            --bs-nav-tabs-border-width: none;
+            --bs-nav-tabs-link-active-bg: none;
+            --bs-nav-tabs-link-active-color: #e9ecef;
+        }
+        header{font-family: Pattaya;}
     </style>
 </head>
 
 <body>
     <header>
-        <?php if (!isset($_SESSION['admin_login'])) {
-            echo "
-            <form method='post' action=''>
-            <input type='submit' name='logout' value='ออกจากระบบ'>
-            </form>
-            <div style='text-align: center;padding:10px'>
-            <a href='detaroom copy.php?roomId=$roomId'; class='custom-link'>ข้อมูลห้อง</a>
-            <a href='datareportuser.php?roomId=$roomId'; class='custom-link'>เเจ้งซ่อม</a>
-            <a href='profile.php?roomId=$roomId'; class='custom-link active'>เเอดมิน/คำเเนะนำ</a>
-            </div>
-            ";
-        } else {
-            echo "<nav>
-                <ul class='nav nav-tabs bg-dark'>
-                <li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test1.php'>ข้อมูลผู้ใช้</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test2.php'>ค่าน้ำ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test3.php'>ค่าไฟ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='test4.php'><i class='fa-solid fa-bed-front'></i></a>
-                </li>
-                ";
-        } ?>
-        </ul>
+        <nav class="container containernav nav nav-tabs bg-dark">
+            <ul class="container containernav1 flex-start">
+                <?php if (!isset($_SESSION['admin_login'])) {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='detaroomhome.php?roomId=$roomId'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } else {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
+
+                <a class='nav-link' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
+
+
+                <a class='nav-link' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
+
+
+                <a class='nav-link active' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
+
+            </ul>
+            <ul class="container containernav2 flex-end">
+
+                <?php $sql = "SELECT Name,Lname FROM room WHERE roomId = :roomId";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':roomId', $roomId);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
+
+                <form method='post' action=''>
+                    <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
+                </form>
+
+            </ul>
         </nav>
-        <div style="background-color:rgba(0,250,154, 0.3)">
-        <div class="slideshow-container">
-
-            <div class="mySlides">
-                <div class="numbertext">1 / 3</div>
-                <img src="img/nus1.jpg" style="width:50%">
-                <div class="text">Caption Text</div>
-            </div>
-
-            <div class="mySlides">
-                <div class="numbertext">2 / 3</div>
-                <img src="img/nus2.jpg" style="width:50%">
-                <div class="text">Caption Two</div>
-            </div>
-
-            <div class="mySlides">
-                <div class="numbertext">3 / 3</div>
-                <img src="img/nus3.jpg" style="width:50%">
-                <div class="text">Caption Three</div>
+        <div style="background-color:white">
+        <br>
+            <div class="slideshow-container9">
+                <div class="mySlides">
+                    <img src="img/nus2.jpg" style="width:25%">
+                </div>
+                <div class="mySlides">
+                <img src="img/nus3.jpg" style="width:15%">
             </div>
 
             <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -394,16 +428,16 @@ if (isset($_POST['logout'])) {
             dots[slideIndex - 1].className += " active";
         }
     </script>
-        <h2 style="text-align: center;color:gold;text-shadow:2px 2px black;">เเอดมิน<i class="fa-regular fa-flag fa-bounce" style="color: #f6ee04;text-align:center;"></i></h2>
+    <h2 style="text-align: center;color:orange;text-shadow:2px 2px black;">เเอดมิน<i class="fa-solid fa-hammer" style="color: orang;text-align:center;"></i></h2>
 
-        <div class="container">
-            <h5 style="text-align: center;">นายปรเมษฐ์ ยิ่งนิยม นักศึกษาปี4</h5>
-<pre>       เป็นผู้ทำระบบจัดการข้อมูลหอพัก นางตีมะ ซึ่งมีเป้าหมายว่าต้องการระบบจัดการข้อมูลหอพักที่สามารถให้ผู้เช่าภายในหอพักสามารถติดตามการอัพเดทข้อมูลการ
+    <div class="container9">
+        <h5 style="text-align: center;font-size:22px">นายปรเมษฐ์ ยิ่งนิยม นักศึกษาปี4</h5>
+        <pre style="font-size: 18px;text-align:center">       เป็นผู้ทำระบบจัดการข้อมูลหอพัก นางตีมะ ซึ่งมีเป้าหมายว่าต้องการระบบจัดการข้อมูลหอพักที่สามารถให้ผู้เช่าภายในหอพักสามารถติดตามการอัพเดทข้อมูลการ
     ชำระเงินได้อย่างระเอียดเเละ ยังให้สามรถเเจ้งปัญหาได้อีกด้วย
        ทั้งนี้ตัวระบบสามารถใช้ได้ทุกฟั่งชั่นที่มีเเต่เนื่องจากการทำระบบเพียงครั้งเเรงอาจมีผิดผลาดสามารถเเจ้งได้ที่ 0984610262ขอขอบคุณท่านที่รับชมเเละทดลองใช้
     ระบบด้วยครับ</pre>
-        
-        </div>
+
+    </div>
     </section>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน

@@ -13,9 +13,7 @@ if (isset($_POST['edituser'])) {
     $Address = $_POST['Address'];
     $Weddress = $_POST['Weddress'];
     $urold = $_POST['urold'];
-    $Datein = $_POST['Datein'];
-    $Dateout = $_POST['Dateout'];
-    $sql = $conn->prepare("UPDATE user SET username = :username, password = :password, Name = :Name, Lname = :Lname, Tel = :Tel, Address = :Address, Weddress = :Weddress, urold = :urold, Datein = :Datein, Dateout = :Dateout
+    $sql = $conn->prepare("UPDATE user SET username = :username, password = :password, Name = :Name, Lname = :Lname, Tel = :Tel, Address = :Address, Weddress = :Weddress, urold = :urold
     WHERE id = :id");
     $sql->bindParam(":id", $id);
     $sql->bindParam(":username", $username);
@@ -26,8 +24,6 @@ if (isset($_POST['edituser'])) {
     $sql->bindParam(":Address", $Address);
     $sql->bindParam(":Weddress", $Weddress);
     $sql->bindParam(":urold", $urold);
-    $sql->bindParam(":Datein", $Datein);
-    $sql->bindParam(":Dateout", $Dateout);
 
     // Execute the SQL statement
     if ($sql->execute()) {

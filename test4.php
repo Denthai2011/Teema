@@ -2,12 +2,13 @@
 require_once 'mysql/connect.php';
 if (!isset($_SESSION['admin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
-    header('location: index.php');}
+    header('location: index.php');
+}
 if (isset($_POST['logout'])) {
-        session_destroy();
-        header('location: index.php');
-        exit();
-}?>
+    session_destroy();
+    header('location: index.php');
+    exit();
+} ?>
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
@@ -21,146 +22,168 @@ if (isset($_POST['logout'])) {
 
 <head>
     <style>
-* {
-  box-sizing: border-box;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-body{        background-color: #FFFAF0;}
-    thead th{
-        padding: 5px;
-    }
-    tbody tr{
-        border-bottom: 1px solid black;
-    }
-    table{
-        text-align: center;
-        width: 100%;
-        
-    }
-    .container{
-        background-color: #FFFFFF;
-        width: 50%;
-        border-radius: 15px; 
-        margin-bottom: 20px;
-    }
-/* Style the header */
-header {
-  background-color: #666;
-  padding: 30px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
-}
+        body {
+            background-color: #FFFAF0;
+        }
 
-/* Container for flexboxes */
-section {
-  display: -webkit-flex;
-  display: flex;
-}
+        thead th {
+            padding: 5px;
+        }
 
-/* Style the navigation menu */
-nav {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  background: #ccc;
-  padding: 20px;
-  width: 50px;
-  font-family: 'Pattaya', sans-serif;
-}
+        tbody tr {
+            border-bottom: 1px solid black;
+        }
 
-/* Style the list inside the menu */
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
+        table {
+            text-align: center;
+            width: 100%;
 
-/* Style the content */
-article {
-  -webkit-flex: 3;
-  -ms-flex: 3;
-  flex: 3;
-  background-color: #f1f1f1;
-  padding: 10px;
-}
+        }
 
-/* Style the footer */
-footer {
-  background-color: #777;
-  padding: 10px;
-  text-align: center;
-  color: white;
-}
-.nav{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    margin: auto;
-    width: 80%;
-}
-.li1{
+        .container {
+            background-color: #FFFFFF;
+            width: 50%;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
 
-    margin-top: 10px;
-    font-size: 30px;
+        /* Style the header */
+        header {
+            background-color: #666;
+            padding: 30px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
 
-}
-.li1:active{background-color: #696969;
-    box-shadow: 3px 3px 5px 5px black;
-    font-size: 30px;}
-.li2{
+        /* Container for flexboxes */
+        section {
+            display: -webkit-flex;
+            display: flex;
+        }
 
-    margin-top: 15px;
-    
-}
-.nav-link.active{background-color: #696969;
-    box-shadow: 3px 3px 5px 5px black;
-    font-size: 30px;
-    color: #ffffff;
-     }
-     .nav-link.active i {
-    color: #ffffff;
-}
-.li1:hover{
-    background-color: orange;
-    box-shadow: 2px 2px 2px 2px black;
-}
+        /* Style the navigation menu */
+        nav {
+            -webkit-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            background: #ccc;
+            padding: 20px;
+            width: 50px;
+            font-family: 'Pattaya', sans-serif;
+        }
 
-.li2 input:hover{
-    background-color: orange;
-    box-shadow: 2px 2px 2px 2px black;
-    color: white;
-    background-color: black;
-}
-/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-@media (max-width: 600px) {
-  section {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
-</style>
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* Style the content */
+        article {
+            -webkit-flex: 3;
+            -ms-flex: 3;
+            flex: 3;
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        /* Style the footer */
+        footer {
+            background-color: #777;
+            padding: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin: auto;
+            width: 80%;
+        }
+
+        .li1 {
+
+            margin-top: 10px;
+            font-size: 30px;
+
+        }
+
+        .li1:active {
+            background-color: #696969;
+            box-shadow: 3px 3px 5px 5px black;
+            font-size: 30px;
+        }
+
+        .li2 {
+
+            margin-top: 15px;
+
+        }
+
+        .nav-link.active {
+            background-color: #696969;
+            box-shadow: 3px 3px 5px 5px black;
+            font-size: 30px;
+            color: #ffffff;
+        }
+
+        .nav-link.active i {
+            color: #ffffff;
+        }
+
+        .li1:hover {
+            background-color: orange;
+            box-shadow: 2px 2px 2px 2px black;
+        }
+
+        .li2 input:hover {
+            background-color: orange;
+            box-shadow: 2px 2px 2px 2px black;
+            color: white;
+            background-color: black;
+        }
+
+        /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+        @media (max-width: 600px) {
+            section {
+                -webkit-flex-direction: column;
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<header>
-  <h2>เเจ้งเตือน</h2>
-</header>
-<?php if (isset($_SESSION['Success'])) { ?>
+    <header>
+        <h2>เเจ้งเตือน</h2>
+    </header>
+    <?php if (isset($_SESSION['Success'])) { ?>
         <div class="alert alert-success">
             <?php
-                    echo $_SESSION['Success'];
-                    unset($_SESSION['Success']);
+            echo $_SESSION['Success'];
+            unset($_SESSION['Success']);
             ?>
         </div>
     <?php } ?>
-<section>
-<nav class="nav1">
-    <form>
-    <ul class="nav">
-    <li class="li1 nav-item">
+    <section>
+        <nav class="nav1">
+            <form>
+                <ul class="nav">
+                    <li class="li1 nav-item">
                         <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
                         <a href="test1.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a href="test5.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
                         <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
@@ -171,62 +194,79 @@ footer {
                     <li class="li1 nav-item">
                         <a class="nav-link active" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
                     </li>
-    </form>
-        <li class="li2">
-            <form method="post" action="">
-                <input type="submit" name="logout" value="ออกจากระบบ">
             </form>
-        </li>
-    </ul>
-</nav>
-<article>
-<div class="container">
+            <li class="li2">
+                <form method="post" action="">
+                    <input type="submit" name="logout" value="ออกจากระบบ">
+                </form>
+            </li>
+            </ul>
+        </nav>
+        <article>
+        <form method="post">
+                    <input type="text" placeholder="ห้อง หรือ ปัญหา หรือ สถานะ" name="search">
+                    <button type="reset">รีเฟรช</button>
+                </form>
+            <div class="container">
                 <table>
                     <thead>
                         <tr>
-                        <th>ลำดับ</th>
-                        <th>ชื่อผู้เเจ้ง</th>
-                        <th>ห้องที่เเจ้ง</th>
-                        <th>ประเภทของปัญหา</th>
-                        <th>สถานะเเจ้ง/ซ๋อม</th>
+                            <th>ลำดับ</th>
+                            <th>ชื่อผู้เเจ้ง</th>
+                            <th>ห้องที่เเจ้ง</th>
+                            <th>ประเภทของปัญหา</th>
+                            <th>สถานะเเจ้ง/ซ๋อม</th>
                         </tr>
                     </thead>
                     <tbody>
-                <?php
-                $sql = "SELECT * FROM report";
-                $stmt = $conn->prepare($sql);
-                $stmt->execute();
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                if ($result) {
-                    foreach ($result as $row){ $ReId = $row['ReId'];
-                    ?>
-                        
-                        <tr>
-                        <td><?php echo $row['ReId'] ?></td>
-                        <td><?php echo $row['Name'] ?></td>
-                        <td><?php echo $row['roomId'] ?></td>
-                        <td><?php echo $row['Retype'] ?></td>
-                        <td><?php echo $row['Resta'] ?></td>
-                        <td>
-                                    <div class="col-md-6">
-                                        <a href="#reportdetailmodal_<?php echo $row['ReId']; ?>"  class="btn btn-warning" data-bs-toggle="modal">จัดการ</a>
-                                    </div>
-                                </td>
-                                <?php include("report_detailmodal.php"); ?>
-                            </tr>
-                        </tr>
+                        <?php if (empty($_POST['search'])) {
+                                $home = "";
+                                }if (isset($_POST['search'])){
+                            $home = $_POST['search'];
+                                }
+                        $sql = "SELECT * FROM report WHERE roomId LIKE :search || Retype LIKE :search || Resta LIKE :search";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        if ($result) {
+                            foreach ($result as $row) {
+                                $ReId = $row['ReId'];
+                        ?>
+
+                                <tr>
+                                    <td><?php echo $row['ReId'] ?></td>
+                                    <td><?php echo $row['Name'] ?></td>
+                                    <td><?php echo $row['roomId'] ?></td>
+                                    <td><?php echo $row['Retype'] ?></td>
+                                    <td><?php echo $row['Resta'] ?></td>
+                                    <td>
+                                        <div class="col-md-6">
+                                            <a href="#reportdetailmodal_<?php echo $row['ReId']; ?>" class="btn btn-warning" data-bs-toggle="modal">จัดการ</a>
+                                        </div>
+                                    </td>
+                                    <?php include("report_detailmodal.php"); ?>
+                                </tr>
+                                </tr>
                     </tbody>
-                <?php };}
-                ?>
-            </table>
-            </div>
-            <a href="testfont4.php" style="text-align: center;"><i class="fa-solid fa-print fa-flip fa-2xl"></i></i></a>
-            </article>
-</section>
-<footer>
-  <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
+            <?php };
+                        }
+                        else {
+                            echo "ไม่พบผลลัพธ์";
+                        } ?>
+                </table>
+            </div><form action="testfont4.php" method="post">
+                    <input type="text" placeholder="ห้อง หรือ ปัญหา หรือ สถานะ" name="search">
+                    <button type="submit" name="research">พิมพ์</button>
+                    <button type="reset">รีเฟรช</button>
+                </form>
+        </article>
+    </section>
+    <footer>
+        <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
   โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den
   </pre>
-</footer>
+    </footer>
 </body>
+
 </html>

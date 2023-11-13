@@ -140,6 +140,7 @@ if (isset($_POST['logout'])) {
 
 <body>
     <header>
+
         <h2>ผู้เช่า</h2>
     </header>
     <?php if (isset($_SESSION['Success'])) { ?>
@@ -158,10 +159,10 @@ if (isset($_POST['logout'])) {
                         <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a href="test1.php" class="nav-link active"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
+                        <a href="test1.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a href="test5.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
+                        <a href="test5.php" class="nav-link active"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
                         <a class="nav-link " href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
@@ -184,20 +185,18 @@ if (isset($_POST['logout'])) {
             <button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#Add">Add</button>
             <div class="container">
                 <form method="post">
-                    <input type="text" placeholder="ชื่อผู้ใช้ หรือ ไอดี" name="search">
+                    <input type="text" placeholder="ชื่อผู้เช่า หรือ ห้องที่เช่า" name="search">
                     <button type="reset">รีเฟรช</button>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table class="table  table-bordered table-hover">
                     <thead style="text-align: center;">
                         <tr>
-                            <td>ชื่อผู้ใช้</td>
-                            <td>รหัสผู้ใช้</td>
+                            <td>วันเข้า</td>
+                            <td>วันออก</td>
+                            <td>เลขห้อง</td>
                             <td>ชื่อ</td>
                             <td>นามสกุล</td>
-                            <td>เบอร์โทร</td>
-                            <td>ที่อยู่บ้าน</td>
-                            <td>ที่อยุ่ทำงาน</td>
-                            <td>ตำเเหน่ง</td>
+                            <td>ค่ามัดจำ</td>
                             <td colspan="2">จัดการ</td>
                         </tr>
                     </thead>
@@ -207,36 +206,35 @@ if (isset($_POST['logout'])) {
                                 }
                         if (isset($_POST['search'])){
                             $home = $_POST['search'];}  // ไม่ต้องใส่ + หรือ ''
-                            $sql = "SELECT * FROM user WHERE Name LIKE :search";
+                            $sql = "SELECT * FROM renting WHERE Name || roomId LIKE :search ORDER BY Datein;";
                             $stmt = $conn->prepare($sql);
                             $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
                             $stmt->execute();
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($result) {
                             foreach ($result as $row) {
-                                $id = $row['id'];
+                                $renId = $row['renId'];
                         ?>
                     <tbody>
                         <tr>
-                            <td><?php echo $row["username"] ?></td>
-                            <td><?php echo $row["password"] ?></td>
+                            <td style="white-space: nowrap;"><?php echo $row["Datein"] ?></td>
+                            <td style="white-space: nowrap;"><?php echo $row["Dateout"] ?></td>
+                            <td><a href="detaroom copy.php?roomId=<?php echo $row['roomId']; ?>"><?php echo $row["roomId"] ?></a></td>
                             <td style="white-space: nowrap;"><?php echo $row["Name"] ?></td>
                             <td><?php echo $row["Lname"] ?></td>
-                            <td><?php echo $row["Tel"] ?></td>
-                            <td><?php echo $row["Address"] ?></td>
-                            <td><?php echo $row["Weddress"] ?></td>
-                            <td><?php echo $row["urold"] ?></td>
+                            <td><?php echo $row["Deposit"] ?></td>
+                            
                             <td rowspan="2">
                                 <div class="col-md-6">
-                                    <a href="#editmodal_<?php echo $row['id']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit </a>
+                                    <a href="#editmodal_<?php echo $row['renId']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit</a>
                                 </div>
                             <td>
                                 <div class="col-md-6">
-                                    <a href="#deletemodal_<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="modal">delete</a>
+                                    <a href="#deletemodal_<?php echo $row['renId']; ?>" class="btn btn-danger" data-bs-toggle="modal">delete</a>
                                 </div>
 
                             </td>
-                            <?php include("edit-delete_usermodal.php"); ?>
+                            <?php include("edit-delete_renting.php"); ?>
                         </tr>
                 <?php   }
                         }
@@ -248,7 +246,7 @@ if (isset($_POST['logout'])) {
                 
             </div>
 
-            <form action="testfont1.php" method="post">
+            <form action="testfont5.php" method="post">
                     วันเข้าตั้งเเต่<input type="date"  name="datest">
                     ถึงวันที่<input type="date"  name="dateed">
                     <button type="submit" name="research">พิมพ์</button>
@@ -260,55 +258,72 @@ if (isset($_POST['logout'])) {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">เพิ่มการเช่า</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="adduser.php" method="post">
+                    <form action="addrenting.php" method="post">
+                    <div class="mb-3">
+                                    <label for="Name" class="col-form-label">ชื่อ:</label>
+                                    <select name="Name" id="selectName">
+                                        <?php
+                                        if ($row !== false) {
+                                            $nameselect = $conn->prepare("SELECT Name, Lname FROM user");
+                                            $nameselect->bindParam(':Name', $Name);
+                                            $nameselect->execute();
+                                            $result = $nameselect->fetchAll(PDO::FETCH_ASSOC);
+                                            if ($result) {
+                                                foreach ($result as $row_name) {
+                                        ?>
+                                                    <option value="<?php echo $row_name['Name']; ?>"><?php echo $row_name['Name']; ?></option>
+                                        <?php
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                         <div class="mb-3">
-                            <label for="Name" class="col-form-label">ชื่อผู้ใช้:</label>
-                            <input type="text" name="username" class="form-control w-50" value="">
+                                    <label for="Lname" class="col-form-label">นามสกุล:</label>
+                                    <input type="text" name="Lname" id="inputLname" class="form-control" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="Lname" class="col-form-label">รหัสผู้ใช้:</label>
-                            <input type="text" name="password" class="form-control w-50" value="">
+                            <label for="Lname" class="col-form-label">วันเข้า:</label>
+                            <input type="Date" name="Datein" class="form-control" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ชื่อ:</label>
-                            <input type="text" name="Name" class="form-control" value="">
+                            <label for="Lname" class="col-form-label">วันออก:</label>
+                            <input type="Date" name="Dateout" class="form-control" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="Lname" class="col-form-label">นามสกุล:</label>
-                            <input type="text" name="Lname" class="form-control" value="">
+                            <label for="roomId" class="col-form-label">ห้องที่เช่า:</label>
+                            <input type="Text" name="roomId" class="form-control" value="">
                         </div>
                         <div class="mb-3">
-                            <label for="Lname" class="col-form-label">เบอร์โทร:</label>
-                            <input type="text" name="Tel" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ที่อยู่บ้าน:</label>
-                            <input type="text" name="Address" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ที่อยุ่ทำงาน:</label>
-                            <input type="text" name="Weddress" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ตำเเหน่ง:</label>
-                            <select name="urold">
-                                <option value="ผู้เช่า">ผู้เช่า</option>
-                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
-                                <option value="เจ้าของหอพัก">เจ้าของหอพัก</option>
+                            <label for="Deposit" class="col-form-label">ค่ามัดจำ:</label>
+                            <select name="Deposit">
+                                <option value=1500>1500</option>
+                                <option value=2000>2000</option>
                             </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="add" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" name="addren" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <script>
+    document.getElementById('selectName').addEventListener('change', function () {
+        var selectedName = this.value;
+        var result = <?php echo json_encode($result); ?>;
+        var selectedLname = result.find(function (item) {
+            return item.Name === selectedName;
+        }).Lname;
+        document.getElementById('inputLname').value = selectedLname;
+    });
+</script>
     </div>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน

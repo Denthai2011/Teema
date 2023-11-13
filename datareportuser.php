@@ -85,7 +85,7 @@ if (isset($_POST['logout'])) {
             background-color: #f0e68c;
         }
 
-        .container {
+        .container9 {
             display: flex;
             flex-direction: column;
             border-radius: 10px 10px 0px 0px;
@@ -126,8 +126,6 @@ if (isset($_POST['logout'])) {
         }
 
         .headdiv {
-            align-self: left;
-            margin-left: 10%;
             font-size: 30px;
             color: #FFD700;
             text-shadow: 2px 2px black;
@@ -190,7 +188,7 @@ if (isset($_POST['logout'])) {
             width: auto;
             padding: 16px;
             margin-top: -22px;
-            color: white;
+            color: black;
             font-weight: bold;
             font-size: 18px;
             transition: 0.6s ease;
@@ -246,9 +244,7 @@ if (isset($_POST['logout'])) {
         .dot:hover {
             background-color: #717171;
         }
-        header{
-            background-color: #bbb;
-        }
+
         /* Fading animation */
         .fade {
             animation-name: fade;
@@ -274,92 +270,127 @@ if (isset($_POST['logout'])) {
                 font-size: 11px
             }
         }
-        .custom-link {
-  text-decoration: none;
-  color: #007BFF;
-}
 
-.custom-link:hover {
-  text-decoration: underline;
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
-.custom-link.active{
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
+        .custom-link {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .custom-link:hover {
+            text-decoration: underline;
+            color: #ffffff;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+
+        .custom-link.active {
+            color: #ffffff;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+
+        .containernav {
+            display: flex;
+            flex-direction: row;
+            min-width: 100%;
+            flex-wrap: nowrap;
+        }
+
+        .containernav1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-content: flex-end;
+        }
+
+        .containernav2 {
+            display: flex;
+            display: flex;
+            justify-content: flex-end;
+            flex-direction: row;
+        }
+        .nav-link{
+            color:gold;
+        }
+        .nav-link.active{
+            color:green;
+        }
+        .nav-tabs {
+            --bs-nav-tabs-border-width: none;
+            --bs-nav-tabs-link-active-bg: none;
+            --bs-nav-tabs-link-active-color: #e9ecef;
+        }
+        header{font-family: Pattaya;}
     </style>
 </head>
 
 <body>
     <header>
-        <?php if (!isset($_SESSION['admin_login'])) {
-            echo "
-            <form method='post' action=''>
-            <input type='submit' name='logout' value='ออกจากระบบ'>
-            </form>
-            <div style='text-align: center;padding:10px'>
-                <a href='detaroom copy.php?roomId=$roomId'; class='custom-link'>ข้อมูลห้อง</a>
-                <a href='datareportuser.php?roomId=$roomId'; class='custom-link active'>เเจ้งซ่อม</a>
-                <a href='profile.php?roomId=$roomId'; class='custom-link'>เเอดมิน/คำเเนะนำ</a>
-            </div>
-            ";
-        } else {
-            echo "<nav>
-                <ul class='nav nav-tabs bg-dark'>
-                <li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test1.php'>ข้อมูลผู้ใช้</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test2.php'>ค่าน้ำ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link'  href='test3.php'>ค่าไฟ</a>
-                </li>
-                <li class='nav-item'>
-                    <a class='nav-link' href='test4.php'><i class='fa-solid fa-bed-front'></i></a>
-                </li>
-                ";
-        } ?>
-        </ul>
+        <nav class="container containernav nav nav-tabs bg-dark">
+            <ul class="container containernav1 flex-start">
+                <?php if (!isset($_SESSION['admin_login'])) {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='detaroomhome.php?roomId=$roomId'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } else {
+                    echo "
+            <li>
+                <a class='nav-link' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
+            </li>";
+                } ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
+
+                <a class='nav-link' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
+
+
+                <a class='nav-link active' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
+
+
+                <a class='nav-link' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
+
+            </ul>
+            <ul class="container containernav2 flex-end">
+
+                <?php $sql = "SELECT Name,Lname FROM room WHERE roomId = :roomId";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':roomId', $roomId);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
+
+                <form method='post' action=''>
+                    <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
+                </form>
+
+            </ul>
         </nav>
-        <div style="background-color:rgba(0,250,154, 0.2)">
-        <div class="slideshow-container">
+        <div style="background-color:white">
+            <div class="slideshow-container9">
+                <br>
+                <div class="mySlides">
+                    <img src="img/a1_50.jpg" style="width:50%">
+                </div>
+                <div class="mySlides">
+                    <img src="img/a2_50.jpg" style="width:50%">
+                </div>
+                <div class="mySlides">
+                    <img src="img/ก่อน.jpg" style="width:50%">
+                </div>
 
-            <div class="mySlides">
-                <div class="numbertext">1 / 3</div>
-                <img src="img/a1_50.jpg" style="width:50%">
-                <div class="text">Caption Text</div>
+                <a class="prev" onclick="plusSlides(-1)">❮</a>
+                <a class="next" onclick="plusSlides(1)">❯</a>
+
             </div>
+            <br>
 
-            <div class="mySlides">
-                <div class="numbertext">2 / 3</div>
-                <img src="img/a2_50.jpg" style="width:50%">
-                <div class="text">Caption Two</div>
+            <div style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
             </div>
-
-            <div class="mySlides">
-                <div class="numbertext">3 / 3</div>
-                <img src="img/ก่อน.jpg" style="width:50%">
-                <div class="text">Caption Three</div>
-            </div>
-
-            <a class="prev" onclick="plusSlides(-1)">❮</a>
-            <a class="next" onclick="plusSlides(1)">❯</a>
-
-        </div>
-        <br>
-
-        <div style="text-align:center">
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
-        </div>
         </div>
     </header>
     <script>
@@ -394,56 +425,96 @@ if (isset($_POST['logout'])) {
             dots[slideIndex - 1].className += " active";
         }
     </script>
-        <h2 style="text-align: center;color:gold;text-shadow:2px 2px black;">เเจ้งซ่อม <i class="fa-regular fa-flag fa-bounce" style="color: #f6ee04;text-align:center;"></i></h2>
-        <div>
-            <?php
-            echo "<a href='#reportusermodal_$roomId' class='btn btn-danger' style='margin:auto;display:block;width: 50px;'  class='btn btn-warning' data-bs-toggle='modal'><i class='fa-solid fa-plus'></i> </a>";
-            include("reportuser_modal.php"); ?>
-        </div>
-        <div class="container">
+    <h2 style="text-align: center;color:gold;text-shadow:2px 2px black;">เเจ้งซ่อม <i class="fa-regular fa-flag fa-bounce" style="color: #f6ee04;text-align:center;"></i></h2>
+    <div>
         <?php
-                $userreport = $conn->prepare("SELECT * FROM report WHERE roomId = :roomId");
-                $userreport->bindParam(':roomId', $roomId);
-                $userreport->execute();
-                $result = $userreport->fetchAll(PDO::FETCH_ASSOC);
-
-                if ($result) {
-                    echo "<table>";
-                    echo "<thead>";
-                    echo "<tr>";
-                    echo "<th>ชื่อ</th>";
-                    echo "<th>เลขห้อง</th>";
-                    echo "<th>ประเภทปัญหา</th>";
-                    echo "<th>ข้อมูลปัญหา</th>";
-                    echo "<th>สถานะปัญหา</th>";
-                    echo "</tr>";
-                    echo "</thead>";
-                    echo "<tbody>";
-
-                    foreach ($result as $row_report) {
-                        if ($row_report['Resta'] == "เเจ้งปัญหา") {
-                            $string =  'btn btn-danger';
-                        } else if ($row_report['Resta'] == "กำลังดำเนิน") {
-                            $string =  'btn btn-info';
-                        } else {
-                            $string = 'btn btn-success';
-                        }
-                        echo "<tr>";
-                        echo "<td>" . $row_report['Name'] . "</td>";
-                        echo "<td>" . $row_report['roomId'] . "</td>";
-                        echo "<td>" . $row_report['Retype'] . "</td>";
-                        echo "<td style='max-width: 10ch; overflow: hidden; text-overflow: ellipsis;'>" . $row_report['Redata'] . "</td>";
-                        echo "<td class='$string'>" . $row_report['Resta'] . "</td>";
-                        echo "</tr>";
-                    }
-
-                    echo "</tbody>";
-                    echo "</table>";
-                };
-      
+        echo " <button type='button' data-bs-target='#userreport' class='btn btn-danger' style='margin:auto;display:block;width: 50px;'  class='btn btn-warning' data-bs-toggle='modal'><i class='fa-solid fa-plus'></i></button>";
         ?>
     </div>
+    <div class="container9">
+        <?php
+        $userreport = $conn->prepare("SELECT * FROM report WHERE roomId = :roomId");
+        $userreport->bindParam(':roomId', $roomId);
+        $userreport->execute();
+        $result = $userreport->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            echo "<table>";
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>ชื่อ</th>";
+            echo "<th>เลขห้อง</th>";
+            echo "<th>ประเภทปัญหา</th>";
+            echo "<th>ข้อมูลปัญหา</th>";
+            echo "<th>สถานะปัญหา</th>";
+            echo "</tr>";
+            echo "</thead>";
+            echo "<tbody>";
+
+            foreach ($result as $row_report) {
+                $Name = $row_report['Name'];
+                if ($row_report['Resta'] == "เเจ้งปัญหา") {
+                    $string =  'btn btn-danger';
+                } else if ($row_report['Resta'] == "กำลังดำเนิน") {
+                    $string =  'btn btn-info';
+                } else {
+                    $string = 'btn btn-success';
+                }
+                echo "<tr>";
+                echo "<td>" . $row_report['Name'] . "</td>";
+                echo "<td>" . $row_report['roomId'] . "</td>";
+                echo "<td>" . $row_report['Retype'] . "</td>";
+                echo "<td style='max-width: 10ch; overflow: hidden; text-overflow: ellipsis;'>" . $row_report['Redata'] . "</td>";
+                echo "<td class='$string'>" . $row_report['Resta'] . "</td>";
+                echo "</tr>";
+            }
+
+            echo "</tbody>";
+            echo "</table>";
+        };
+
+        ?>
+    </div>
+    <div class="modal fade" id="userreport" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="exampleModalLabel">จัดการ</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="reportuser.php" method="post">
+                        <div class="mb-3">
+                            <input type="text" name="roomId" hidden value="<?php echo $roomId ?>">
+                            <input type="text" name="Name" hidden value="<?php echo $Name ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="Lname" class="col-form-label"> ประเภทของปัญหา:</label>
+                            <select name="Retype">
+                                <option value="น้ำ">น้ำ</option>
+                                <option value="ไฟ">ไฟ</option>
+                                <option value="ห้อง">ห้อง</option>
+                                <option value="อื่น ๆ">อื่น ๆ</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" name="Resta" hidden value="เเจ้งปัญหา" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Lname" class="col-form-label"> เเจ้งปัญหา:</label>
+                            <textarea name="Redata" type="text" class="form-control"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" name="reportuser" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     </section>
+
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
   โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den

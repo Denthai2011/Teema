@@ -28,11 +28,13 @@ if (isset($_POST['logout'])) {
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+            background-image: url('img/ท้องฟ้า.jpg');
+            background-size: cover;
+            background-repeat:round;
         }
 
         /* Style the header */
         header {
-            background-color: #666;
             padding: 30px;
             text-align: center;
             font-size: 35px;
@@ -50,7 +52,6 @@ if (isset($_POST['logout'])) {
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1;
-            background: #ccc;
             padding: 20px;
             width: 50px;
             font-family: 'Pattaya', sans-serif;
@@ -73,10 +74,10 @@ if (isset($_POST['logout'])) {
         tbody td{text-align: center;}
         /* Style the footer */
         footer {
-            background-color: #777;
             padding: 10px;
             text-align: center;
             color: white;
+            background-color: darkblue;
         }
 
         .nav {
@@ -140,7 +141,7 @@ if (isset($_POST['logout'])) {
 
 <body>
     <header>
-        <h2>ผู้เช่า</h2>
+        <h2 style="color:black;text-shadow:3px 3px gold;">ผู้เช่า</h2>
     </header>
     <?php if (isset($_SESSION['Success'])) { ?>
         <div class="alert alert-success">
@@ -184,7 +185,7 @@ if (isset($_POST['logout'])) {
             <button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#Add">Add</button>
             <div class="container">
                 <form method="post">
-                    <input type="text" placeholder="ชื่อผู้ใช้ หรือ ไอดี" name="search">
+                    <input type="text" class="col-form-label" placeholder="ชื่อผู้ใช้ หรือ ไอดี" name="search">
                     <button type="reset">รีเฟรช</button>
                 </form>
                 <table class="table table-bordered table-hover">
@@ -252,7 +253,7 @@ if (isset($_POST['logout'])) {
                     วันเข้าตั้งเเต่<input type="date"  name="datest">
                     ถึงวันที่<input type="date"  name="dateed">
                     <button type="submit" name="research">พิมพ์</button>
-                    <button type="reset">รีเฟรช</button>
+                    <button type="reset" class="btn btn-secondary">รีเฟรช</button>
                 </form>
         </article>
     </section>

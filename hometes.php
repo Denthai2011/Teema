@@ -20,19 +20,22 @@ if (isset($_POST['logout'])) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Pattaya&display=swap" rel="stylesheet">
 
+
 <head>
     <style>
+        
         * {
             box-sizing: border-box;
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+            background-image: url('img/ท้องฟ้า.jpg');
+            background-size: cover;
         }
-
+        
         /* Style the header */
         header {
-            background-color: #666;
             padding: 30px;
             text-align: center;
             font-size: 35px;
@@ -50,7 +53,6 @@ if (isset($_POST['logout'])) {
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1;
-            background: #ccc;
             padding: 20px;
             width: 50px;
             font-family: 'Pattaya', sans-serif;
@@ -73,10 +75,10 @@ if (isset($_POST['logout'])) {
 
         /* Style the footer */
         footer {
-            background-color: #777;
             padding: 10px;
             text-align: center;
             color: white;
+            background-color: darkblue;
         }
 
         .nav {
@@ -146,7 +148,7 @@ if (isset($_POST['logout'])) {
 
 <body>
     <header>
-        <h2>ห้องเช่า</h2>
+        <h2 style="color:black;text-shadow:3px 3px gold;">ห้องเช่า</h2>
     </header>
 
     <section>
@@ -180,22 +182,44 @@ if (isset($_POST['logout'])) {
             </ul>
         </nav>
         <article>
-
+            <form method="post">
+                <input class="col-form-label" type="text" placeholder="ชั้น" name="search">
+                <input class="col-form-label" type="text" placeholder="ห้อง" name="searchroom">
+                <button type="submit" class="btn btn-dark" name="see">ค้นหา</button>
+                <button type="reset" class="btn btn-secondary">รีเฟรช</button>
+            </form>
             <div class="contianer">
                 <table class="table table-striped table-bordered table-hover">
                     <thead style="text-align: center;">
                         <tr>
                             <td>เลขห้อง</td>
+                            <td>ชั้น</td>
                             <td>ชื่อ-สกุล</td>
                             <td>ขนาดห้อง</td>
                             <td>สถานะ</td>
-                            <td>เข้าชม</td>  
+                            <td>เข้าชม</td>
                         </tr>
                     </thead>
                     <?php
-                    $sql = "SELECT roomId,staName,Name,Lname,roomtype FROM room LEFT JOIN starm ON starm.staId = room.staId ORDER BY roomId asc ";
+                    if (empty($_POST['search'])) {
+                        $search = "";
+                    }
+                    if (empty($_POST['searchroom'])) {
+                        $searchroom = "";
+                    }
+                    if (isset($_POST['see'])) {
+                        $search = $_POST['search'];
+                        $searchroom = $_POST['searchroom'];
+                    }
+
+                    $sql = "SELECT roomId, layer, staName, Name, Lname, roomtype FROM room 
+                            LEFT JOIN starm ON starm.staId = room.staId 
+                            WHERE layer LIKE :search AND roomId LIKE :searchroom 
+                            ORDER BY roomId ASC";
+
                     $stmt = $conn->prepare($sql);
-                    $stmt->bindParam(':roomId', $roomId);
+                    $stmt->bindValue(':search', "%$search%", PDO::PARAM_STR);
+                    $stmt->bindValue(':searchroom', "%$searchroom%", PDO::PARAM_STR);
                     $stmt->execute();
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if ($result) {
@@ -221,35 +245,43 @@ if (isset($_POST['logout'])) {
                             }
                             ?>
                             <tbody style="text-align:center">
-                            <tr>
-                                <td>
-                                    <h5 class="card-title" style="color:#000080;font-size:25px;"><?php echo $row['roomId']; ?></h5>
-                                </td>
-                                <td>
-                                    <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?></span></p>
-                                </td>
-                                <td>
-                                    <a style="margin: 5px;" href="#" class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
-                                </td>
-                                <td>
-                                    <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $type ?>;font-size:20px;"><?php echo $row['roomtype']; ?></span></p>
-                                </td>
-                                <td>
-                                    <a href="detaroomhome.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดห้อง</a>
-                                </td>
-                            </tr>
-                            <?php
-                             }
-                        } ?>
+                                <tr>
+                                    <td>
+                                        <h5 class="card-title" style="color:#000080;font-size:25px;"><?php echo $row['roomId']; ?></h5>
+                                    </td>
+                                    <td>
+                                        <h5 class="card-title" style="color:#000080;font-size:25px;"><?php echo $row['layer']; ?></h5>
+                                    </td>
+                                    <td>
+                                        <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $color ?>;font-size:20px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?></span></p>
+                                    </td>
+                                    <td>
+                                        <div>
+                                        <a href="#usermodal_<?php echo $roomId ?>" data-bs-toggle='modal' class="<?php echo  $string; ?>"><?php echo $row['staName']; ?></a>
+                                    </div>             <?php include("modalstaroom.php"); ?>                       
+
+                                    </td>
+                                    
+                                    <td>
+                                        <p class="card-text fw-bolder" style="color:#000080;font-size:20px;"><span style="color:<?php echo $type ?>;font-size:20px;"><?php echo $row['roomtype']; ?></span></p>
+                                    </td>
+                                    <td>
+                                        <a href="detaroomhome.php?roomId=<?php echo $row['roomId']; ?>" class="btn btn1 button btn-primary">รายระเอียดห้อง</a>
+                                    </td>
+                                </tr>
+                        <?php
+                        }
+                    } ?>
                             </tbody>
                 </table>
             </div>
         </article>
-
     </section>
 
     <footer>
-        <p>Footer</p>
+    <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
+  โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den
+  </pre>
     </footer>
 
 </body>

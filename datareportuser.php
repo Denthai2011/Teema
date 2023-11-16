@@ -92,6 +92,8 @@ if (isset($_POST['logout'])) {
             box-shadow: 2px 2px 2px 2px wheat;
             background-color: #ffffff;
             padding: 20px;
+            width: 80%;
+            margin: auto;
         }
 
         .container2 {
@@ -358,6 +360,7 @@ if (isset($_POST['logout'])) {
                 $stmt->bindParam(':roomId', $roomId);
                 $stmt->execute();
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $Name = $row['Name'];
                 ?>
                 <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
 
@@ -371,14 +374,14 @@ if (isset($_POST['logout'])) {
             <div class="slideshow-container9">
                 <br>
                 <div class="mySlides">
-                    <img src="img/a1_50.jpg" style="width:50%">
+                    <img src="img/ช่างไฟ.jpg" style="width:50%">
                 </div>
                 <div class="mySlides">
-                    <img src="img/a2_50.jpg" style="width:50%">
+                    <img src="img/ช่างน้ำ.jpg" style="width:50%">
                 </div>
                 <div class="mySlides">
-                    <img src="img/ก่อน.jpg" style="width:50%">
-                </div>
+                    <img src="img/ช่างซ่อม.jpg" style="width:50%">
+                    </div>
 
                 <a class="prev" onclick="plusSlides(-1)">❮</a>
                 <a class="next" onclick="plusSlides(1)">❯</a>
@@ -442,8 +445,7 @@ if (isset($_POST['logout'])) {
             echo "<table>";
             echo "<thead>";
             echo "<tr>";
-            echo "<th>ชื่อ</th>";
-            echo "<th>เลขห้อง</th>";
+            echo "<th>วันที่เเจ้ง</th>";
             echo "<th>ประเภทปัญหา</th>";
             echo "<th>ข้อมูลปัญหา</th>";
             echo "<th>สถานะปัญหา</th>";
@@ -452,7 +454,6 @@ if (isset($_POST['logout'])) {
             echo "<tbody>";
 
             foreach ($result as $row_report) {
-                $Name = $row_report['Name'];
                 if ($row_report['Resta'] == "เเจ้งปัญหา") {
                     $string =  'btn btn-danger';
                 } else if ($row_report['Resta'] == "กำลังดำเนิน") {
@@ -461,8 +462,7 @@ if (isset($_POST['logout'])) {
                     $string = 'btn btn-success';
                 }
                 echo "<tr>";
-                echo "<td>" . $row_report['Name'] . "</td>";
-                echo "<td>" . $row_report['roomId'] . "</td>";
+                echo "<td>" . $row_report['Datere'] . "</td>";
                 echo "<td>" . $row_report['Retype'] . "</td>";
                 echo "<td style='max-width: 10ch; overflow: hidden; text-overflow: ellipsis;'>" . $row_report['Redata'] . "</td>";
                 echo "<td class='$string'>" . $row_report['Resta'] . "</td>";
@@ -485,6 +485,7 @@ if (isset($_POST['logout'])) {
                 <div class="modal-body">
                     <form action="reportuser.php" method="post">
                         <div class="mb-3">
+                        <input type="Date" name="Datere" value="">
                             <input type="text" name="roomId" hidden value="<?php echo $roomId ?>">
                             <input type="text" name="Name" hidden value="<?php echo $Name ?>">
                         </div>

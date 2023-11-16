@@ -195,13 +195,20 @@ if (isset($_POST['logout'])) {
         <h2>ต้องการดูรายระเอียดห้อง</h2><br>
         <button class="btn btn-info"><a href="#section"> รายระเอียดห้อง</a></button>
 
+    <?php if ($roomId==20){
+        $room = "roomB.jpg";
+    } 
+          else{
+            $room = "roomM.jpg";
+          }
+    ?>
     </section>
     <article style="background-color: #F8F8FF;">
     <br>
     <div class="container" id="section">
         <h1>ห้องที่<?php echo $roomId ?></h1>
         <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/img1.jpg" width="240px" height="240px"></div>
+            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/<?php echo $room?>" width="240px" height="240px"></div>
             <div class="container3">
                 <div>
                     <p class="p1">ตัวห้องภายใน
@@ -213,7 +220,7 @@ if (isset($_POST['logout'])) {
             </div>
         </div><br>
         <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/toilet.jpg" width="240px" height="240px"></div>
+            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/toilet1.jpg" width="240px" height="240px"></div>
             <div class="container3">
                 <div>
                     <p class="p1">ห้องน้ำ
@@ -221,19 +228,19 @@ if (isset($_POST['logout'])) {
 
                 </div>
                 <div>
-                    <p class="zoom"> ห้องมีความมีสะอาดจากการทาสีใหม่เเละทำความสะอาด <br>หลังจากที่ผู้เช่าคนเก่าออกเมื่อ ปี66 วันที่25 เดือน 7</p>
+                    <p class="zoom"> ห้องมีขนาดเล็กใช่อาบเเล้ว เเละทำภารากิจ <br>กรุณาอย่านำเอาขยะหรือเศษเอาหาเทลงท่อระบายน้ำ เพราะอาจมีการอุตันได้</p>
                 </div>
             </div>
         </div><br>
         <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/img1.jpg" width="240px" height="240px"></div>
+            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/มิตเตอร์น้ำ.png" width="120px" height="120px"><img class="zoom" src="img/มิตเตอร์.png" width="120px" height="120px"></div>
             <div class="container3">
                 <div>
                     <p class="p1">ไฟ/น้ำ
                     <p>
                 </div>
                 <div>
-                    <p class="zoom">ห้องมีความมีสะอาดจากการทาสีใหม่เเละทำความสะอาด <br>หลังจากที่ผู้เช่าคนเก่าออกเมื่อ ปี66 วันที่25 เดือน 7</p>
+                    <p class="zoom">ในส่วนของน้ำเเละไฟนั้นจะคิดมิตเตอร์อยู่ที่ 10 บาท <br>ต่ออยู่นิตเเละจะเก็บทุกๆ สินเดือนของทุกเดือน</p>
                 </div>
             </div>
         </div>

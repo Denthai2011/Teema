@@ -14,7 +14,7 @@ $pdf -> SetFont('sarabun','B','20');
 $pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานมิเตอร์ไฟ'),0,1,'C');
 $pdf -> SetFont('sarabun','B','12');
 $pdf -> SetX(5);
-$pdf -> Cell(40,10,iconv('utf-8','cp874','ชื่อผู้เเจ้ง'),1,0,'C');
+$pdf -> Cell(40,10,iconv('utf-8','cp874','วันที่เเจ้ง'),1,0,'C');
 $pdf -> Cell(20,10,iconv('utf-8','cp874','ห้องที่เเจ้ง'),1,0,'C');
 $pdf -> Cell(40,10,iconv('utf-8','cp874','ประเภทของปัญหา'),1,0,'C');
 $pdf -> Cell(60,10,iconv('utf-8','cp874','ข้อมูลการเเจ้ง'),1,0,'C');
@@ -30,7 +30,7 @@ $stmt->execute();
                         foreach ($result as $row) {
                             $ReId = $row['ReId'];
 $pdf -> SetX(5);
-$pdf -> Cell(40,20,iconv('utf-8','cp874',$row["Name"]),'R||L',0,'C');
+$pdf -> Cell(40,20,iconv('utf-8','cp874',$row["Datere"]),'R||L',0,'C');
 $pdf -> Cell(20,20,iconv('utf-8','cp874',$row["roomId"]),'R||L',0,'C');
 $pdf -> Cell(40,20,iconv('utf-8','cp874',$row["Retype"]),'R||L',0,'C');
 $pdf -> Cell(60,20,iconv('utf-8','cp874',$row["Redata"]),'R||L',0,'C');

@@ -23,21 +23,21 @@ if (isset($_POST['logout'])) {
 
 <head>
     <style>
-        * {
+         * {
             box-sizing: border-box;
         }
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+            background-image: url('img/ท้องฟ้า.jpg');
+            background-size: cover;
         }
 
         /* Style the header */
         header {
-            background-color: #666;
             padding: 30px;
             text-align: center;
             font-size: 35px;
-            color: white;
         }
 
         /* Container for flexboxes */
@@ -51,7 +51,6 @@ if (isset($_POST['logout'])) {
             -webkit-flex: 1;
             -ms-flex: 1;
             flex: 1;
-            background: #ccc;
             padding: 20px;
             width: 50px;
             font-family: 'Pattaya', sans-serif;
@@ -74,10 +73,10 @@ if (isset($_POST['logout'])) {
 
         /* Style the footer */
         footer {
-            background-color: #777;
             padding: 10px;
             text-align: center;
             color: white;
+            background-color: darkblue;
         }
 
         .nav {
@@ -142,7 +141,7 @@ if (isset($_POST['logout'])) {
 
 <body>
     <header>
-        <h2>จัดการค่าไฟ</h2>
+        <h2 style="color:black;text-shadow:3px 3px gold;">จัดการค่าไฟ</h2>
     </header>
     <?php if (isset($_SESSION['Success'])) { ?>
         <div class="alert alert-success">
@@ -184,8 +183,8 @@ if (isset($_POST['logout'])) {
         </nav>
         <article>
         <form method="post">
-                    <input type="text" placeholder="เลขห้อง" name="search">
-                    <button type="reset">รีเฟรช</button>
+                    <input type="text" class="col-form-label" placeholder="เลขห้อง" name="search">
+                    <button type="reset" class="btn btn-secondary">รีเฟรช</button>
                 </form>
             <div class="container">
                 <table class="table table-striped table-bordered table-hover">
@@ -234,11 +233,7 @@ if (isset($_POST['logout'])) {
                         } ?>
                     </tbody>
                 </table>
-                <form action="testfont3.php" method="post">
-                    <input type="text" placeholder="ห้อง หรือ ปัญหา หรือ สถานะ" name="search">
-                    <button type="submit" name="research">พิมพ์</button>
-                    <button type="reset">รีเฟรช</button>
-                </form>
+                
         </article>
     </section>
     <footer>

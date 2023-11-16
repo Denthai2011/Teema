@@ -378,25 +378,27 @@ if (isset($_POST['logout'])) {
 
             </ul>
         </nav>
+        <?php if ($roomId==20){
+        $room = "roomB.jpg";
+    } 
+          else{
+            $room = "roomM.jpg";
+          }
+    ?>
         </header>
+        
         <div style="background-color:white">
         <div class="slideshow-container9">
         <br>
             <div class="mySlides">
-                <img src="img/a1_50.jpg" style="width:50%">
-                <div class="text">Caption Text</div>
+                <img src="img/<?php echo $room?>" style="width:50%">
+                <div class="text">ตัวห้อง</div>
             </div>
 
             <div class="mySlides">
-                <img src="img/a2_50.jpg" style="width:50%">
-                <div class="text">Caption Two</div>
+                <img src="img/toilet1.jpg" style="width:25%">
+                <div class="text">ห้องน้ำ</div>
             </div>
-
-            <div class="mySlides">
-                <img src="img/ก่อน.jpg" style="width:50%">
-                <div class="text">Caption Three</div>
-            </div>
-
             <a class="prev" onclick="plusSlides(-1)">❮</a>
             <a class="next" onclick="plusSlides(1)">❯</a>
 
@@ -461,17 +463,11 @@ if (isset($_POST['logout'])) {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // แสดงข้อมูลในฟอร์ม
-    ?><?php if (($_SESSION['admin_login'])) {
-                echo "
-            <div>
-        <button type='button' data-bs-target='#usermodal' class='btn btn-warning' data-bs-toggle='modal'>จัดการข้อมูลผู้เช่า</a>
-    </div>";
-            }
-            ?>
+    ?>
     <section>
 
         <div class="container9" id="animeContainer">
-            <div class="headdiv" style="text-align: left;">ข้อมูลห้อง</div>
+            <div class="headdiv" style="text-align: left;">ข้อมูลค่าใช้จ่าย</div>
             <div class="container3">
                 <form class="form1">
                     <table class="table1">

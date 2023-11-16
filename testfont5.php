@@ -9,22 +9,21 @@ $pdf -> AddFont('sarabun','B','THSarabunNew Bold.php');
 $pdf -> AddFont('sarabun','I','THSarabunNew Italic.php');
 
 $pdf -> Image('img/logo.png',92,10,30);
-$pdf -> SetY(50);
+$pdf -> SetY(45);
 $pdf -> SetFont('sarabun','B','20');
 $pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานผู้ใช้ระบบ'),0,1,'C');
 $pdf -> SetFont('sarabun','B','12');
-$pdf -> SetX(5);
-$pdf -> Cell(20,10,iconv('utf-8','cp874','ชื่อ'),1,0,'C');
-$pdf -> Cell(20,10,iconv('utf-8','cp874','นามสกุล'),1,0,'C');
-$pdf -> Cell(20,10,iconv('utf-8','cp874','เบอร์โทร'),1,0,'C');
-$pdf -> Cell(60,10,iconv('utf-8','cp874','ที่อยู่บ้าน'),1,0,'C');
-$pdf -> Cell(60,10,iconv('utf-8','cp874','ที่อยุ่ทำงาน'),1,0,'C');
-$pdf -> Cell(20,10,iconv('utf-8','cp874','วันเข้า'),1,1,'C');
+$pdf -> SetX(45);
+$pdf -> Cell(20,10,iconv('utf-8','cp874','วันเข้า'),1,0,'C');
+$pdf -> Cell(30,10,iconv('utf-8','cp874','ชื่อ'),'L||B||T',0,'C');
+$pdf -> Cell(30,10,iconv('utf-8','cp874','นามสกุล'),'R||B||T',0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874','เลขห้อง'),1,0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874','ค่ามัดจำ'),1,1,'C');
 if (isset($_POST['research'])) {
     $datest = $_POST['datest'];
     $dateed = $_POST['dateed'];
 }
-    $sql = "SELECT * FROM user WHERE urold = 'ผู้เช่า' AND Datein BETWEEN :datest AND :dateed";
+    $sql = "SELECT * FROM renting WHERE Datein BETWEEN :datest AND :dateed";
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(':datest', $datest, PDO::PARAM_STR);
     $stmt->bindValue(':dateed', $dateed, PDO::PARAM_STR);
@@ -32,19 +31,17 @@ if (isset($_POST['research'])) {
                     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     if ($result) {
                         foreach ($result as $row) {
-                            $id = $row['id'];
-$pdf -> SetX(5);
-$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Name"]),'R||L',0,'C');
-$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Lname"]),'R||L',0,'C');
-$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Tel"]),'R||L',0,'C');
-$pdf -> Cell(60,10,iconv('utf-8','cp874',$row["Address"]),'R||L',0,'L');
-$pdf -> Cell(60,10,iconv('utf-8','cp874',$row["Weddress"]),'R||L',0,'L');
-$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Datein"]),'R||L',1,'C');
-
+                            $renId = $row['renId'];
+$pdf -> SetX(45);
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Datein"]),'R||L',0,'C');
+$pdf -> Cell(30,10,iconv('utf-8','cp874',$row["Name"]),'L',0,'C');
+$pdf -> Cell(30,10,iconv('utf-8','cp874',$row["Lname"]),'R',0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["roomId"]),'R||L',0,'C');
+$pdf -> Cell(20,10,iconv('utf-8','cp874',$row["Deposit"]),'R||L',1,'C');
 
 };}
-$pdf -> SetX(5);
-$pdf -> Cell(200,10,iconv('utf-8','cp874',"ข้อมูลทั้งหมด ".count($result)),1,0,'C');
+$pdf -> SetX(45);
+$pdf -> Cell(120,10,iconv('utf-8','cp874',"ข้อมูลทั้งหมด ".count($result)),1,0,'C');
 
 
 $pdf -> SetY(200);

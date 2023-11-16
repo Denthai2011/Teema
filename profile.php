@@ -41,6 +41,9 @@ if (isset($_POST['logout'])) {
             padding: 10px;
             text-align: center;
             color: white;
+            position: fixed;
+      bottom: 0;
+      width: 100%;
         }
 
         td {

@@ -304,6 +304,7 @@ if (isset($_POST['logout'])) {
             justify-content: flex-start;
             flex-wrap: wrap;
             align-content: flex-end;
+            font-size: 15px;
         }
 
         .containernav2 {

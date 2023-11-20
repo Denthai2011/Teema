@@ -110,12 +110,11 @@ if (isset($_POST['logout'])) {
             background-color: black;
             box-shadow: 3px 3px 5px 5px black;
             font-size: 30px;
+            color: gold;
+            text-shadow: 2px 2px goldenrod;
         }
 
-        .nav-link.active i {
-            color: green;
-            text-shadow: 2px 2px white;
-        }
+
 
         .li1:hover {
             background-color: orange;
@@ -159,7 +158,7 @@ if (isset($_POST['logout'])) {
                         <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a href="test1.php" class="nav-link active"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
+                        <a href="test1.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
                     </li>
                     <li class="li1 nav-item">
                         <a href="test5.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
@@ -174,7 +173,7 @@ if (isset($_POST['logout'])) {
                         <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
                     </li>
                     <li class="li1 nav-item">
-                        <a class="nav-link" href="test6.php"><i class="fa-solid fa-money-bill"></i>รายได้ทั้งหมด</a>
+                        <a class="nav-link active" href="test6.php"><i class="fa-solid fa-money-bill"></i>รายได้ทั้งหมด</a>
                     </li>
             </form>
             <li class="li2">
@@ -185,128 +184,59 @@ if (isset($_POST['logout'])) {
             </ul>
         </nav>
         <article>
-            <button type="button" class="btn btn-success " data-bs-toggle="modal" data-bs-target="#Add">Add</button>
             <div class="container">
-                <form method="post">
-                    <input type="text" class="col-form-label" placeholder="ชื่อผู้ใช้ หรือ ไอดี" name="search">
-                    <button type="reset">รีเฟรช</button>
-                </form>
+            <form method="post">
+                <input class="col-form-label" type="text" placeholder="ประเภท" name="searchtype">
+                <input class="col-form-label" type="text" placeholder="ห้อง" name="searchid">
+                <button type="submit" class="btn btn-dark" name="see">ค้นหา</button>
+                <button type="reset" class="btn btn-secondary">รีเฟรช</button>
+            </form>
                 <table class="table table-bordered table-hover">
                     <thead style="text-align: center;">
                         <tr>
-                            <td>ชื่อผู้ใช้</td>
-                            <td>รหัสผู้ใช้</td>
-                            <td>ชื่อ</td>
-                            <td>นามสกุล</td>
-                            <td>เบอร์โทร</td>
-                            <td>ที่อยู่บ้าน</td>
-                            <td>ที่อยุ่ทำงาน</td>
-                            <td>ตำเเหน่ง</td>
-                            <td colspan="2">จัดการ</td>
+                            <td>วันที่จ่าย</td>
+                            <td>เลขห้อง</td>
+                            <td>ราคา</td>
+                            <td>ประเภท</td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($_POST['search'])) {
-                                $home = "";
-                                }
+                        $searchtype = "";
+                    }
+                    if (empty($_POST['searchroom'])) {
+                        $searchid = "";
+                    }
+                    if (isset($_POST['see'])) {
+                        $searchtype = $_POST['searchtype'];
+                        $searchid = $_POST['searchid'];
+                    }
                         if (isset($_POST['search'])){
                             $home = $_POST['search'];}  // ไม่ต้องใส่ + หรือ ''
-                            $sql = "SELECT * FROM user WHERE Name LIKE :search";
+                            $sql = "SELECT * FROM money WHERE typepay LIKE :searchtype AND roomId LIKE :searchid";
                             $stmt = $conn->prepare($sql);
-                            $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
+                            $stmt->bindValue(':searchtype', "%$searchtype%", PDO::PARAM_STR);
+                            $stmt->bindValue(':searchid', "%$searchid%", PDO::PARAM_STR);
                             $stmt->execute();
                             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($result) {
                             foreach ($result as $row) {
-                                $id = $row['id'];
+                                $M_id = $row['M_id'];
                         ?>
                     <tbody>
                         <tr>
-                            <td><?php echo $row["username"] ?></td>
-                            <td><?php echo $row["password"] ?></td>
-                            <td style="white-space: nowrap;"><?php echo $row["Name"] ?></td>
-                            <td><?php echo $row["Lname"] ?></td>
-                            <td><?php echo $row["Tel"] ?></td>
-                            <td><?php echo $row["Address"] ?></td>
-                            <td><?php echo $row["Weddress"] ?></td>
-                            <td><?php echo $row["urold"] ?></td>
-                            <td rowspan="2">
-                                <div class="col-md-6">
-                                    <a href="#editmodal_<?php echo $row['id']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit </a>
-                                </div>
-                            <td>
-                                <div class="col-md-6">
-                                    <a href="#deletemodal_<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="modal">delete</a>
-                                </div>
-
-                            </td>
-                            <?php include("edit-delete_usermodal.php"); ?>
+                            <td><?php echo $row["Datepay"] ?></td>
+                            <td><?php echo $row["roomId"] ?></td>
+                            <td><?php echo $row["price"] ?></td> 
+                            <td style="white-space: nowrap;"><?php echo $row["typepay"] ?></td>
                         </tr>
-                <?php   }
-                        }
-                     else {
-                        echo "ไม่พบผลลัพธ์";
-                    } ?>
+                    <?php };}?>
                     </tbody>
                 </table>
-                
+            
             </div>
         </article>
     </section>
-    <div class="modal fade" id="Add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-success">
-                    <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="adduser.php" method="post">
-                        <div class="mb-3">
-                            <label for="Name" class="col-form-label">ชื่อผู้ใช้:</label>
-                            <input type="text" name="username" class="form-control w-50" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">รหัสผู้ใช้:</label>
-                            <input type="text" name="password" class="form-control w-50" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ชื่อ:</label>
-                            <input type="text" name="Name" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">นามสกุล:</label>
-                            <input type="text" name="Lname" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">เบอร์โทร:</label>
-                            <input type="text" name="Tel" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ที่อยู่บ้าน:</label>
-                            <input type="text" name="Address" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ที่อยุ่ทำงาน:</label>
-                            <input type="text" name="Weddress" class="form-control" value="">
-                        </div>
-                        <div class="mb-3">
-                            <label for="Lname" class="col-form-label">ตำเเหน่ง:</label>
-                            <select name="urold">
-                                <option value="ผู้เช่า">ผู้เช่า</option>
-                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
-                                <option value="เจ้าของหอพัก">เจ้าของหอพัก</option>
-                            </select>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" name="add" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
   โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den

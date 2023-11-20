@@ -25,15 +25,13 @@ if (isset($_POST['logout'])) {
             font-size: 20px;
         }
 
-        tr {
-            border-bottom: 2px solid #c4c2bc;
-        }
 
 
         th {
             color: #3d3c38;
             font-size: 18px;
             text-shadow: 1px 1px #431919;
+            text-align: center;
         }
 
         footer {
@@ -45,7 +43,8 @@ if (isset($_POST['logout'])) {
 
         td {
             font-size: 16px;
-            color: blue;
+            color: black;
+            opacity: 0.7;
             font-style: italic;
         }
 
@@ -53,6 +52,7 @@ if (isset($_POST['logout'])) {
             border-collapse: collapse;
             font-size: 16px;
             margin-right: 20px;
+            text-align: center;
         }
 
         /* สไตล์สำหรับแถวหัวของตาราง */
@@ -64,21 +64,34 @@ if (isset($_POST['logout'])) {
         /* สไตล์สำหรับแถวของตาราง */
         .table2 td {
             padding: 8px;
-            border-bottom: 1px solid #ddd;
+        }
+        .table3{
+            text-align: center;
+            margin-right: 20px;
+        }
+        .table3 th {
+            text-align: left;
+            padding: 8px;
         }
 
+        /* สไตล์สำหรับแถวของตาราง */
+        .table3 td {
+            padding: 8px;
+        }
         section {
             padding: 10px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url(img/customer-banner.jpg) center/cover no-repeat;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
         }
 
         /* สไตล์สำหรับแถวเลขคี่ */
 
         /* สไตล์สำหรับแถวเมื่อเลื่อนเมาส์เข้า */
-        .table2 tr:hover {
-            background-color: #f0e68c;
-        }
-
-        .table3 tr:hover {
+        tr:hover{
             background-color: #f0e68c;
         }
 
@@ -97,11 +110,12 @@ if (isset($_POST['logout'])) {
             box-shadow: 2px 2px 2px 2px wheat;
             background-color: #ffffff;
             padding: 20px;
+            width: 50%;
         }
 
         .container2 {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-around;
 
         }
@@ -136,6 +150,14 @@ if (isset($_POST['logout'])) {
             color: #FFD700;
             text-shadow: 2px 2px black;
         }
+        .headdiv2 {
+            align-self: center;
+            text-align: center;
+            font-size: 30px;
+            color: red;
+            text-shadow: 2px 2px black;
+            
+        }
 
         body {
             background-color: #F8F8FF;
@@ -168,7 +190,6 @@ if (isset($_POST['logout'])) {
         body {
             font-family: Verdana, sans-serif;
             margin: 0
-            
         }
 
         .mySlides {
@@ -177,6 +198,7 @@ if (isset($_POST['logout'])) {
 
         img {
             vertical-align: middle;
+            border-radius: 20%;
         }
 
         /* Slideshow container */
@@ -225,6 +247,7 @@ if (isset($_POST['logout'])) {
             width: 100%;
             text-align: center;
         }
+
         /* Number text (1/3 etc) */
         .numbertext {
             color: #f2f2f2;
@@ -254,7 +277,7 @@ if (isset($_POST['logout'])) {
         /* Fading animation */
         .fade {
             animation-name: fade;
-            animation-duration: 1.5s;
+            animation-duration: 3s;
         }
 
         @keyframes fade {
@@ -276,26 +299,30 @@ if (isset($_POST['logout'])) {
                 font-size: 11px
             }
         }
-        .custom-link {
-  text-decoration: none;
-  color: #007BFF;
-}
 
-.custom-link:hover {
-  text-decoration: underline;
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
-.custom-link.active{
-  color: #ffffff;
-  background-color: #3d3c38;
-  border-radius: 5px;
-}
-.modal-backdrop{
-    position: unset;
-}
-.containernav {
+        .custom-link {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        .custom-link:hover {
+            text-decoration: underline;
+            color: #ffffff;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+
+        .custom-link.active {
+            color: #ffffff;
+            background-color: #3d3c38;
+            border-radius: 5px;
+        }
+
+        .modal-backdrop {
+            position: unset;
+        }
+
+        .containernav {
             display: flex;
             flex-direction: row;
             min-width: 100%;
@@ -308,61 +335,70 @@ if (isset($_POST['logout'])) {
             justify-content: flex-start;
             flex-wrap: wrap;
             align-content: flex-end;
+            font-size: 15px;
         }
-        .nav-link{
-            color:gold;
+
+        .nav-link {
+            color: gold;
         }
-        .nav-link.active{
-            color:green;
+
+        .nav-link.active {
+            color: green;
         }
+
         .containernav2 {
             display: flex;
             display: flex;
             justify-content: flex-end;
             flex-direction: row;
         }
+
         .nav-tabs {
             --bs-nav-tabs-border-width: none;
             --bs-nav-tabs-link-active-bg: none;
             --bs-nav-tabs-link-active-color: #e9ecef;
         }
-        header{font-family: Pattaya;}
+
+        header {
+            font-family: Pattaya;
+        }
     </style>
 </head>
 
 <body>
     <header>
-    <?php if (isset($_SESSION['Success'])) { ?>
-        <div class="alert alert-success">
+        <?php if (isset($_SESSION['Success'])) { ?>
+            <div class="alert alert-success">
             <?php
             echo $_SESSION['Success'];
             unset($_SESSION['Success']);
-    }?>
-        </div><nav class="container containernav nav nav-tabs bg-dark">
-            <ul class="container containernav1 flex-start">
-                <?php if (!isset($_SESSION['admin_login'])) {
-                    echo "
+        } ?>
+            </div>
+            <nav class="container containernav nav nav-tabs bg-dark">
+                <ul class="container containernav1 flex-start">
+                    <?php if (!isset($_SESSION['admin_login'])) {
+                        echo "
             <li>
                 <a class='nav-link' aria-current='page' href='detaroomhome.php?roomId=$roomId'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>";
-                } else {
-                    echo "
+                    } else {
+                        echo "
             <li>
                 <a class='nav-link' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
             </li>";
-                } ?>
-                <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
-                
-                <a class='nav-link active' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
-                
-                
-                <a class='nav-link' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
-                
-                
-                <a class='nav-link' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
-                
-            </ul>
-            <ul class="container containernav2 flex-end">
+                    } ?>
+                    <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
+
+                    <a class='nav-link active' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
+
+
+                    <a class='nav-link' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
+
+
+                    <a class='nav-link' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
+
+                </ul>
+                <ul class="container containernav2 flex-end">
 
                     <?php $sql = "SELECT Name,Lname FROM room WHERE roomId = :roomId";
                     $stmt = $conn->prepare($sql);
@@ -376,27 +412,25 @@ if (isset($_POST['logout'])) {
                         <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
                     </form>
 
-            </ul>
-        </nav>
-        <?php if ($roomId==20){
-        $room = "roomB.jpg";
-    } 
-          else{
-            $room = "roomM.jpg";
-          }
-    ?>
-        </header>
-        
-        <div style="background-color:white">
-        <div class="slideshow-container9">
-        <br>
+                </ul>
+            </nav>
+            <?php if ($roomId == 20) {
+                $room = "roomB.jpg";
+            } else {
+                $room = "roomM.jpg";
+            }
+            ?>
+    </header>
+
+    <div style="background-color:white">
+        <div class="slideshow-container">
+            <h1 class="headdiv" style="text-align: center;">สภาพห้อง</h1>
             <div class="mySlides">
-                <img src="img/<?php echo $room?>" style="width:50%">
+                <a href="#section"><img src="img/<?php echo $room ?>"style="width:100%"></a>
                 <div class="text">ตัวห้อง</div>
             </div>
-
             <div class="mySlides">
-                <img src="img/toilet1.jpg" style="width:25%">
+            <a href="#section"><img src="img/toilet1.jpg" style="width:50%"></a>
                 <div class="text">ห้องน้ำ</div>
             </div>
             <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -408,9 +442,9 @@ if (isset($_POST['logout'])) {
         <div style="text-align:center">
             <span class="dot" onclick="currentSlide(1)"></span>
             <span class="dot" onclick="currentSlide(2)"></span>
-            <span class="dot" onclick="currentSlide(3)"></span>
         </div>
-        </div>
+        <h1 class="headdiv2">กรุณาทำความสะอาดห้องเเล้วเก็บขยะหน้าห้องเช่าของท่านด้วย</h1>
+    </div>
     <script>
         let slideIndex = 1;
         showSlides(slideIndex);
@@ -455,7 +489,7 @@ if (isset($_POST['logout'])) {
 
     <?php
     // ดึงข้อมูลจากฐานข้อมูล
-    $sql = "SELECT Name,Lname,Dps,E_dsave ,E_bef ,E_af,W_dsave ,W_bef ,W_af  FROM room Left join elect on room.roomId = elect.roomId Left join water on room.roomId = water.roomId 
+    $sql = "SELECT room.Name,room.Lname,room.Dps,elect.E_dsave ,elect.E_bef ,elect.E_af,water.W_dsave ,water.W_bef ,water.W_af,renting.staDep,renting.Deposit  FROM room Left join elect on room.roomId = elect.roomId Left join water on room.roomId = water.roomId Left join renting on room.roomId = renting.roomId 
     WHERE room.roomId = :roomId";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':roomId', $roomId);
@@ -464,19 +498,17 @@ if (isset($_POST['logout'])) {
 
     // แสดงข้อมูลในฟอร์ม
     ?>
-    <section>
-
-        <div class="container9" id="animeContainer">
-            <div class="headdiv" style="text-align: left;">ข้อมูลค่าใช้จ่าย</div>
+    <section id="section">
+        <div class="container9" style="width: fit-content;" id="animeContainer">
+            <div class="headdiv" style="text-align: left;">ข้อมูลผู้เช่า</div>
             <div class="container3">
                 <form class="form1">
                     <table class="table1">
                         <tr>
                             <dive>
                                 <th>
-                                    <label for="roomId">ห้องที่:</label>
+                                    <label for="roomId">ห้องที่<?php echo $roomId; ?></label>
                                 </th>
-                                <td><label type="text" name="roomId"> <?php echo $roomId; ?></label></td>
                             </dive>
                         </tr>
                         <div>
@@ -500,25 +532,37 @@ if (isset($_POST['logout'])) {
                                 </th>
                                 <td><label type="tedx" id="Dps" name="Dps"><?php echo $row['Dps']; ?></label></td>
                             </div>
+                            <div>
+                                <th>
+                                    <label for="staDps">ค่ามัดจำ:</label>
+                                </th>
+                                <td><label type="tedx" id="Dps" name="staDep"><?php echo $row['staDep']; ?></label></td>
+                            </div>
                         </tr>
                     </table>
                 </form>
                 <br>
+                <?php if($row['staDep']=="จ่ายเเล้ว"){
+                    $row['Deposit'] = 0;
+                }
+                ?>
                 <div class="container2">
                     <table class="table2">
+                    <div class="headdiv" style="text-align: left;padding-bottom:20px;">ข้อมูลค่าใช้จ่าย</div>
                         <thead>
-                            <tr>
+                           
                                 <th>ค่ามิเตอร์ไฟเดือนก่อน</th>
-                                <td><?php echo $row["E_bef"] ?></td>
+                                
 
-                            </tr>
-                            <tr>
+                          
                                 <th>ค่ามิเตอร์ไฟเดือนนี้</th>
-                                <td><?php echo $row["E_af"] ?></td>
+                                
+                        
+                                <th>ค่าต่างมิเตอร์</th>
+                                
                             </tr>
                             <tr>
-                                <th>ค่าต่างมิเตอร์</th>
-                                <td><?php echo $Eitp = $row["E_af"] - $row["E_bef"]  ?></td>
+<td><?php echo $row["E_bef"] ?></td><td><?php echo $row["E_af"] ?></td><td><?php echo $Eitp = $row["E_af"] - $row["E_bef"]  ?></td>
                             </tr>
                     </table>
                     <br>
@@ -526,15 +570,16 @@ if (isset($_POST['logout'])) {
                         <thead>
                             <tr>
                                 <th>ค่ามิเตอร์น้ำเดือนก่อน</th>
-                                <td><?php echo $row["W_bef"] ?></td>
-                            </tr>
-                            <tr>
+                                
+                          
                                 <th>ค่ามิเตอร์น้ำเดือนนี้</th>
-                                <td><?php echo $row["W_af"] ?></td>
+                                
+                            
+                                <th>ค่าต่างมิเตอร์</th>
+                                
                             </tr>
                             <tr>
-                                <th>ค่าต่างมิเตอร์</th>
-                                <td><?php echo $Witp = $row["W_af"] - $row["W_bef"]  ?></td>
+                                <td><?php echo $row["W_bef"] ?></td><td><?php echo $row["W_af"] ?></td><td><?php echo $Witp = $row["W_af"] - $row["W_bef"]  ?></td>
                             </tr>
                     </table>
                 </div>
@@ -546,14 +591,16 @@ if (isset($_POST['logout'])) {
                         <th>ค่าห้อง</th>
                         <th>รวม</th>
                     </tr>
-                    <tr><td><?php echo $Eitp = $Eitp * 10  ?></td>
+                    <tr style="text-align: center;">
+                        <td><?php echo $Eitp = $Eitp * 10  ?></td>
                         <td><?php echo $Witp = $Witp * 10  ?></td>
                         <td><?php echo $row['Dps'] ?></td>
-                        <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] ?></td>
+                        <td><?php echo $Sum = $Eitp + $Witp + $row['Dps'] + $row['Deposit'] ?></td>
                     </tr>
                     </tr>
                 </table>
             </div>
+        </div>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     var animeContainer = document.getElementById('animeContainer');
@@ -615,16 +662,15 @@ if (isset($_POST['logout'])) {
                 </div>
             </div>
             <script>
-    document.getElementById('selectName').addEventListener('change', function () {
-        var selectedName = this.value;
-        var result = <?php echo json_encode($result); ?>;
-        var selectedLname = result.find(function (item) {
-            return item.Name === selectedName;
-        }).Lname;
-        document.getElementById('inputLname').value = selectedLname;
-    });
-</script>
-        </div>
+                document.getElementById('selectName').addEventListener('change', function() {
+                    var selectedName = this.value;
+                    var result = <?php echo json_encode($result); ?>;
+                    var selectedLname = result.find(function(item) {
+                        return item.Name === selectedName;
+                    }).Lname;
+                    document.getElementById('inputLname').value = selectedLname;
+                });
+            </script>
     </section>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน

@@ -97,6 +97,7 @@ if (isset($_POST['logout'])) {
             background-color: #696969;
             box-shadow: 3px 3px 5px 5px black;
             font-size: 30px;
+            
         }
 
         .li2 {
@@ -106,14 +107,14 @@ if (isset($_POST['logout'])) {
         }
 
         .nav-link.active {
-            background-color: #696969;
             box-shadow: 3px 3px 5px 5px black;
             font-size: 30px;
-            color: #ffffff;
+            background-color: black;
         }
 
         .nav-link.active i {
-            color: #ffffff;
+            color: lightseagreen;
+            text-shadow: 2px 2px white;
         }
 
         .li1:hover {
@@ -170,6 +171,9 @@ if (isset($_POST['logout'])) {
                     </li>
                     <li class="li1 nav-item">
                         <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test6.php"><i class="fa-solid fa-money-bill"></i>รายได้ทั้งหมด</a>
                     </li>
             </form>
             <li class="li2">

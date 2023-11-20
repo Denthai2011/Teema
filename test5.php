@@ -22,7 +22,7 @@ if (isset($_POST['logout'])) {
 
 <head>
     <style>
-         * {
+        * {
             box-sizing: border-box;
         }
 
@@ -30,7 +30,7 @@ if (isset($_POST['logout'])) {
             font-family: Arial, Helvetica, sans-serif;
             background-image: url('img/ท้องฟ้า.jpg');
             background-size: cover;
-            background-repeat:round;
+            background-repeat: round;
         }
 
         /* Style the header */
@@ -107,15 +107,13 @@ if (isset($_POST['logout'])) {
         }
 
         .nav-link.active {
-            background-color: #696969;
+            background-color: black;
             box-shadow: 3px 3px 5px 5px black;
             font-size: 30px;
-            color: #ffffff;
+            color: greenyellow;
+            text-shadow: 2px 2px white;
         }
 
-        .nav-link.active i {
-            color: #ffffff;
-        }
 
         .li1:hover {
             background-color: orange;
@@ -152,7 +150,7 @@ if (isset($_POST['logout'])) {
             ?>
         </div><?php } ?>
     <section>
-        
+
         <nav class="nav1">
             <form>
                 <ul class="nav">
@@ -173,6 +171,9 @@ if (isset($_POST['logout'])) {
                     </li>
                     <li class="li1 nav-item">
                         <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test6.php"><i class="fa-solid fa-money-bill" ></i>รายได้ทั้งหมด</a>
                     </li>
             </form>
             <li class="li2">
@@ -198,20 +199,22 @@ if (isset($_POST['logout'])) {
                             <td>ชื่อ</td>
                             <td>นามสกุล</td>
                             <td>ค่ามัดจำ</td>
+                            <td>สถานะค่ามัดจำ</td>
                             <td colspan="2">จัดการ</td>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($_POST['search'])) {
-                                $home = "";
-                                }
-                        if (isset($_POST['search'])){
-                            $home = $_POST['search'];}  // ไม่ต้องใส่ + หรือ ''
-                            $sql = "SELECT * FROM renting WHERE Name || roomId LIKE :search ORDER BY Datein;";
-                            $stmt = $conn->prepare($sql);
-                            $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
-                            $stmt->execute();
-                            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            $home = "";
+                        }
+                        if (isset($_POST['search'])) {
+                            $home = $_POST['search'];
+                        }  // ไม่ต้องใส่ + หรือ ''
+                        $sql = "SELECT * FROM renting WHERE Name || roomId LIKE :search ORDER BY Datein;";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         if ($result) {
                             foreach ($result as $row) {
                                 $renId = $row['renId'];
@@ -224,7 +227,7 @@ if (isset($_POST['logout'])) {
                             <td style="white-space: nowrap;"><?php echo $row["Name"] ?></td>
                             <td><?php echo $row["Lname"] ?></td>
                             <td><?php echo $row["Deposit"] ?></td>
-                            
+                            <td><?php echo $row["staDep"] ?></td>
                             <td rowspan="2">
                                 <div class="col-md-6">
                                     <a href="#editmodal_<?php echo $row['renId']; ?>" class="btn btn-warning" data-bs-toggle="modal">edit</a>
@@ -238,21 +241,20 @@ if (isset($_POST['logout'])) {
                             <?php include("edit-delete_renting.php"); ?>
                         </tr>
                 <?php   }
-                        }
-                     else {
-                        echo "ไม่พบผลลัพธ์";
-                    } ?>
+                        } else {
+                            echo "ไม่พบผลลัพธ์";
+                        } ?>
                     </tbody>
                 </table>
-                
+
             </div>
 
             <form action="testfont5.php" method="post">
-                    วันเข้าตั้งเเต่<input type="date"  name="datest">
-                    ถึงวันที่<input type="date"  name="dateed">
-                    <button type="submit" class="btn btn-success" name="research">พิมพ์</button>
-                    <button type="reset" class="btn btn-secondary">รีเฟรช</button>
-                </form>
+                วันเข้าตั้งเเต่<input type="date" name="datest">
+                ถึงวันที่<input type="date" name="dateed">
+                <button type="submit" class="btn btn-success" name="research">พิมพ์</button>
+                <button type="reset" class="btn btn-secondary">รีเฟรช</button>
+            </form>
         </article>
     </section>
     <div class="modal fade" id="Add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -264,29 +266,28 @@ if (isset($_POST['logout'])) {
                 </div>
                 <div class="modal-body">
                     <form action="addrenting.php" method="post">
-                    <div class="mb-3">
-                                    <label for="Name" class="col-form-label">ชื่อ:</label>
-                                    <select name="Name" id="selectName">
-                                        <?php
-                                        if ($row !== false) {
-                                            $nameselect = $conn->prepare("SELECT Name, Lname FROM user");
-                                            $nameselect->bindParam(':Name', $Name);
-                                            $nameselect->execute();
-                                            $result = $nameselect->fetchAll(PDO::FETCH_ASSOC);
-                                            if ($result) {
-                                                foreach ($result as $row_name) {
-                                        ?>
-                                                    <option value="<?php echo $row_name['Name']; ?>"><?php echo $row_name['Name']; ?></option>
-                                        <?php
-                                                }
-                                            }
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
                         <div class="mb-3">
-                                    <label for="Lname" class="col-form-label">นามสกุล:</label>
-                                    <input type="text" name="Lname" id="inputLname" class="form-control" value="">
+                            <label for="Name" class="col-form-label">ชื่อ:</label>
+                            <select name="Name" id="selectName">
+                                <?php
+                                if ($row !== false) {
+                                    $nameselect = $conn->prepare("SELECT Name, Lname FROM user");
+                                    $nameselect->execute();
+                                    $result = $nameselect->fetchAll(PDO::FETCH_ASSOC);
+                                    if ($result) {
+                                        foreach ($result as $row_name) {
+                                ?>
+                                            <option value="<?php echo $row_name['Name']; ?>"><?php echo $row_name['Name']; ?></option>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Lname" class="col-form-label">นามสกุล:</label>
+                            <input type="text" name="Lname" id="inputLname" class="form-control" value="">
                         </div>
                         <div class="mb-3">
                             <label for="Lname" class="col-form-label">วันเข้า:</label>
@@ -307,6 +308,13 @@ if (isset($_POST['logout'])) {
                                 <option value=2000>2000</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label for="staDep" class="col-form-label">สถานะค่ามัดจำ:</label>
+                            <select name="staDep">
+                                <option value="จ่ายเเล้ว">จ่ายเเล้ว</option>
+                                <option value="ยังไม่จ่าย">ยังไม่จ่าย</option>
+                            </select>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" name="addren" class="btn btn-primary">Save Changes</button>
@@ -316,15 +324,15 @@ if (isset($_POST['logout'])) {
             </div>
         </div>
         <script>
-    document.getElementById('selectName').addEventListener('change', function () {
-        var selectedName = this.value;
-        var result = <?php echo json_encode($result); ?>;
-        var selectedLname = result.find(function (item) {
-            return item.Name === selectedName;
-        }).Lname;
-        document.getElementById('inputLname').value = selectedLname;
-    });
-</script>
+            document.getElementById('selectName').addEventListener('change', function() {
+                var selectedName = this.value;
+                var result = <?php echo json_encode($result); ?>;
+                var selectedLname = result.find(function(item) {
+                    return item.Name === selectedName;
+                }).Lname;
+                document.getElementById('inputLname').value = selectedLname;
+            });
+        </script>
     </div>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน

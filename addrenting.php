@@ -10,18 +10,15 @@ if (isset($_POST['addren'])) {
     $Lname = $_POST['Lname'];
     $roomId = $_POST['roomId'];
     $Deposit = $_POST['Deposit'];
-    $sql = $conn->prepare("INSERT INTO renting SET Datein = :Datein, Dateout = :Dateout, Name = :Name, Lname = :Lname,roomId = :roomId, Deposit = :Deposit");
-    $sql1 = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname WHERE roomId = :roomId");
+    $staDep = $_POST['staDep'];
+    $sql = $conn->prepare("INSERT INTO renting SET Datein = :Datein, Dateout = :Dateout, Name = :Name, Lname = :Lname,roomId = :roomId, Deposit = :Deposit,staDep =:staDep");
     $sql->bindParam(":Datein", $Datein);
     $sql->bindParam(":Dateout", $Dateout);
     $sql->bindParam(":Name", $Name);
     $sql->bindParam(":Lname", $Lname);
     $sql->bindParam(":roomId", $roomId);
     $sql->bindParam(":Deposit", $Deposit);
-    $sql1->bindParam(":roomId", $roomId);
-    $sql1->bindParam(":Name", $Name);
-    $sql1->bindParam(":Lname", $Lname);
-
+    $sql->bindParam(":staDep", $staDep);
 
     // Execute the SQL statement
     if ($sql->execute()) {
@@ -33,8 +30,22 @@ if (isset($_POST['addren'])) {
     $sql1->bindParam(":Name", $Name);
     $sql1->bindParam(":Lname", $Lname);
     if ($sql1->execute()) {
-        $_SESSION['Success']="เพิ่มข้อมูลสำเร็จ";
+        $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จ";
         header("location: test5.php");
+    } else {
+        echo "Error updating data in room table";
+    }
+
+    if ($staDep == "จ่ายเเล้ว") {
+        $Datepay = $Datein;  // Set tจe correct value for Datepay
+        $typepay = 'ค่ามัดจำ';  // Set the correct value for typepay
+
+        $sql2 = $conn->prepare("INSERT INTO money SET Datepay = :Datepay, roomId = :roomId, price = :Deposit, typepay = :typepay");
+        $sql2->bindParam(":Datepay", $Datepay);
+        $sql2->bindParam(":roomId", $roomId);
+        $sql2->bindParam(":Deposit", $Deposit);
+        $sql2->bindParam(":typepay", $typepay);
+        $sql2->execute();
     }
     else {
         echo "Error Add data";

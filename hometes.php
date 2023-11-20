@@ -57,7 +57,6 @@ if (isset($_POST['logout'])) {
             width: 50px;
             font-family: 'Pattaya', sans-serif;
         }
-
         /* Style the list inside the menu */
         nav ul {
             list-style-type: none;
@@ -109,7 +108,7 @@ if (isset($_POST['logout'])) {
         }
 
         .nav-link.active {
-            background-color: #696969;
+            background-color: black;
             box-shadow: 3px 3px 5px 5px black;
             font-size: 30px;
         }
@@ -156,7 +155,7 @@ if (isset($_POST['logout'])) {
             <form>
                 <ul class="nav">
                     <li class="li1 nav-item">
-                        <a class="nav-link active" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
+                        <a class="nav-link active" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"></i></a>
                     </li>
                     <li class="li1 nav-item">
                         <a href="test1.php" class="nav-link "><i class="fa-solid fa-user fa-fade"> ข้อมูลผู้ใช้</i></a>
@@ -172,6 +171,9 @@ if (isset($_POST['logout'])) {
                     </li>
                     <li class="li1 nav-item">
                         <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
+                    </li>
+                    <li class="li1 nav-item">
+                        <a class="nav-link" href="test6.php"><i class="fa-solid fa-money-bill"></i>รายได้ทั้งหมด</a>
                     </li>
             </form>
             <li class="li2">

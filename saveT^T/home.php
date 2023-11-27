@@ -4,6 +4,10 @@ require_once 'mysql/connect.php';
 if (!isset($_SESSION['admin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
     header('location: index.php');}
+if (!isset($_SESSION['Superadmin_login'])) {
+        $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+        header('location: index.php');
+}
 if (isset($_POST['logout'])) {
         session_destroy();
         header('location: index.php');

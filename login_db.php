@@ -21,9 +21,13 @@ if (isset($_POST['login'])){
         $check_username->execute();
         $row = $check_username->fetch(PDO::FETCH_ASSOC);
         if (password_verify($password, $hashedPassword)) {
-            if ($row['urold'] == 'เจ้าของหอพัก'||$row['urold'] == 'เจ้าหน้าที่') {
+            if ($row['urold'] == 'เจ้าหน้าที่') {
                 $_SESSION['admin_login'] = $row['id'];
                 header("location: hometes.php");
+            }
+            if($row['urold'] == 'เจ้าของหอพัก'){
+                $_SESSION['Superadmin_login'] = $row['id'];
+                header("location: owner.php");
             }
             if ($row !== false && $row['urold'] == 'ผู้เช่า') {
                 $check_userroom = $conn->prepare("SELECT room.roomId, user.Name, user.username FROM user LEFT JOIN room ON user.Name = room.Name WHERE user.username = :username");

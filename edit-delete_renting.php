@@ -15,10 +15,6 @@
                         <input type="Date" name="Datein" class="form-control" value="<?php echo $row['Datein']; ?>">
                     </div>
                     <div class="mb-3">
-                        <label for="Lname" class="col-form-label">วันออก:</label>
-                        <input type="Date" name="Dateout" class="form-control" value="<?php echo $row['Dateout']; ?>">
-                    </div>
-                    <div class="mb-3">
                         <label for="Lname" class="col-form-label">ชื่อ:</label>
                         <input type="text" name="Name" class="form-control" value="<?php echo $row['Name']; ?>">
                     </div>
@@ -28,7 +24,22 @@
                     </div>
                     <div class="mb-3">
                         <label for="roomId" class="col-form-label">ห้องที่:</label>
-                        <input type="text" name="roomId" class="form-control" value="<?php echo $row['roomId']; ?>">
+                        <select name="roomId">
+                            <?php
+
+                                if ($row !== false AND $row_name !== false) {
+                                    $roomselect = $conn->prepare("SELECT room.roomId, room.roomtype,starm.staName FROM room Left join starm ON starm.staId = room.staId");
+                                    $roomselect->execute();
+                                    $result = $roomselect->fetchAll(PDO::FETCH_ASSOC);
+                                    if ($result) {
+                                        foreach ($result as $row_room) {
+                                ?>
+                                    <option value="<?php echo $row_room['roomId'];?>"><?php echo $row_room['roomId'];?>/<?php echo $row_room['roomtype'];?>/<?php echo $row_room['staName'];?></option>
+                            <?php
+                                        }
+                                    }
+                                }
+                            ?></select>
                     </div>
                     <div class="mb-3">
                         <label for="Deposit" class="col-form-label">ค่ามัดจำ:</label>
@@ -38,11 +49,9 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="staDep" class="col-form-label">สถานะค่ามัดจำ:</label>
-                        <select name="staDep">
-                            <option value="จ่ายเเล้ว">จ่ายเเล้ว</option>
-                            <option value="ยังไม่จ่าย">ยังไม่จ่าย</option>
-                        </select>
+                            <label for="Deppay" class="col-form-label">เงินค่ามัดจำ:</label>
+                            <input type="text" name="Deppay" class="col-form-label" placeholder="ขั้นต่ำ500บาท" value="">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -69,7 +78,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     <button type="submit" name="deleteren" class="btn btn-danger">Delete</button>
-                                </div>
+                            </div>
                     </div>
                 </form>
             </div>

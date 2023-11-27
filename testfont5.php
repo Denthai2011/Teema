@@ -11,7 +11,7 @@ $pdf -> AddFont('sarabun','I','THSarabunNew Italic.php');
 $pdf -> Image('img/logo.png',92,10,30);
 $pdf -> SetY(45);
 $pdf -> SetFont('sarabun','B','20');
-$pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานผู้ใช้ระบบ'),0,1,'C');
+$pdf -> Cell(0,10,iconv('utf-8','cp874','รายงานการเช่า'),0,1,'C');
 $pdf -> SetFont('sarabun','B','12');
 $pdf -> SetX(45);
 $pdf -> Cell(20,10,iconv('utf-8','cp874','วันเข้า'),1,0,'C');

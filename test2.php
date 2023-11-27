@@ -1,6 +1,6 @@
 <?php session_start();
 require_once 'mysql/connect.php';
-if (!isset($_SESSION['admin_login'])) {
+if (!isset($_SESSION['admin_login']) AND !isset($_SESSION['Superadmin_login'])) {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
     header('location: index.php');
 }
@@ -8,7 +8,13 @@ if (isset($_POST['logout'])) {
     session_destroy();
     header('location: index.php');
     exit();
-} ?>
+}
+if (isset($_SESSION['admin_login'])) {
+    $id = $_SESSION['admin_login'];
+}
+if (isset($_SESSION['Superadmin_login'])) {
+    $id = $_SESSION['Superadmin_login'];
+}  ?>
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
@@ -20,230 +26,304 @@ if (isset($_POST['logout'])) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600&family=Pattaya&display=swap" rel="stylesheet">
 
-<head>
-    <style>
-         * {
-            box-sizing: border-box;
-        }
+<!-- Custom styles for this template-->
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<style>
+    article {
+        padding: 10px;
+    }
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-image: url('img/ท้องฟ้า.jpg');
-            background-size: cover;
-        }
-
-        /* Style the header */
-        header {
-            padding: 30px;
-            text-align: center;
-            font-size: 35px;
-        }
-
-        /* Container for flexboxes */
-        section {
-            display: -webkit-flex;
-            display: flex;
-        }
-
-        /* Style the navigation menu */
-        nav {
-            -webkit-flex: 1;
-            -ms-flex: 1;
-            flex: 1;
-            padding: 20px;
-            width: 50px;
-            font-family: 'Pattaya', sans-serif;
-        }
-
-        /* Style the list inside the menu */
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        /* Style the content */
-        article {
-            -webkit-flex: 3;
-            -ms-flex: 3;
-            flex: 3;
-            background-color: #f1f1f1;
-            padding: 10px;
-        }
-
-        /* Style the footer */
-        footer {
-            padding: 10px;
-            text-align: center;
-            color: white;
-            background-color: darkblue;
-        }
-
-        .nav {
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            margin: auto;
-            width: 80%;
-        }
-
-        .li1 {
-
-            margin-top: 10px;
-            font-size: 30px;
-
-        }
-
-        .li1:active {
-            background-color: #696969;
-            box-shadow: 3px 3px 5px 5px black;
-            font-size: 30px;
-            
-        }
-
-        .li2 {
-
-            margin-top: 15px;
-
-        }
-
-        .nav-link.active {
-            box-shadow: 3px 3px 5px 5px black;
-            font-size: 30px;
-            background-color: black;
-        }
-
-        .nav-link.active i {
-            color: lightseagreen;
-            text-shadow: 2px 2px white;
-        }
-
-        .li1:hover {
-            background-color: orange;
-            box-shadow: 2px 2px 2px 2px black;
-        }
-
-        .li2 input:hover {
-            background-color: orange;
-            box-shadow: 2px 2px 2px 2px black;
-            color: white;
-            background-color: black;
-        }
-
-        /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-        @media (max-width: 600px) {
-            section {
-                -webkit-flex-direction: column;
-                flex-direction: column;
-            }
-        }
-    </style>
+    h5 {
+        color: #fff;
+    }
+</style>
 </head>
 
-<body>
-    <header>
-        <h2 style="color:black;text-shadow:3px 3px gold;">จัดการค่าน้ำ</h2>
-    </header>
+<body id="page-top">
     <?php if (isset($_SESSION['Success'])) { ?>
         <div class="alert alert-success">
-            <?php
-            echo $_SESSION['Success'];
-            unset($_SESSION['Success']);
-            ?>
-        </div><?php } ?>
-    <section>
-        <nav class="nav1">
-            <form>
-                <ul class="nav">
-                    <li class="li1 nav-item">
-                        <a class="nav-link" aria-current="page" href="hometes.php"><i class="fa-solid fa-house fa-fade fa-lg"> ห้องเช่า</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a href="test1.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> ผู้ใช้งาน</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a href="test5.php" class="nav-link"><i class="fa-solid fa-user fa-fade"> การเช่า</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a class="nav-link active" href="test2.php"><i class="fa-solid fa-water fa-fade"> ค่าน้ำ</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a class="nav-link" href="test3.php"><i class="fa-solid fa-bolt fa-fade"> ค่าไฟ</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a class="nav-link" href="test4.php"><i class="fa-regular fa-flag fa-fade"> เเจ้งปัญหา</i></a>
-                    </li>
-                    <li class="li1 nav-item">
-                        <a class="nav-link" href="test6.php"><i class="fa-solid fa-money-bill"></i>รายได้ทั้งหมด</a>
-                    </li>
-            </form>
-            <li class="li2">
-                <form method="post" action="">
-                    <input type="submit" name="logout" value="ออกจากระบบ">
-                </form>
-            </li>
-            </ul>
-        </nav>
-        </nav>
-        <article>
-            <div class="container">
-            <form method="post">
-                    <input type="text" class="col-form-label" placeholder="เลขห้อง" name="search">
-                    <button type="reset" class="btn btn-secondary">รีเฟรช</button>
-                </form>
-                <table class="table table-striped table-hover">
-                    <thead style="border:1px black solid;">
-                        <tr>
-                            <td>ห้อง</td>
-                            <td>วันที่จด</td>
-                            <td>ค่าน้ำเดือนก่อน</td>
-                            <td>ค่าน้ำเดือนนี้</td>
-                            <td>หมายเหตุ</td>
-                        </tr>
-                    </thead>
-                    <tbody class="table-primary">
-                        <?php if (empty($_POST['search'])) {
-                                $home = "";
-                                }
-                        if (isset($_POST['search'])){
-                            $home = $_POST['search']; }
-                        $sql = "SELECT * FROM water WHERE W_id LIKE :search";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
-                        $stmt->execute();
-                        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        if ($result) {
-                            foreach ($result as $row) {
-                                $W_id = $row['W_id'];
+        <?php
+        echo $_SESSION['Success'];
+        unset($_SESSION['Success']);
+    }
+        ?>
+        <!-- Page Wrapper -->
+        <div id="wrapper">
 
-                        ?>
-                                <tr>
-                                    <td><?php echo $row["W_id"] ?></td>
-                                    <td><?php echo $row["W_dsave"] ?></td>
-                                    <td><?php echo $row["W_bef"] ?></td>
-                                    <td><?php echo $row["W_af"] ?></td>
-                                    <td>
-                                        <div class="col-md-6">
-                                            <a href="#editwtmodal_<?php echo $row['W_id']; ?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
-                                        </div>
-                                    </td>
-                                    <?php include("water_editmodal.php"); ?>
-                                </tr>
-                        <?php   }
-                        } 
-                        else {
-                            echo "ไม่พบผลลัพธ์";
-                        } ?>
-                    </tbody>
-                </table>
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="hometes.php">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <img src="img/logo.png" width="70" height="70">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">หอพักนางตีมะขำธานี </div>
+                </a>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="test1.php">
+                        <i class="fa-solid fa-user fa-fade"></i>
+                        <span>ข้อมูลผู้ใช้</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        <i class="fa-solid fa-user fa-fade"></i>
+                        <span>การเช่า</span>
+                    </a>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">เกี่ยวกับการเช่า:</h6>
+                            <a class="collapse-item" href="test5.php">การเช่า</a>
+                            <a class="collapse-item" href="test7.php">การยกเลิกการเช่า</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Update
+                </div>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+
+
+                <!-- Nav Item - Utilities Collapse Menu -->
+                <li class="nav-item active">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>อัพเดทค่าน้ำ ไฟเเละปัญหา</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">การอัพเดท:</h6>
+                            <a class="collapse-item bg-success" href="test2.php">ค่าน้ำ</a>
+                            <a class="collapse-item" href="test3.php">ค่าไฟ</a>
+                            <a class="collapse-item" href="test4.php">การเเจ้งปัญหา</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Money
+                </div>
+
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>รายได้</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">เกี่ยวกับเงิน:</h6>
+                            <a class="collapse-item" href="test8.php">ค่าใช่จ่ายต่อเดือน</a>
+                            <a class="collapse-item" href="test6.php">รายได้ทั้งหมด</a>
+
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                </div>
+                <?php if (isset($_SESSION['Superadmin_login'])) {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='test1.php'>
+                        <i class='fa-solid fa-user fa-fade'></i>
+                        <span>ข้อมูลผู้ใช้</span></a>
+                </li>";
+                }   ?>
+                
+                <!-- Sidebar Message -->
+
+
+            </ul>
+            <!-- End of Sidebar -->
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+                <!-- Main Content -->
+                <div id="content">
+
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
+
+                        <!-- Topbar Search -->
+                        <form method="post" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <input type="text" class="form-control bg-light border-0 small" placeholder="เลขห้อง..." name="search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" name="see">
+                                        <i class="fas fa-search fa-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
+
+                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+
+
+                            <!-- Nav Item - Alerts -->
+
+
+                            <!-- Nav Item - Messages -->
+
+
+                            <div class="topbar-divider d-none d-sm-block"></div>
+                            <?php
+                            // ใช้ $id ในการสร้าง SQL query หรือในการดึงข้อมูลจากฐานข้อมูล
+                            $sql2 = $conn->prepare("SELECT id, Name, Lname FROM user WHERE id = :id");
+                            $sql2->bindParam(':id', $id);
+                            $sql2->execute();
+                            $result2 = $sql2->fetch(PDO::FETCH_ASSOC);
+                            $row2 = $result2;
+                            ?>
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $row2['Name'] . ' ' . $row2['Lname'] ?> </span>
+                                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        <form method="post" action="">
+                                            <input type="submit" name="logout" value="ออกจากระบบ">
+                                        </form>
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+
+                    </nav>
+                    <article>
+                        <div class="container">
+                            <table class="table table-striped table-hover">
+                                <thead style="border:1px black solid;">
+                                    <tr>
+                                        <td>ห้อง</td>
+                                        <td>วันที่จด</td>
+                                        <td>ค่าน้ำเดือนก่อน</td>
+                                        <td>ค่าน้ำเดือนนี้</td>
+                                        <td>หมายเหตุ</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-primary">
+                                    <?php if (empty($_POST['search'])) {
+                                        $home = "";
+                                    }
+                                    if (isset($_POST['search'])) {
+                                        $home = $_POST['search'];
+                                    }
+                                    $sql = "SELECT * FROM water WHERE W_id LIKE :search";
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
+                                    $stmt->execute();
+                                    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                    if ($result) {
+                                        foreach ($result as $row) {
+                                            $W_id = $row['W_id'];
+
+                                    ?>
+                                            <tr>
+                                                <td><?php echo $row["W_id"] ?></td>
+                                                <td><?php echo $row["W_dsave"] ?></td>
+                                                <td><?php echo $row["W_bef"] ?></td>
+                                                <td><?php echo $row["W_af"] ?></td>
+                                                <td>
+                                                    <div class="col-md-6">
+                                                        <a href="#editwtmodal_<?php echo $row['W_id']; ?>" class="btn btn-warning" data-bs-toggle="modal">Update </a>
+                                                    </div>
+                                                </td>
+                                                <?php include("water_editmodal.php"); ?>
+                                            </tr>
+                                    <?php   }
+                                    } else {
+                                        echo "ไม่พบผลลัพธ์";
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </article>
+                </div>
             </div>
-           
-        </article>
-    </section>
-    <footer>
-        <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
+            <!-- End of Main Content -->
+        </div>
+        <!-- Footer -->
+        <footer class="container sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน
   โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den
   </pre>
-    </footer>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+
+        <!-- End of Content Wrapper -->
+
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="js/sb-admin-2.min.js"></script>
+
 </body>
 
 </html>

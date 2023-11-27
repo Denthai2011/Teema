@@ -42,8 +42,6 @@
                                 <label for="Lname" class="col-form-label">ตำเเหน่ง:</label>
                                 <select name="urold">
                                 <option value="ผู้เช่า">ผู้เช่า</option>
-                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
-                                <option value="เจ้าของหอพัก">เจ้าของหอพัก</option>
                             </select>
                             </div>
                             <div class="modal-footer">
@@ -65,9 +63,9 @@
                     <div class="modal-body">
                         <form action="deleteuser.php" method="post">
                             <div class="mb-3">
-                                <h5>คุณต้องการที่จะลบข้อมูล</h1>
+                                <h4>คุณต้องการที่จะลบข้อมูล</h4>
                                 <input type="hidden" name="id" value="<?php echo $id ?>">
-                                <h5>ใช้หรือไม่ ?</h1>
+                                <h4>ใช้หรือไม่ ?</h4>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

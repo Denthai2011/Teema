@@ -208,7 +208,7 @@ if (isset($_POST['logout'])) {
             </ul>
             <ul class="container containernav2 flex-end">
 
-                    <?php $sql = "SELECT Name,Lname FROM room WHERE roomId = :roomId";
+                    <?php $sql = "SELECT * FROM room WHERE roomId = :roomId";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':roomId', $roomId);
                     $stmt->execute();
@@ -247,7 +247,7 @@ if (isset($_POST['logout'])) {
     ?>
     </section>
     <article style="background-color: #F8F8FF;">
-    <br><h1 id="section">ห้องที่<?php echo $roomId ?></h1>
+    <br><h1 id="section"><?php echo $row['roomtype']   ?></h1>
     <div class="container" >
         <div class="container2">
             <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/<?php echo $room?>" width="80px" height="85px" alt="#section"></div>

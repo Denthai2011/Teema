@@ -140,9 +140,9 @@ if (isset($_SESSION['Superadmin_login'])) {
                 </div>
                 <?php if (isset($_SESSION['Superadmin_login'])) {
                     echo "<li class='nav-item'>
-                    <a class='nav-link' href='test1.php'>
+                    <a class='nav-link' href='owner.php'>
                         <i class='fa-solid fa-user fa-fade'></i>
-                        <span>ข้อมูลผู้ใช้</span></a>
+                        <span>เจ้าของหอ</span></a>
                 </li>";
                 }   ?>
                 <!-- Sidebar Message -->

@@ -247,7 +247,7 @@ if (isset($_SESSION['Superadmin_login'])) {
                                     if (isset($_POST['search'])) {
                                         $home = $_POST['search'];
                                     }  // ไม่ต้องใส่ + หรือ ''
-                                    $sql = "SELECT * FROM renting WHERE Name || roomId LIKE :search ORDER BY Datein;";
+                                    $sql = "SELECT * FROM renting WHERE End_ren !='เลิกเช่า' AND roomId LIKE :search ORDER BY Datein;";
                                     $stmt = $conn->prepare($sql);
                                     $stmt->bindValue(':search', "%$home%", PDO::PARAM_STR);
                                     $stmt->execute();
@@ -377,7 +377,7 @@ if (isset($_SESSION['Superadmin_login'])) {
                                     <?php
 
                                     if ($row !== false and $row_name !== false) {
-                                        $roomselect = $conn->prepare("SELECT room.roomId, room.roomtype,starm.staName FROM room Left join starm ON starm.staId = room.staId");
+                                        $roomselect = $conn->prepare("SELECT room.roomId, room.roomtype,starm.staName FROM room Left join starm ON starm.staId = room.staId WHERE room.staId =3");
                                         $roomselect->execute();
                                         $Getit = $roomselect->fetchAll(PDO::FETCH_ASSOC);
                                         if ($Getit) {

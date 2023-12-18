@@ -26,7 +26,7 @@ if (isset($_POST['editren'])) {
     $sql->bindParam(":Deppay", $Deppay);
     $sql->execute();
     // Execute the SQL statement
-    if ($Deppay >= 500 and $Deposit-$Deppay !=0) {
+    if ($Deppay >= 500 and $Deposit - $Deppay != 0) {
         $staId = 1;
         $sql1 = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname,staId=:staId WHERE roomId = :roomId");
         $sql1->bindParam(":roomId", $roomId);
@@ -60,22 +60,22 @@ if (isset($_POST['editren'])) {
         $sql2->bindParam(":roomId", $roomId);
         $sql2->bindParam(":Deposit", $Deposit);
         $sql2->bindParam(":typepay", $typepay);
-        if($sql2->execute()){
+        if ($sql2->execute()) {
             $onemonth = DATE("Y-m-d", strtotime($Datein . "+1month"));
-                $Date_cack = $onemonth;
-                $MC_sta = "ไม่ถึงกำหนด";
-                $sql4 = $conn->prepare("INSERT INTO month SET roomId =:roomId, Date_cack =:Date_cack, MC_sta = :MC_sta");
-                $sql4->bindParam(":roomId", $roomId);
-                $sql4->bindParam(":Date_cack", $Date_cack);
-                $sql4->bindParam(":MC_sta",$MC_sta);
-                if ($sql4->execute()) {
-                    $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จในสถานะผู้เช่า";
-                    header("location: test5.php");
-                } else {
-                    echo "Error updating data in room table";
-                }} 
-    } 
-    else {
+            $Date_cack = $onemonth;
+            $MC_sta = "ไม่ถึงกำหนด";
+            $sql4 = $conn->prepare("INSERT INTO month SET roomId =:roomId, Date_cack =:Date_cack, MC_sta = :MC_sta");
+            $sql4->bindParam(":roomId", $roomId);
+            $sql4->bindParam(":Date_cack", $Date_cack);
+            $sql4->bindParam(":MC_sta", $MC_sta);
+            if ($sql4->execute()) {
+                $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จในสถานะผู้เช่า";
+                header("location: test5.php");
+            } else {
+                echo "Error updating data in room table";
+            }
+        }
+    } else {
         echo "Error Add data";
     }
 } else {

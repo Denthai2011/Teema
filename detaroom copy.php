@@ -206,6 +206,7 @@ if (isset($_POST['logout'])) {
         .img1 {
             vertical-align: middle;
             border-radius: 20%;
+            box-shadow: darkgray 5px 5px 5px 5px;
         }
 
         /* Slideshow container */
@@ -440,11 +441,11 @@ if (isset($_POST['logout'])) {
         <div class="slideshow-container">
             <h1 class="headdiv" style="text-align: center;">สภาพห้อง</h1>
             <div class="mySlides">
-                <a href="#section"><img class="img1" src="img/<?php echo $room ?>" style="width:100%"></a>
+                <a href="#section"><img class="img1" src="img/<?php echo $room ?>" width="800" height="750"></a>
                 <div class="text">ตัวห้อง</div>
             </div>
             <div class="mySlides">
-                <a href="#section"><img class="img1" src="img/toilet1.jpg" style="width:50%"></a>
+                <a href="#section"><img class="img1" src="img/toilet1.jpg" width="800" height="750"></a>
                 <div class="text">ห้องน้ำ</div>
             </div>
             <a class="prev" onclick="plusSlides(-1)">❮</a>

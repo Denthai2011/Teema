@@ -23,7 +23,7 @@ if (isset($_POST['addren'])) {
         $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จ";
         header("location: test5.php");
     }
-    if ($Deppay >= 500 and $Deposit-$Deppay !=0) {
+    if ($Deppay >= 500 and $Deposit - $Deppay != 0) {
         $staId = 1;
         $sql1 = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname, staId = :staId WHERE roomId = :roomId");
         $sql1->bindParam(":roomId", $roomId);
@@ -37,18 +37,12 @@ if (isset($_POST['addren'])) {
     }
     if ($Deposit - $Deppay == 0) {
         $staId = 2;
-        $sql2 = $conn->prepare("INSERT INTO money SET Datepay = :Datepay, roomId = :roomId, price = :Deposit, typepay = :typepay");
-        $sql2->bindParam(":Datepay", $Datepay);
-        $sql2->bindParam(":roomId", $roomId);
-        $sql2->bindParam(":Deposit", $Deposit);
-        $sql2->bindParam(":typepay", $typepay);
-        $sql2->execute();
-        $sql1 = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname, staId = :staId WHERE roomId = :roomId");
-        $sql3->bindParam(":roomId", $roomId);
-        $sql3->bindParam(":Name", $Name);
-        $sql3->bindParam(":Lname", $Lname);
-        $sql3->bindParam(":staId", $staId);
-        $sql3->execute();
+        $sql5 = $conn->prepare("UPDATE room SET Name = :Name, Lname = :Lname, staId = :staId WHERE roomId = :roomId");
+        $sql5->bindParam(":roomId", $roomId);
+        $sql5->bindParam(":Name", $Name);
+        $sql5->bindParam(":Lname", $Lname);
+        $sql5->bindParam(":staId", $staId);
+        $sql5->execute();
     } else {
         echo "Error updating data in room table";
     }
@@ -61,20 +55,21 @@ if (isset($_POST['addren'])) {
         $sql2->bindParam(":roomId", $roomId);
         $sql2->bindParam(":Deposit", $Deposit);
         $sql2->bindParam(":typepay", $typepay);
-        if($sql2->execute()){
+        if ($sql2->execute()) {
             $onemonth = DATE("Y-m-d", strtotime($Datein . "+1month"));
-                $Date_cack = $onemonth;
-                $MC_sta = "ไม่ถึงกำหนด";
-                $sql4 = $conn->prepare("INSERT INTO month SET roomId =:roomId, Date_cack =:Date_cack, MC_sta = :MC_sta");
-                $sql4->bindParam(":roomId", $roomId);
-                $sql4->bindParam(":Date_cack", $Date_cack);
-                $sql4->bindParam(":MC_sta",$MC_sta);
-                if ($sql4->execute()) {
-                    $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จในสถานะผู้เช่า";
-                    header("location: test5.php");
-                } else {
-                    echo "Error updating data in room table";
-                }} 
+            $Date_cack = $onemonth;
+            $MC_sta = "ไม่ถึงกำหนด";
+            $sql4 = $conn->prepare("INSERT INTO month SET roomId =:roomId, Date_cack =:Date_cack, MC_sta = :MC_sta");
+            $sql4->bindParam(":roomId", $roomId);
+            $sql4->bindParam(":Date_cack", $Date_cack);
+            $sql4->bindParam(":MC_sta", $MC_sta);
+            if ($sql4->execute()) {
+                $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จในสถานะผู้เช่า";
+                header("location: test5.php");
+            } else {
+                echo "Error updating data in room table";
+            }
+        }
     } else {
         echo "Error Add data";
     }

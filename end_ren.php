@@ -19,6 +19,19 @@ if (isset($_POST['endren'])) {
     $sql1 = $conn->prepare("UPDATE room SET Name = NULL, Lname = NULL, staId = 3 WHERE roomId = :roomId");
     $sql1->bindParam(":roomId", $roomId);
     if ($sql1->execute()) {
+        $sql2 = $conn->prepare("SELECT NAME, Lname FROM renting WHERE renId = :renId");
+        $sql2->bindParam(":renId", $renId);
+        $sql2->execute();
+        $result = $sql2->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                $Name = $result['NAME'];
+                $Lname = $result['Lname'];
+        
+                $sql3 = $conn->prepare("UPDATE user SET urold = 'ออกแล้ว' WHERE Name = :Name AND Lname = :Lname");
+                $sql3->bindParam(":Name", $Name);
+                $sql3->bindParam(":Lname", $Lname);
+                $sql3->execute();
+            }
         $_SESSION['Success'] = "เพิ่มข้อมูลสำเร็จ";
         header("location: test7.php");
     } else {

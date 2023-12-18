@@ -45,10 +45,11 @@ if (isset($_POST['logout'])) {
         .container {
             display: flex;
             justify-content: center;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
             padding-top: 5px;
+            flex-wrap: wrap;
         }
+
         .p2 {
             font-size: 20px;
             color: black;
@@ -57,6 +58,7 @@ if (isset($_POST['logout'])) {
             text-align: center;
             margin: auto;
         }
+
         section p {
             font-size: 20px;
             color: white;
@@ -67,23 +69,23 @@ if (isset($_POST['logout'])) {
 
         .p1 {
             border-bottom: 2px solid rgb(252, 143, 24);
- 
+
             color: black;
             font-size: 25px;
 
         }
 
         .container2 {
-    display: flex;
-    justify-content: center;
-    flex-direction: column-reverse;
-    align-items: center;
-    margin-right: 20px;
-    background-color: white;
-    width: 40%;
-    padding: 5px;
-    border-radius: 10px;
-}
+            display: flex;
+            justify-content: center;
+            flex-direction: column-reverse;
+            align-items: center;
+            margin-right: 20px;
+            background-color: white;
+            width: 40%;
+            padding: 5px;
+            border-radius: 10px;
+        }
 
         .container3 {
             display: flex;
@@ -111,18 +113,23 @@ if (isset($_POST['logout'])) {
             -webkit-transition-property: all;
             -webkit-transition-duration: 2s;
             -webkit-transition-timing-function: ease;
-            border-radius: 50%;
+            
         }
 
         .zoom:hover {
-            transform: scale(2.5);
+            transform: scale(1.5);
+            color: black;
+            text-shadow: 2px 2px gold;
         }
-        .nav-link{
-            color:gold;
+
+        .nav-link {
+            color: gold;
         }
-        .nav-link.active{
-            color:green;
+
+        .nav-link.active {
+            color: green;
         }
+
         .containernav {
             display: flex;
             flex-direction: row;
@@ -135,8 +142,8 @@ if (isset($_POST['logout'])) {
             flex-direction: row;
             justify-content: flex-start;
             flex-wrap: wrap;
-            font-size:15px;
-            
+            font-size: 15px;
+
         }
 
         .containernav2 {
@@ -151,31 +158,39 @@ if (isset($_POST['logout'])) {
             --bs-nav-tabs-link-active-bg: none;
             --bs-nav-tabs-link-active-color: #e9ecef;
         }
-        button{
+
+        button {
             margin: 20px 0;
-    font-size: 20px;
-    font-weight: bold;
-    border: 3px solid #fff;
-    background: transparent;
-    padding: 13px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    color: #fff;
-    cursor: pointer;
-    transition: var(--transition);
-}
-    a{
-        color: white;
-    }
-    article{
-        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url(img/customer-banner.jpg) center/cover no-repeat;
-        height: 100;
-    }
-    h1{
-        color: white;
-        font-size: 40px;
-        border-bottom:2px solid orange ;
-        max-width: fit-content;
-    }
+            font-size: 20px;
+            font-weight: bold;
+            border: 3px solid #fff;
+            background: transparent;
+            padding: 13px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        a {
+            color: white;
+        }
+
+        article {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url(img/customer-banner.jpg) center/cover no-repeat;
+            background-attachment: fixed;
+            padding: 100px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 40px;
+            border-bottom: 2px solid orange;
+            max-width: fit-content;
+        }
+        .imgitem{
+            border-radius: 50px;
+        }
     </style>
     </style>
 </head>
@@ -194,31 +209,33 @@ if (isset($_POST['logout'])) {
             <li>
                 <a class='nav-link active' aria-current='page' href='hometes.php'><i class='fa-solid fa-house fa-fade fa-xl'></i></a>
                 </li>";
-            } ?>
-                
+                } ?>
+
                 <h4 style="color:white;padding:5px;text-shadow: white 2px 1px;"> ห้องที่ <?php echo $roomId ?> </h4>
                 <a class='nav-link' aria-current='page' href='detaroom copy.php?roomId=<?php echo $roomId ?>'>ข้อมูลค่าใช้จ่ายประจำเดือน</a>
-                
-                
+
+
                 <a class='nav-link' aria-current='page' href='datareportuser.php?roomId=<?php echo $roomId ?>'>แจ้งซ่อม</a>
-                
-                
+
+
                 <a class='nav-link' aria-current='page' href='profile.php?roomId=<?php echo $roomId ?>'>เจ้าของหอพัก</a>
-                
+
+
             </ul>
             <ul class="container containernav2 flex-end">
 
-                    <?php $sql = "SELECT * FROM room WHERE roomId = :roomId";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bindParam(':roomId', $roomId);
-                    $stmt->execute();
-                    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                    ?>
-                    <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
+                <?php
+                $sql = "SELECT * FROM room WHERE roomId = :roomId";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(':roomId', $roomId);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                ?>
+                <h4 style="color:white;padding:5px;text-shadow: white 1px 1px;"><?php echo $row['Name']; ?> <?php echo $row['Lname']; ?> </h4>
 
-                    <form method='post' action=''>
-                        <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
-                    </form>
+                <form method='post' action=''>
+                    <input type='submit' class="btn btn-dark" name='logout' value='ออกจากระบบ'>
+                </form>
 
             </ul>
         </nav>
@@ -238,52 +255,52 @@ if (isset($_POST['logout'])) {
         </p>
         <button type="button"><a href="#section"> รายระเอียดห้อง</a></button>
 
-    <?php if ($roomId==20){
-        $room = "roomB.jpg";
-    } 
-          else{
+        <?php if ($roomId == 20) {
+            $room = "roomB.jpg";
+        } else {
             $room = "roomM.jpg";
-          }
-    ?>
+        }
+        ?>
     </section>
     <article style="background-color: #F8F8FF;">
-    <br><h1 id="section"><?php echo $row['roomtype']   ?></h1>
-    <div class="container" >
-        <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/<?php echo $room?>" width="80px" height="85px" alt="#section"></div>
-            <div class="container3">
-                <div>
-                    <p class="p1" style="text-align: center;">ตัวห้องภายใน</p>
+        <br>
+        <h1 id="section"><?php echo $row['roomtype']   ?></h1>
+        <div class="container">
+            <div class="container2">
+                <div style=" display: flex;justify-content: center;"><img class="imgitem"  src="img/<?php echo $room ?>" width="200px" height="200px" alt="#section"></div>
+                <div class="container3">
+                    <div>
+                        <p class="p1" style="text-align: center;">ตัวห้องภายใน</p>
+                    </div>
+                    <div>
+                        <p class="p2 zoom"> ห้องมีความมีสะอาดจากการทาสีใหม่เเละทำความสะอาด หลังจากที่ผู้เช่าคนเก่าออกเมื่อ ปี66 วันที่25 เดือน 7</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="p2 zoom"> ห้องมีความมีสะอาดจากการทาสีใหม่เเละทำความสะอาด หลังจากที่ผู้เช่าคนเก่าออกเมื่อ ปี66 วันที่25 เดือน 7</p>
+            </div><br>
+            <div class="container2">
+                <div style=" display: flex;justify-content: center;"><img class="imgitem" src="img/toilet1.jpg" width="200px" height="200x" ></div>
+                <div class="container3">
+                    <div>
+                        <p class="p1">ห้องน้ำ</p>
+                    </div>
+                    <div>
+                        <p class="p2 zoom"> ห้องมีขนาดเล็กใช่อาบเเล้ว เเละทำภารากิจ กรุณาอย่านำเอาขยะหรือเศษเอาหาเทลงท่อระบายน้ำ เพราะอาจมีการอุตันได้</p>
+                    </div>
                 </div>
-            </div>
-        </div><br>
-        <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/toilet1.jpg" width="80px" height="85px"></div>
-            <div class="container3">
-                <div>
-                    <p class="p1">ห้องน้ำ</p>
-                </div>
-                <div>
-                    <p class="p2 zoom"> ห้องมีขนาดเล็กใช่อาบเเล้ว เเละทำภารากิจ กรุณาอย่านำเอาขยะหรือเศษเอาหาเทลงท่อระบายน้ำ เพราะอาจมีการอุตันได้</p>
-                </div>
-            </div>
-        </div><br>
-        <div class="container2">
-            <div style=" display: flex;justify-content: center;"><img class="zoom" src="img/มิตเตอร์น้ำ.png" width="85px" height="23px"><img class="zoom" src="img/มิตเตอร์.png" width="85px" height="120px"></div>
-            <div class="container3">
-                <div>
-                    <p class="p1">ไฟ/น้ำ</p>
-                </div>
-                <div>
-                    <p class="p2 zoom">ในส่วนของน้ำเเละไฟนั้นจะคิดมิตเตอร์อยู่ที่ 10 บาท ต่ออยู่นิตเเละจะเก็บทุกๆ สินเดือนของทุกเดือน</p>
+            </div><br>
+            <div class="container2">
+                <div style=" display: flex;justify-content: center;"><img class="imgitem" src="img/มิตเตอร์น้ำ.png" width="85px" height="85px"><img src="img/มิตเตอร์.png" width="85px" height="85px"></div>
+                <div class="container3">
+                    <div>
+                        <p class="p1">ไฟ/น้ำ</p>
+                    </div>
+                    <div>
+                        <p class="p2 zoom">ในส่วนของน้ำเเละไฟนั้นจะคิดมิตเตอร์อยู่ที่ 10 บาท ต่ออยู่นิตเเละจะเก็บทุกๆ สินเดือนของทุกเดือน</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <br>
+        <br>
     </article>
     <footer>
         <pre>หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน

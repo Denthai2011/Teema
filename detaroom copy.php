@@ -626,16 +626,9 @@ if (isset($_POST['logout'])) {
                                                     ?>
                         </div>
                         <thead>
-
                             <th>ค่ามิเตอร์ไฟเดือนก่อน</th>
-
-
-
                             <th>ค่ามิเตอร์ไฟเดือนนี้</th>
-
-
                             <th>ค่าต่างมิเตอร์</th>
-
                             </tr>
                             <tr>
                                 <td><?php echo $row["E_bef"] ?></td>
@@ -800,6 +793,82 @@ if (isset($_POST['logout'])) {
                 <?php } ?>
             </div>
         </div>
+    <div>
+    <table class="table table-bordered table-hover">
+                    <thead style="text-align: center;">
+                        <tr>
+                            <td>เลขห้อง</td>
+                            <td>วันที่จ่าย</td>
+                            <td>ค่าน้ำ</td>
+                            <td>ค่าไฟ</td>
+                            <td>ค่าห้อง</td>
+                            <td>ทั้งหมด</td>
+                            <td>หลักฐานการโอนเงิน</td>
+                            <td>สถานะจ่าย</td>
+                            <td>ใบเสร็จการจ่าย</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php   // ไม่ต้องใส่ + หรือ ''
+                        $sql9 = "SELECT 
+                        month.roomId,
+                        month.Date_cack,
+                        month.S_EL,
+                        month.S_WA,
+                        month.Dps,
+                        month.total,
+                        month.MC_sta,
+                        imges.Date_up,
+                        imges.file_name,
+                        imges.type_img,
+                        month.Mo_Id 
+                    FROM 
+                        month 
+                    LEFT JOIN 
+                        imges ON imges.roomId = month.roomId AND imges.Date_up = month.Date_cack
+                    WHERE 
+                        month.roomId=:roomId 
+                    ORDER BY 
+                        month.roomId;";
+                        $stmt9 = $conn->prepare($sql9);
+                        $stmt9->bindParam(':roomId',$roomId);
+                       
+                        $stmt9->execute();
+                        $result9 = $stmt9->fetchAll(PDO::FETCH_ASSOC);
+                        if ($result9) {
+                            foreach ($result9 as $row9) {
+
+                        ?>
+                    <tbody>
+                        <tr>
+                            <td><?php echo $row9["roomId"] ?></td>
+                            <td><?php echo $row9["Date_cack"] ?></td>
+                            <td><?php echo $row9["S_EL"] ?></td>
+                            <td><?php echo $row9["S_WA"] ?></td>
+                            <td><?php echo $row9["Dps"] ?></td>
+                            <td><?php echo $row9["total"] ?></td>
+                            <?php if (!empty($row9['file_nam'])){ 
+                            echo"
+                            <td style='width: 100px;'>
+                                <a href='uploads/{$row9['file_name']}' target='_blank'><img src='uploads/{$row9['file_name']}' height='50' width='200'></a>
+                            </td>";}
+                            else{
+                                echo"<td></td>";
+                            }
+                            ?>
+                            <td style="white-space: nowrap;">
+                            <?php echo $row9["MC_sta"] ?>
+                            </td>
+                            <td>
+                                <a href="mountsub.php?roomId=<?php echo $row9['roomId'] ?>&Date_cack=<?php echo $row9['Date_cack']?>"><i class="fa-regular fa-paste fa-xl"></i></a>
+                            </td>
+                        </tr>
+                <?php };
+                        } ?>
+                            
+                    </tbody>
+                </table>
+    </div>
     </section>
 
     <script>

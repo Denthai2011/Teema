@@ -1,0 +1,60 @@
+<?php
+require_once 'mysql/connect.php';
+require_once 'pdf/fpdf.php';
+$renId = $_GET['renId'];
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->AddFont('sarabun', '', 'THSarabunNew.php');
+$pdf->AddFont('sarabun', 'B', 'THSarabunNew Bold.php');
+$pdf->AddFont('sarabun', 'I', 'THSarabunNew Italic.php');
+$pdf->Image('img/logo.png', 92, 10, 30);
+$pdf->SetY(45);
+$pdf->SetFont('sarabun', 'B', '20');
+$pdf->Cell(0, 10, iconv('utf-8', 'cp874', 'ใบเสร็จการชำระมัดจำ'), 0, 1, 'C');
+$pdf->SetFont('sarabun', '', '16');
+$pdf->SetX(20);
+$pdf->SetY(60);
+$sql2 = "SELECT * FROM renting WHERE renId =:renId";
+$stmt2 = $conn->prepare($sql2);
+$stmt2 -> bindParam(':renId',$renId);
+$stmt2 -> execute();
+$result2= $stmt2->fetchAll(PDO::FETCH_ASSOC);
+if ($result2) {
+    foreach ($result2 as $row2) {
+$pdf->Cell(30, 10, iconv('utf-8', 'cp874', "ห้อง: {$row2['roomId']}"), 'B', 0, '');
+$pdf->SetX(150);
+$pdf->Cell(50, 10, iconv('utf-8', 'cp874', "ใบเสร็จวันที่: {$row2['Datein']}"),'B', 1, '');
+$pdf-> SetY(70);
+$pdf->Cell(30, 10, iconv('utf-8', 'cp874', "ชื่อ: {$row2['Name']} นามสกุล: {$row2['Lname']}"), '', 0, '');
+$pdf->SetY(80);
+$pdf->SetX(65);
+$roomren = 2/3 * $row2['Deposit'];
+$pgun = 1/3 * $row2['Deposit'];
+$pdf->Cell(30, 10, iconv('utf-8', 'cp874', "รายการ"), 'L||B||T', 0, 'C');
+$pdf->Cell(50, 10, iconv('utf-8', 'cp874', "จำนวนเงิน"), 'R||B||T', 1, 'C');
+        $pdf->Setx(65);
+        $pdf->Cell(30, 10, iconv('utf-8', 'cp874', 'ค่าห้อง'), 'R||L', 0, 'C');
+        $pdf->Cell(50, 10, iconv('utf-8', 'cp874', $roomren), 'R||L', 1, 'C');
+        $pdf->Setx(65);
+        $pdf->Cell(30, 10, iconv('utf-8', 'cp874', 'ค่ามัดจำ'), 'R||L', 0, 'C');
+        $pdf->Cell(50, 10, iconv('utf-8', 'cp874', $pgun), 'R||L', 1, 'C');
+        $pdf->Setx(65);
+        $pdf->Cell(30, 90, iconv('utf-8', 'cp874', ''), 'R||L||B', 0, 'C');
+        $pdf->Cell(50, 90, iconv('utf-8', 'cp874', ''), 'R||L||B', 1, 'C');
+    };
+}
+$pdf->SetY(200);
+$pdf->SetX(80);
+$pdf->Cell(80, 10, iconv('utf-8', 'cp874', "ชำระเเล้ว:{$row2['Deppay']} "), 0, 1, 'C');
+$pdf -> SetY(220);
+$pdf -> SetX(150);
+$pdf -> Cell(0,0,iconv('utf-8','cp874','ขอเเสดงความนับถือ'),0,1,'');
+$pdf -> Image('img/sinatur-transformed.png',150,220,30,30);
+$pdf -> SetY(245);
+$pdf -> SetX(150);
+$pdf -> Cell(0,0,iconv('utf-8','cp874','(นายปรเมษฐ์ ยิ่งนิยม)'),0,1,'');
+$pdf->SetY(260);
+$pdf->SetFont('sarabun', 'B', '10');
+$pdf->Cell(0, 0, iconv('utf-8', 'cp874', 'หอพักนางตีมะขำธานี 51/46 ม.4 ต.คลองหนึ่ง อ. คลองหลวง จ.ปทุมธานี้ ถนน พหลโยธิน โทร 025161320 โทรศัพท์ 0984610262   Gmail polamet.yingni@vru.ac.th Facebook  Nus’Den'), 0, 1, 'C');
+$pdf->Output();

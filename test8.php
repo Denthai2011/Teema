@@ -254,6 +254,7 @@ if (isset($_SESSION['Superadmin_login'])) {
                             <td>ทั้งหมด</td>
                             <td>หลักฐานการโอนเงิน</td>
                             <td>สถานะจ่าย</td>
+                            <td>ใบเสร็จการจ่าย</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -314,17 +315,26 @@ if (isset($_SESSION['Superadmin_login'])) {
                             <td><?php echo $row["S_WA"] ?></td>
                             <td><?php echo $row["Dps"] ?></td>
                             <td><?php echo $row["total"] ?></td>
-
-                            <td style="width: 100px;">
-                                <a href="uploads/<?php echo $row['file_name'] ?>" target="_blank"><img src="uploads/<?php echo $row['file_name'] ?>" height="50" width="200"></a>
-                            </td>
+                            <?php if(!empty($row["file_name"])){echo"
+                            <td style='width: 100px;'>
+                                <a href='uploads/{$row['file_name']}' target='_blank'><img src='uploads/{$row['file_name']}' height='50' width='200'></a>
+                            </td> ";}
+                                else{
+                                    echo "<td> </td>";
+                                }
+                            
+                            ?>
                             <td style="white-space: nowrap;">
                             <a href="#chang.php?Mo_Id=<?php echo $row['Mo_Id']; ?>" data-bs-toggle="modal"><?php echo $row["MC_sta"] ?>
                             </td>
                             <?php include("Changsta.php"); ?>
+                            <td>
+                                <a href="mountsub.php?roomId=<?php echo $row['roomId'] ?>&Date_cack=<?php echo $row['Date_cack']?>"><i class="fa-regular fa-paste fa-xl"></i></a>
+                            </td>
                         </tr>
                 <?php };
                         } ?>
+                            
                     </tbody>
                 </table>
 

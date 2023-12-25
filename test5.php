@@ -238,6 +238,7 @@ if (isset($_SESSION['Superadmin_login'])) {
                                         <td>จ่ายค่ามัดจำ</td>
                                         <td>เเก้ไข</td>
                                         <td>สัญญาเช่า</td>
+                                        <td>ใบเสร็จการชำระมัดจำ</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -272,8 +273,12 @@ if (isset($_SESSION['Superadmin_login'])) {
                                             <div>
                                                 <a href="ren.php?renId=<?php echo $row['renId']; ?>"> <i class="fa-regular fa-paste fa-xl"></i></a>
                                             </div>
-                                        </td>
                                         <?php include("edit-delete_renting.php"); ?>
+                                        <td>
+                                        <div>
+                                            <a href="rensub.php?renId=<?php echo $row['renId']; ?>"> <i class="fa-regular fa-paste fa-xl"></i></a>
+                                        </div>
+                                        </td>
                                     </tr>
                             <?php   }
                                     } else {
